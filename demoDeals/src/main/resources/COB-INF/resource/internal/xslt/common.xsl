@@ -110,9 +110,8 @@ limitations under the License.
                     <p><img src="design/tmp_photo.gif" id="me" alt="Yeah, it´s me!" />
 
                     <strong>Alessandro Vincelli</strong><br />
-                    Age: 29<br />
                     Terni, Italy<br />
-                    <a href="http://www.linkedin.com/pub/3/858/BA2">Profile on LinkedIn</a></p>
+                    <a href="http://nl.linkedin.com/in/alessandrovincelli">Profile on LinkedIn</a></p>
                 </div> <!-- /about-me -->
 
                 <hr class="noscreen" />
