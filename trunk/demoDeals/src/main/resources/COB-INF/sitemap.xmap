@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<map:sitemap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://apache.org/cocoon/sitemap/1.0 http://cocoon.apache.org/schema/sitemap/cocoon-sitemap-1.0.xsd"
+  xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+
+  <map:components>
+    <map:generators default="file" />
+    <map:transformers default="xslt" />
+    <map:readers default="resource" />
+    <map:serializers default="html" />
+    <map:matchers default="wildcard" />
+    <map:selectors default="browser" />
+  </map:components>
+
+  <!-- =========================== Views ===================================
+-->
+
+  <map:views>
+    <map:view name="content" from-label="content">
+      <map:serialize type="xml" />
+    </map:view>
+
+    <map:view from-label="content" name="pretty-content">
+      <map:transform src="context://stylesheets/system/xml2html.xslt" />
+      <map:serialize type="html" />
+    </map:view>
+
+    <map:view name="links" from-position="last">
+      <map:serialize type="links" />
+    </map:view>
+  </map:views>
+
+  <map:flow language="javascript" />
+
+  <!-- =========================== Pipelines =================================
+-->
+
+  <map:pipelines>
+
+    <map:pipeline type="caching">
+    
+    
+      <map:match pattern="**binaryFiles/*.jpg.mini">
+        <map:read type="repoReader"  src="{2}.jpg" >
+        <map:parameter name="height" value="100"/>
+        </map:read>
+      </map:match>
+
+      <map:match pattern="**binaryFiles/*.jpg.full">
+        <map:read type="repoReader" src="{2}.jpg" />
+      </map:match>
+    
+      <map:match pattern="**binaryFiles/*">
+        <map:read src="{2}" type="repoReader"/>
+      </map:match>
+      <!-- images -->
+      <map:match pattern="**/*.gif">
+        <map:read mime-type="image/gif" src="resource/external/images/{2}.gif" />
+      </map:match>
+
+      <map:match pattern="**/*.jpg">
+        <map:read mime-type="image/jpg" src="resource/external/images/{2}.jpg" />
+      </map:match>
+
+      <map:match pattern="**/*.png">
+        <map:read mime-type="image/png" src="resource/external/images/{2}.png" />
+      </map:match>
+      <map:match pattern="**.swf">
+        <map:read mime-type="application/x-shockwave-flash" src="resource/external/flash/{1}.swf" />
+      </map:match>
+
+      <map:match pattern="**.flv">
+        <map:read mime-type="application/x-shockwave-flash" src="resource/external/flash/{1}.flv" />
+      </map:match>
+
+      <map:match pattern="**images/*.xml">
+        <map:read mime-type="text/plain" src="resource/external/flash/{2}.xml" />
+      </map:match>
+      <!-- CSS stylesheets -->
+      <map:match pattern="**styles/*.css">
+        <map:read mime-type="text/css" src="resource/external/styles/{2}.css" />
+      </map:match>
+
+      <!-- JavaScript scripts -->
+      <map:match pattern="**scripts/**.js">
+        <map:read mime-type="text/javascript" src="resource/external/scripts/{2}.js" />
+      </map:match>
+
+      <!-- favicon -->
+      <map:match pattern="**favicon.ico">
+        <map:read mime-type="image/x-icon" src="resource/external/images/favicon.ico" />
+      </map:match>
+
+      <map:match pattern="**.pdf">
+        <map:act type="set-header">
+          <map:parameter name="Pragma" value="no-cache" />
+          <map:parameter name="Content-Disposition" value="attachment ; filename={1}" />
+          <map:parameter name="mime-type" value="application/pdf" />
+          <map:read mime-type="application/pdf" src="{../0}" />
+        </map:act>
+      </map:match>
+
+      <map:match pattern="**.doc">
+        <map:act type="set-header">
+          <map:parameter name="Pragma" value="no-cache" />
+          <map:parameter name="Content-Disposition" value="attachment ; filename={1}" />
+          <map:parameter name="mime-type" value="application/msword" />
+          <map:read mime-type="application/msword" src="{../0}" />
+        </map:act>
+      </map:match>
+
+      <map:match pattern="**.jpg">
+        <map:read mime-type="image/jpg" src="{0}" />
+      </map:match>
+
+      <map:match pattern="**.gif">
+        <map:read mime-type="image/gif" src="{0}" />
+      </map:match>
+
+      <map:match pattern="html/*.html">
+        <map:generate src="resources/html/{1}.html" type="file" />
+        <map:serialize type="html" />
+      </map:match>
+
+      <!-- matcher Ricerca -->
+      <map:match pattern="search/(*).html">
+        <map:call function="searchSite">
+          <map:parameter name="pagenum" value="{1}" />
+        </map:call>
+      </map:match>
+      <!-- Example Call Deals block -->
+      <!-- <map:match pattern="*/*(*).html">
+        <map:generate src="servlet:deals:/item/58.html" type="file">
+          <map:parameter name="pageType" value="{1}" />
+          <map:parameter name="pageId" value="{2}" />
+          <map:parameter name="pagenum" value="{3}" />
+        </map:generate>
+        <map:serialize type="xml"/>
+      </map:match>
+-->
+        
+      <!-- matcher Paginato -->
+       <map:match pattern="*/*(*).html">
+        <map:call function="pageFlow">
+          <map:parameter name="pageType" value="{1}" />
+          <map:parameter name="pageId" value="{2}" />
+          <map:parameter name="pagenum" value="{3}" />
+        </map:call>
+      </map:match> 
+
+      <!-- matcher BASE passa numero pagina = 1 -->
+      <map:match pattern="*/*.html">
+        <map:call function="pageFlow">
+          <map:parameter name="pageType" value="{1}" />
+          <map:parameter name="pageId" value="{2}" />
+          <map:parameter name="pagenum" value="1" />
+        </map:call>
+      </map:match>
+
+      <map:match pattern="ShowPage">
+        <map:generate type="jx" src="resource/internal/xml/document.xml" label="content" />
+        <map:select type="parameter">
+          <map:parameter name="parameter-selector-test" value="{flow-attribute:pageTemplate}" />
+          <map:when test="risultati_ricerca">
+            <map:transform type="paginate" src="resource/internal/styles/pagesheet/searchlist.pagesheet" label="content">
+              <map:parameter name="page" value="{flow-attribute:pageNum}" />
+            </map:transform>
+          </map:when>
+          <map:otherwise>
+            <map:transform type="paginate" src="resource/internal/styles/pagesheet/list.pagesheet" label="content">
+              <map:parameter name="page" value="{flow-attribute:pageNum}" />
+            </map:transform>
+          </map:otherwise>
+        </map:select>
+        <map:transform src="resource/internal/xslt/{flow-attribute:pageTemplate}.xsl">
+          <map:parameter name="context" value="{request:contextPath}" />
+          <map:parameter name="queryString" value="{request:queryString}" />
+          <map:parameter name="user_nome" value="{session-attr:user_nome}" />
+          <map:parameter name="user_cognome" value="{session-attr:user_cognome}" />
+          <map:parameter name="utente_altocontrasto" value="{session-attr:utente_altocontrasto}" />
+        </map:transform>
+        <map:transform type="cinclude" />
+        <map:serialize type="html" />
+      </map:match>
+
+      <map:match pattern="feed">
+        <map:call function="rssFlow"/>
+      </map:match>
+      
+	  <map:match pattern="generateRss">
+	  	<map:generate type="jx" src="resource/internal/xml/document.xml" label="content" />
+	  	<map:serialize type="xml"/>
+	  </map:match>
+	  
+      <map:match pattern="ShowRss">
+      	<map:aggregate element="root">
+			<map:part src="cocoon://generateRss"/>
+			<map:part src="cocoon://requestGenerator" />
+		</map:aggregate>
+        <map:transform src="resource/internal/xslt/rss.xsl"/>
+        <map:serialize type="xml" />
+      </map:match>
+      
+      <map:match pattern="requestGenerator">
+	   <map:generate type="request" />
+        <map:serialize type="xml" />
+      </map:match>
+      
+      <map:match pattern="Go2Page">
+        <map:call function="org.deals.consiag.site.apples.Go2Page" />
+      </map:match>
+
+      <map:match pattern="SimplePagePipe">
+        <map:generate type="jx" src="resources/xml/document.xml" label="content" />
+        <map:serialize type="xml" />
+      </map:match>
+      <map:match pattern="JsonPipe">
+        <map:generate type="jx" src="resources/xml/document.xml" label="content" />
+        <map:serialize type="text" />
+      </map:match>
+
+      <map:match pattern="">
+        <map:call function="pageFlow" />
+      </map:match>
+
+<!-- 
+      <map:handle-errors>
+        <map:generate type="exception" />
+        <map:transform src="resource/internal/xslt/errore2html.xsl">
+          <map:parameter name="context" value="{request:contextPath}" />
+        </map:transform>
+        <map:serialize status-code="404" />
+      </map:handle-errors>
+-->
+    </map:pipeline>
+
+
+    <map:pipeline id="internal-resource" internal-only="true">
+      <!-- Put matchers for internal (accessible only to Cocoon blocks) resources here
+        More details: http://cocoon.zones.apache.org/daisy/cdocs-site-main/g2/1345.html
+-->
+      <map:match pattern="resource/internal/**">
+        <map:read src="resource/internal/{1}" />
+      </map:match>
+    </map:pipeline>
+
+    <map:pipeline id="external-resource">
+      <!-- Put matchers for external (accessible to the outside world, e.g. browser) resources here.
+        More details: http://cocoon.zones.apache.org/daisy/cdocs-site-main/g2/1345.html
+-->
+      <map:match pattern="resource/external/**">
+        <map:read src="resource/external/{1}" />
+      </map:match>
+    </map:pipeline>
+
+    <map:pipeline id="service">
+      <!-- Put your servlet service matchers here.
+        More details: http://cocoon.zones.apache.org/daisy/cdocs-site-main/g2/1345.html
+-->
+    </map:pipeline>
+  </map:pipelines>
+
+</map:sitemap>
