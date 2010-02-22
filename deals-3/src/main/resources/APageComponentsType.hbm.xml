@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 22, 2007 5:39:50 PM by Hibernate Tools 3.2.0.beta8 -->
+<hibernate-mapping>
+  <class name="org.deals.framework.bean.APageComponentsType" schema="public" table="a_page_components_type">
+    <id name="apctId" type="java.lang.Integer">
+      <column name="apct_id"/>
+      <generator class="assigned"/>
+    </id>
+    <property name="apctName" type="string">
+      <column name="apct_name" not-null="true"/>
+    </property>
+    <property name="apctDescri" type="string">
+      <column name="apct_descri"/>
+    </property>
+    <set inverse="true" name="APageComponentses">
+      <key>
+        <column name="apc_type">
+          <comment>Tipo assunto dalla componente nell'associazione (thumbnail, immagine principale, file generico, etc...)</comment>
+        </column>
+      </key>
+      <one-to-many class="org.deals.framework.bean.APageComponents"/>
+    </set>
+  </class>
+</hibernate-mapping>

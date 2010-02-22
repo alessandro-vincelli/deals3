@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 22, 2007 5:39:50 PM by Hibernate Tools 3.2.0.beta8 -->
+<hibernate-mapping>
+  <class name="org.deals.framework.bean.APageComponents" schema="public" table="a_page_components">
+    <id name="apcId" type="java.lang.Integer">
+      <column name="apc_id"/>
+      <generator class="sequence">
+        <param name="sequence">public.a_page_components_apc_id_seq</param>
+      </generator>
+    </id>
+    <many-to-one class="org.deals.framework.bean.WebPage" fetch="select" name="webPage">
+      <column name="apc_page_id" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="org.deals.framework.bean.APageComponentsType" fetch="select" name="APageComponentsType">
+      <column name="apc_type">
+        <comment>Tipo assunto dalla componente nell'associazione (thumbnail, immagine principale, file generico, etc...)</comment>
+      </column>
+    </many-to-one>
+    <!-- 
+			nota:  lazy="no-proxy" cascade="save-update" sono stati aggiunti per gestire il cascade del salvataggio
+			per esempio quando si aggiunge un link si aggiunge un a_page_components e un web_component insieme
+			con lazy="no-proxy" cascade="save-update" hibernate gestisce l'aggancio degli id in cascata al momente del salvataggio
+			se non ci fosse avremmo un errore del tipo:
+			org.hibernate.PropertyValueException: not-null property references a null or transient value: org.deals.framework.bean.APageComponents.webComponent
+		-->
+    <many-to-one cascade="save-update" class="org.deals.framework.bean.WebComponent" fetch="select" lazy="no-proxy" name="webComponent">
+      <column name="apc_component_id" not-null="true"/>
+    </many-to-one>
+    <property name="apcAssocDate" type="java.util.Date">
+      <column length="4" name="apc_assoc_date">
+        <comment>Data di creazione dell'associazione tra componente e pagina</comment>
+      </column>
+    </property>
+    <property name="apcAlt" type="java.lang.String">
+      <column name="apc_alt">
+        <comment>Alt alternativo per la componente associata</comment>
+      </column>
+    </property>
+    <property name="apcDescription" type="java.lang.String">
+      <column name="apc_description">
+        <comment>Descrizione alternativa per la risorsa associata</comment>
+      </column>
+    </property>
+  </class>
+</hibernate-mapping>

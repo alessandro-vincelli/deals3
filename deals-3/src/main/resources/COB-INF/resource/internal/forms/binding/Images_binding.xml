@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fb:context xmlns:fb="http://apache.org/cocoon/forms/1.0#binding" path="/">
+
+    <fb:value id="section_body" path="bean/wpContent"/>
+    <fb:value id="section_author" path="bean/wpAuthor"/>
+    <fb:value id="section_creator" path="bean/usersByWpCreator/usUsername"/>
+    <fb:value id="section_date" path="bean/wpPublished"/>
+    <fb:value id="section_title" path="bean/wpContentTitle"/>
+    <fb:value id="section_short" path="bean/wpHeader"/>
+    
+    <fb:value id="check_change_author" path="checkChangeAuthor"/>
+    
+    <fb:value id="section_state" path="bean/pageState/psId" direction="load"/>
+    <fb:value id="section_template" path="bean/template/teId" direction="load"/>
+    <fb:value id="section_expiration" path="bean/wpExpire"/>
+    
+    <fb:value id="section_noexpiration" path="sectionNoexpiration"/>
+    
+    <fb:value id="section_print" path="bean/wpPrint"/>
+    <fb:value id="section_send" path="bean/wpSend"/>
+    
+</fb:context>

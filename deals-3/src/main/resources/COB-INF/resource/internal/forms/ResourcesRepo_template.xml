@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<page xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+	xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+    <jx:import uri="servlet:forms:/resource/internal/generation/jx-macros.xml"/>
+
+
+	<script type="text/javascript"
+		src="/deals/js/scripts.js">
+	</script>
+	<link rel="stylesheet" href="/deals/deals/resources/styles/lightbox.css" type="text/css" media="screen" />
+	
+	<script src="/deals/js/prototype.js" type="text/javascript"></script>
+	<script src="/deals/js/scriptaculous.js?load=effects" type="text/javascript"></script>
+	<script src="/deals/js/lightbox.js" type="text/javascript"></script>
+
+
+
+	<div id="containerinterno2" class="clearfix">
+		<ft:form-template name="resourcerepo" action="continue"
+			method="POST" ajax="true" enctype="multipart/form-data">
+			<ft:continuation-id />
+
+
+			<ft:repeater id="newwebcomponents">
+			
+				<div dojoType="CFormsRepeater">
+					<div id="submenu2" class="clearfix">
+						<h1><i18n:text i18n:catalogue="deals">deals.repo.title</i18n:text></h1>
+					</div>
+				<div class="bott_opt_tit">
+				<!-- Must be translated  
+				<a href="ProfilesManager.cflow" title="Gestisci i profili" class="gestprof"></a>-->
+                <ft:widget id="../addnewcomponents">
+					<fi:styling class="bottoneverde" />
+				</ft:widget>
+				</div>
+
+					<jx:if test="${widget.getSize() > 0}">
+						<div id="lista_add" class="clearfix">
+							<div class="head">
+								<i18n:text i18n:catalogue="deals">deals.repo.addresource</i18n:text>
+							</div>
+							<div id="sf">
+								<table border="0" cellspacing="0"
+									cellpadding="0" id="newcomp">
+									<thead>
+										<tr>
+											<th scope="col"
+												style="display:none">
+											</th>
+											<th scope="col"
+												class="upload11">
+												<i18n:text i18n:catalogue="deals">deals.repo.uploading</i18n:text>
+											</th>
+											<th scope="col"
+												class="descrizione">
+												<ft:repeater-widget-label
+													widget-id="wr_description" />
+											</th>
+											<th scope="col"
+												class="icn11">
+											</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<ft:repeater-rows>
+											<tr class="forms-row">
+												<td
+													style="display:none">
+													<ft:widget
+														id="wc_id">
+														<fi:styling
+															style="display:none" />
+													</ft:widget>
+													<ft:widget
+														id="rowid">
+														<fi:styling
+															style="display:none" />
+													</ft:widget>
+												</td>
+												<td class="upload10">
+													<ft:widget
+														id="upload" size="36">
+														<fi:styling
+															style="font-size:11px;line-height:20px;height:20px;margin-top:4px;padding:0 3px;" />
+													</ft:widget>
+												</td>
+												<td
+													class="descrizione">
+													<ft:widget
+														id="wr_description" fi:type="inplace" />
+												</td>
+												<td class="icn01">
+													<ft:widget
+														id="select" />
+												</td>
+											</tr>
+										</ft:repeater-rows>
+									</tbody>
+								</table>
+
+								<div class="subupl clearfix">
+									<div class="upl">
+
+										<div class="lab">
+											<i18n:text i18n:catalogue="deals">deals.repo.uploadprogres</i18n:text>
+										</div>
+										<div class="dojoupl">
+                    <!-- UseMe whe dojo works
+                <div dojoType="ajax:FormUploadProgress">
+                    <div>Upload Progress Sample</div>
+                </div> -->
+											<div
+												class="dojo-FormUploadProgress">
+												<script
+													type="text/javascript">
+													dojo.require("cocoon.ajax.FormUploadProgress");dojo.require("dojo.html.*");
+												</script>
+											</div>
+										</div>
+									</div>
+									<div class="delnewdep">
+										<div><!-- 
+											<ft:widget id="../removenewcomponents">
+												<fi:styling	class="bottonedel" />
+											</ft:widget> -->
+											<ft:widget id="../removenewcomponents">
+												<fi:styling class="bottonerosso" />
+											</ft:widget>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</jx:if>
+
+
+
+				</div>
+
+			</ft:repeater>
+
+
+			<div id="lista_olddep" class="clearfix">
+				<div id="cont">
+					<span class="filtro">
+						<i18n:text i18n:catalogue="deals">deals.repo.showonly</i18n:text>
+						<ft:widget id="filter_by_mime_type" />
+						<!--<ft:widget id="filter_button" />	-->
+					</span>
+
+
+					<ft:repeater id="webcomponents">
+
+
+						<div dojoType="CFormsRepeater">
+
+
+							<jx:choose>
+								<jx:when
+									test="${repeater.getSize() == 0}">
+									<p class="avviso1">
+										<i18n:text i18n:catalogue="deals">deals.repo.noresourceonrepo</i18n:text>
+									</p>
+
+								</jx:when>
+								<jx:otherwise>
+									<span class="ord">
+										<jx:if
+											test="${widget.getSize() > 0}">
+											<ft:widget
+												id="../sortbydate">
+												<fi:styling type="input"
+													class="ordinp" />
+											</ft:widget>
+										</jx:if>
+									</span>
+									<span class="ord">
+										<jx:if
+											test="${widget.getSize() > 0}">
+											<ft:widget
+												id="../sortnatural">
+												<fi:styling type="input"
+													class="ordinp" />
+											</ft:widget>
+										</jx:if>
+									</span>
+
+									<span class="paginaz">
+										<span class="numeri">
+											<jx:if
+												test="${widget.getSize() > 14}">
+												<span>
+													<i18n:text i18n:catalogue="deals">deals.repo.go2page</i18n:text>
+												</span>
+												<ft:widget
+													id="../topage" />
+												<ft:widget
+													id="../pagecustom">
+													<fi:styling
+														type="image" src="images/trasparente.gif" class="get" />
+												</ft:widget>
+											</jx:if>
+											<jx:if
+												test="${!repeater.isFirstPage()}">
+												<ft:widget
+													id="../pagefirst">
+													<fi:styling
+														type="image" src="images/trasparente.gif" class="first" />
+												</ft:widget>
+												<ft:widget
+													id="../pageprev">
+													<fi:styling
+														type="image" src="images/trasparente.gif" class="prev" />
+												</ft:widget>
+											</jx:if>
+											<jx:if
+												test="${!repeater.isLastPage()}">
+												<ft:widget
+													id="../pagenext">
+													<fi:styling
+														type="image" src="images/trasparente.gif" class="next" />
+												</ft:widget>
+												<ft:widget
+													id="../pagelast">
+													<fi:styling
+														type="image" src="images/trasparente.gif" class="last" />
+												</ft:widget>
+											</jx:if>
+										</span>
+									</span>
+
+
+									<table border="0" cellspacing="0"
+										cellpadding="0" id="comp">
+										<!--<caption align="top">Le risorse</caption> -->
+
+										<tbody>
+											<ft:repeater-rows>
+												<tr class="forms-row">
+
+													<td class="id">
+														<ft:widget
+															id="wc_id">
+															<fi:styling
+																style="display:none" />
+														</ft:widget>
+														<ft:widget
+															id="rowid">
+															<fi:styling
+																style="display:none" />
+														</ft:widget>
+													</td>
+													<td class="img">
+														<jx:choose>
+															<jx:when
+																test="${widget.lookupWidget('wr_mimetype').getValue().indexOf('image') >= 0}">
+
+																<!--  Inizio gestione preview FOTO -->
+
+																<ft:widget
+																	id="uri_preview_image" />
+																<ft:group
+																	id="previewgroup">
+                                                                    <a/>
+																	<a
+																		href="${widget.lookupWidget('../uri_preview_image').getValue()}" class="prev" rel="lightbox[naviga]"
+																		title="${widget.lookupWidget('../wr_name').getValue()} - ${widget.lookupWidget('../wr_description').getValue()}"
+																		style="background:#fff url(${widget.lookupWidget('../uri_preview_image').getValue()}.mini) no-repeat center center;">
+																	</a>
+																</ft:group>
+																<!-- FINE gestione preview FOTO -->
+
+
+															</jx:when>
+															<jx:otherwise>
+
+																<a
+																	href="${widget.lookupWidget('preview_image').getValue()}"
+																	title="Clicca qui per scaricare il documento"
+																	class="${widget.lookupWidget('wr_mimetype').getValue().replaceAll('/','-')}">
+																</a>
+															</jx:otherwise>
+														</jx:choose>
+													</td>
+
+													<td class="nome">
+
+
+
+														<ft:widget
+															id="wr_name">
+															<fi:styling
+																class="nome" />
+														</ft:widget>
+														(
+														<ft:widget
+															id="wc_insert_date" fi:type="inplace" />
+														)
+														<p>
+															<ft:widget
+																id="wr_description" fi:type="inplace" />
+														</p>
+														<p>
+															<ft:repeater
+																id="pagesassociations">
+																<jx:choose>
+																	<jx:when
+																		test="${repeater.getSize() == 0}">
+																		<em>
+																		<i18n:text i18n:catalogue="deals">deals.repo.noassoc</i18n:text>
+																		</em>
+
+																	</jx:when>
+																	<jx:otherwise>
+																		<strong>
+																			<i18n:text i18n:catalogue="deals">deals.repo.usedby</i18n:text>
+																		</strong>
+																		<div
+																			id="risorse_associate${repeaterLoop.index}">
+
+																			<ft:repeater-rows>
+																				<a
+																					href="${widget.lookupWidget('wp_pagetype').getValue()}.cflow?pageid=${widget.lookupWidget('wp_id').getValue()}"
+																					title="${widget.lookupWidget('wp_id').getValue()}">
+
+																					<ft:widget
+																						id="wp_name" />
+																				</a>
+																				-
+
+																			</ft:repeater-rows>
+																		</div>
+																	</jx:otherwise>
+																</jx:choose>
+															</ft:repeater>
+														</p>
+													</td>
+
+													<td class="icn">
+														<ft:widget
+															id="select" />
+													</td>
+												</tr>
+
+												<!-- Pagine che usano questa risorsa -->
+											</ft:repeater-rows>
+										</tbody>
+									</table>
+
+									<div class="bott_opt_ris2">
+										<jx:if
+											test="${widget.getSize() > 0}">
+											<ft:widget id="../removecomponents">
+												<fi:styling class="bottonerosso" />
+											</ft:widget>
+										</jx:if>
+									</div>
+								</jx:otherwise>
+							</jx:choose>
+
+						</div>
+
+					</ft:repeater>
+				</div>
+			</div>
+
+
+			<div id="salvataggio2" class="clearfix">
+				<ft:widget id="componentssubmit">
+					<fi:styling class="bottonesalva" />
+				</ft:widget>
+				<!-- Il pulsante viene visulizzato solo nel caso l'utene provenga da un altro form... -->
+				<jx:if test="${fromOtherForm}">
+					<ft:widget id="return2">
+						<!-- <fi:styling class="bottonesalva" /> -->
+					</ft:widget>
+				</jx:if>
+			</div>
+
+
+
+		</ft:form-template>
+	</div>
+
+</page>

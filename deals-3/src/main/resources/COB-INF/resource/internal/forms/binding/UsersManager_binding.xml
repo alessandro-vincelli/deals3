@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fb:context xmlns:fb="http://apache.org/cocoon/forms/1.0#binding" path="/">
+
+
+	<!-- U S E R S    R E P E A T E R -->
+
+	<fb:repeater id="utenti" parent-path="." row-path="users">
+		<fb:identity>
+			<fb:value id="rowid" path="@rowId"/>
+		</fb:identity>
+		<fb:on-bind>
+			<fb:value id="us_id" path="usId" direction="load" />
+			<fb:value id="rowid" path="rowId" />
+			<fb:value id="username" path="usUsername"/>
+			<fb:value id="password" path="usPassword" />
+			<fb:value id="nome" path="usFirstname"/>
+			<fb:value id="cognome" path="usSurname"/>
+			<fb:value id="email" path="usEmail"/>
+<!-- 		<fb:value id="profile" path="profile/upId"/>  -->
+            <!-- <fb:custom id="profile" path="profile" class="org.deals.framework.cms.forms.formbean.User2ProfileXPath"/> -->        				
+            <fb:custom id="profile" path="profile" ref="user2ProfileXPath"/>
+		</fb:on-bind>
+		<fb:on-insert-row>
+			<fb:insert-bean classname="org.deals.framework.bean.Users" addmethod="addUser" />
+		</fb:on-insert-row>		
+		<fb:on-delete-row>
+					<fb:delete-node/>
+		</fb:on-delete-row>
+	</fb:repeater>
+
+</fb:context>

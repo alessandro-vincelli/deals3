@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!-- $Id: demo-application-context.xml 641850 2008-03-27 15:34:55Z reinhard $ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:util="http://www.springframework.org/schema/util" xmlns:pipeline="http://cocoon.apache.org/schema/pipeline"
+  xsi:schemaLocation="
+  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+  http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+  http://cocoon.apache.org/schema/pipeline http://cocoon.apache.org/schema/pipeline/cocoon-pipeline-1.0.xsd">
+
+  <bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
+    <property name="locations">
+      <list>
+        <value>classpath:META-INF/cocoon/properties/dealsAppContext.properties</value>
+        <!-- <value>classpath:META-INF/cocoon/properties/deals3.properties</value> -->
+      </list>
+    </property>
+  </bean>
+
+  <bean id="config" class="org.deals.framework.core.Config" factory-method="createInstance">
+    <constructor-arg ref="org.apache.cocoon.configuration.Settings" />
+  </bean>
+
+  <!-- This is the Deals security handler: -->
+  <bean name="org.apache.cocoon.auth.SecurityHandler/dealsSH" class="org.deals.framework.auth.DealsSecurityHandler"
+    scope="singleton">
+    <property name="cms" ref="webCMS" />
+  </bean>
+
+  <!--  This is the standard Deals application -->
+  <bean name="org.apache.cocoon.auth.Application/deals" class="org.apache.cocoon.auth.impl.StandardApplication"
+    scope="singleton">
+    <property name="securityHandler" ref="org.apache.cocoon.auth.SecurityHandler/dealsSH" />
+  </bean>
+
+  <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <property name="driverClassName" value="org.postgresql.Driver" />
+    <property name="url" value="jdbc:postgresql://localhost:5432/rossigianluca" />
+    <property name="username" value="postgres" />
+    <property name="password" value="postgres" />
+  </bean>
+
+  <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <property name="dataSource" ref="myDataSource" />
+    <property name="mappingResources">
+      <list>
+        <value>WebPage.hbm.xml</value>
+        <value>APageComponents.hbm.xml</value>
+        <value>Users.hbm.xml</value>
+        <value>PageType.hbm.xml</value>
+        <value>WebComponent.hbm.xml</value>
+        <value>ComponentType.hbm.xml</value>
+        <value>APagePage.hbm.xml</value>
+        <value>Template.hbm.xml</value>
+        <value>PageState.hbm.xml</value>
+        <value>UserProfile.hbm.xml</value>
+        <value>AProfilePages.hbm.xml</value>
+        <value>APageComponentsType.hbm.xml</value>
+        <value>CmsSection.hbm.xml</value>
+        <value>AProfileSections.hbm.xml</value>
+        <value>Comments.hbm.xml</value>
+      </list>
+    </property>
+    <property name="hibernateProperties">
+      <props>
+        <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+        <!-- <prop key="hibernate.cache.use_second_level_cache">false</prop>
+          <prop key="hibernate.cache.use_query_cache">false</prop> -->
+      </props>
+    </property>
+
+  </bean>
+
+  <bean id="hibernateInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor">
+    <property name="sessionFactory">
+      <ref bean="sessionFactory" />
+    </property>
+  </bean>
+
+  <bean id="factoryDAO" class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="proxyInterfaces">
+      <value>org.deals.framework.dao.GenericDAO</value>
+    </property>
+    <property name="interceptorNames">
+      <list>
+        <value>hibernateInterceptor</value>
+        <value>userDAOHibernate</value>
+        <value>cmsSectionDAOHibernate</value>
+        <value>sectionDAOHibernate</value>
+        <value>categoryDAOHibernate</value>
+        <value>itemDAOHibernate</value>
+        <value>templateDAOHibernate</value>
+        <value>pageStateDAOHibernate</value>
+        <value>webPageDAOHibernate</value>
+        <value>pageTypeDAOHibernate</value>
+        <value>userProfileDAOHibernate</value>
+        <value>webComponentDAOHibernate</value>
+        <value>aPagePageDAOHibernate</value>
+        <value>commentsDAOHibernate</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="repository" class="org.springmodules.jcr.jackrabbit.TransientRepositoryFactoryBean">
+    <property name="configuration" value="classpath:META-INF/cocoon/repository.xml" />
+    <property name="homeDir" value="/repo" />
+  </bean>
+
+  <bean id="password" class="java.lang.String">
+    <constructor-arg value="admin" />
+  </bean>
+
+  <bean id="jackrabbitSessionFactory" class="org.springmodules.jcr.jackrabbit.JackrabbitSessionFactory">
+    <property name="repository" ref="repository" />
+    <property name="credentials">
+      <bean class="javax.jcr.SimpleCredentials">
+        <constructor-arg value="admin" />
+        <constructor-arg>
+          <bean factory-bean="password" factory-method="toCharArray" />
+        </constructor-arg>
+      </bean>
+    </property>
+  </bean>
+  <bean id="jcrTemplate" class="org.springmodules.jcr.JcrTemplate">
+    <property name="sessionFactory" ref="jackrabbitSessionFactory" />
+    <property name="allowCreate" value="true" />
+  </bean>
+  <!--   
+    <bean id="firstJack" class="org.deals.FirstJack">
+    <property name="sessionFactory" ref="jackrabbitSessionFactory"/>
+    <property name="template" ref="jcrTemplate"/>
+    </bean>
+  -->
+
+  <bean id="repoBinary" class="org.deals.framework.repo.RepoBinary">
+    <property name="sessionFactory" ref="jackrabbitSessionFactory" />
+    <property name="template" ref="jcrTemplate" />
+  </bean>
+
+  <bean name="org.apache.cocoon.reading.Reader/repoReader" class="org.apache.cocoon.reading.RepoImageReader" scope="prototype">
+    <property name="repoBinary" ref="repoBinary" />
+  </bean>
+
+  <bean id="webCMS" class="org.deals.framework.core.WebCMS" scope="prototype">
+    <property name="usDao" ref="userDAOHibernate" />
+    <property name="cmsSectionDAO" ref="cmsSectionDAOHibernate" />
+    <property name="secDao" ref="sectionDAOHibernate" />
+    <property name="categoryDao" ref="categoryDAOHibernate" />
+    <property name="itemDao" ref="itemDAOHibernate" />
+    <property name="templateDao" ref="templateDAOHibernate" />
+    <property name="pageStateDao" ref="pageStateDAOHibernate" />
+    <property name="dao" ref="webPageDAOHibernate" />
+    <property name="pageTypeDAO" ref="pageTypeDAOHibernate" />
+    <property name="upDao" ref="userProfileDAOHibernate" />
+    <property name="wcDao" ref="webComponentDAOHibernate" />
+    <property name="apctDao" ref="aPageComponentsTypeDAOHibernate" />
+    <property name="ctDao" ref="componentTypeDAOHibernate" />
+    <property name="appDao" ref="aPagePageDAOHibernate" />
+    <property name="comDao" ref="commentsDAOHibernate" />
+  </bean>
+
+  <bean id="webSite" class="org.deals.framework.core.WebSite" scope="prototype">
+    <property name="dao" ref="webPageDAOHibernate" />
+    <property name="secDao" ref="sectionDAOHibernate" />
+    <property name="categoryDao" ref="categoryDAOHibernate" />
+    <property name="itemDao" ref="itemDAOHibernate" />
+    <property name="nh" ref="navigationHandler" />
+    <property name="wpi" ref="webPageIndexer" />
+    <property name="s" ref="searcher" />
+    <property name="comDao" ref="commentsDAOHibernate" />
+  </bean>
+
+  <bean id="searchSite" class="org.deals.framework.site.Search" scope="prototype">
+    <property name="webSite" ref="webSite" />
+  </bean>
+
+  <bean id="searcher" class="org.deals.framework.search.Searcher" scope="prototype" />
+
+  <bean id="webPageIndexer" class="org.deals.framework.search.WebPageIndexer">
+    <property name="itemDao" ref="itemDAOHibernate" />
+  </bean>
+
+  <bean id="navigationHandler" class="org.deals.framework.core.NavigationHandler" scope="prototype">
+    <property name="wpDao" ref="sectionDAOHibernate" />
+  </bean>
+
+  <bean id="sectionDAOHibernate" class="org.deals.framework.dao.SectionDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="categoryDAOHibernate" class="org.deals.framework.dao.CategoryDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="itemDAOHibernate" class="org.deals.framework.dao.ItemDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="templateDAOHibernate" class="org.deals.framework.dao.TemplateDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="pageStateDAOHibernate" class="org.deals.framework.dao.PageStateDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="webComponentDAOHibernate" class="org.deals.framework.dao.WebComponentDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="webPageDAOHibernate" class="org.deals.framework.dao.WebPageDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="pageTypeDAOHibernate" class="org.deals.framework.dao.PageTypeDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="cmsSectionDAOHibernate" class="org.deals.framework.dao.CmsSectionDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="userProfileDAOHibernate" class="org.deals.framework.dao.UserProfileDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+  <bean id="userDAOHibernate" class="org.deals.framework.dao.UserDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+  <bean id="aProfileSectionsDAOHibernate" class="org.deals.framework.dao.AProfileSectionsDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="aPageComponentsTypeDAOHibernate" class="org.deals.framework.dao.APageComponentsTypeDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="componentTypeDAOHibernate" class="org.deals.framework.dao.ComponentTypeDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="aPagePageDAOHibernate" class="org.deals.framework.dao.APagePageDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="commentsDAOHibernate" class="org.deals.framework.dao.CommentsDAOHibernate" scope="prototype">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+  
+  <bean id="aPageComponentsTypeFactory" class="org.deals.framework.factory.APageComponentsTypeFactory"
+    factory-method="createInstance">
+    <constructor-arg ref="aPageComponentsTypeDAOHibernate" />
+  </bean>
+
+  <bean id="managementEH" class="org.deals.framework.cms.forms.eh.ManagementEH" scope="prototype">
+    <property name="cms" ref="webCMS" />
+  </bean>
+
+  <bean id="sectionEH" class="org.deals.framework.cms.forms.eh.SectionEH" scope="prototype" />
+
+  <bean id="sectionManager" class="org.deals.framework.cms.forms.manager.SectionManager" scope="prototype">
+    <property name="cms" ref="webCMS" />
+  </bean>
+
+  <bean id="categoryEH" class="org.deals.framework.cms.forms.eh.CategoryEH" scope="prototype">
+  </bean>
+
+  <bean id="categoryManager" class="org.deals.framework.cms.forms.manager.CategoryManager" scope="prototype">
+    <property name="cms" ref="webCMS" />
+  </bean>
+
+  <bean id="itemEH" class="org.deals.framework.cms.forms.eh.ItemEH" scope="prototype">
+  </bean>
+  
+  <bean id="itemManager" class="org.deals.framework.cms.forms.manager.ItemManager" scope="prototype">
+    <property name="cms" ref="webCMS" />
+  </bean>
+
+  <bean id="usersManagerEH" class="org.deals.framework.cms.forms.eh.UsersManagerEH" scope="prototype">
+    <property name="cms" ref="webCMS" />
+  </bean>
+
+  <bean id="profilesManagerEH" class="org.deals.framework.cms.forms.eh.ProfilesManagerEH" scope="prototype">
+    <property name="cms" ref="webCMS" />
+  </bean>
+
+  <bean id="resourcesRepoEH" class="org.deals.framework.cms.forms.eh.ResourcesRepoEH" scope="prototype">
+    <property name="cms" ref="webCMS" />
+    <property name="rb" ref="repoBinary" />
+  </bean>
+
+  <bean id="adminEH" class="org.deals.framework.cms.forms.eh.AdminEH" scope="prototype">
+    <property name="ws" ref="webSite" />
+  </bean>
+  
+  <bean id="commentsManagerEH" class="org.deals.framework.cms.forms.eh.CommentsManagerEH" scope="prototype">
+    <property name="cms" ref="webCMS" />
+  </bean>
+
+  <bean id="item2Images2WebComponentXPath" class="org.deals.framework.cms.forms.formbean.Item2Images2WebComponentXPath"
+    scope="prototype" />
+
+  <bean id="item2Images2apcTypeXPath" class="org.deals.framework.cms.forms.formbean.Item2Images2apcTypeXPath" scope="prototype">
+    <property name="cms" ref="webCMS" />
+  </bean>
+
+  <bean id="resourcesRepo2PrevImageXPath" class="org.deals.framework.cms.forms.formbean.ResourcesRepo2PrevImageXPath"
+    scope="prototype" />
+
+  <bean id="resourcesRepo2UriPrevImageXPath" class="org.deals.framework.cms.forms.formbean.ResourcesRepo2UriPrevImageXPath"
+    scope="prototype" />
+
+
+  <bean id="user2ProfileXPath" class="org.deals.framework.cms.forms.formbean.User2ProfileXPath" scope="prototype" />
+
+  <bean id="authenticationValidator" class="org.deals.framework.cms.forms.eh.AuthenticationValidator" scope="prototype">
+    <property name="cms" ref="webCMS" />
+  </bean>
+
+  <bean id="displayPage" class="org.deals.framework.site.Page">
+    <property name="webSite" ref="webSite" />
+  </bean>
+
+  <bean id="rssGenerator" class="org.deals.framework.core.RssGenerator">
+    <property name="wpDao" ref="webPageDAOHibernate"/>
+  </bean>
+  
+  <bean id="displayRss" class="org.deals.framework.site.Rss">
+    <property name="rssGenerator" ref="rssGenerator" />
+  </bean>
+  
+  <!-- CForms validators -->
+  <bean id="category2SectionsValidator" class="org.deals.framework.cms.forms.validator.Category2SectionsValidator"/>
+  <bean id="items2AssociationValidator" class="org.deals.framework.cms.forms.validator.Items2AssociationValidator"/>
+    
+  <bean id="messageHandle" class="org.deals.framework.site.ext.CommentsHandle">
+  	<property name="webSite" ref="webSite" />
+    <property name="dealsMailSender" ref="dealsMailSender"/>
+  </bean>
+
+  <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<property name="host" value="127.0.0.1" />
+  </bean>
+
+  <bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
+	<property name="from" value="deals@devel.alessandro.vincelli.name" />
+	<property name="to" value="a.vincelli@gmail.com" />
+  </bean>
+
+  <bean id="dealsMailSender" class="org.deals.framework.core.util.DealsMailSender">
+	<property name="mailSender" ref="mailSender" />
+	<property name="templateMessage" ref="templateMessage" />
+  </bean>
+
+  
+  <!-- 
+    <bean id="authenticationEvent" class="org.deals.framework.cms.forms.eh.AuthenticationEvent">
+    
+    </bean>
+    <bean id="urlCreator" class="org.deals.framework.core.UrlCreator" factory-method="createInstance">
+    <constructor-arg ref="org.apache.cocoon.configuration.Settings"/>
+    </bean> -->
+
+  <!-- 
+    <bean id="genHBDAOStoreService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+    <property name="transactionManager">
+    <ref bean="transactionManager"/>
+    </property>
+    <property name="target">
+    <ref bean="userDAOHibernate"/>
+    </property>
+    <property name="transactionAttributes">
+    <props>
+    <prop key="create*">PROPAGATION_REQUIRED</prop>
+    <prop key="find*">PROPAGATION_REQUIRED</prop>
+    <prop key="update*">PROPAGATION_REQUIRED</prop>
+    <prop key="delete*">PROPAGATION_REQUIRED</prop>
+    <prop key="initializeDatabase">PROPAGATION_REQUIRED</prop>
+    </props>
+    </property>
+    </bean>
+  -->
+
+</beans>

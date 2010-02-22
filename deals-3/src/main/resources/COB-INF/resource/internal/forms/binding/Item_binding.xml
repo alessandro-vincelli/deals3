@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fb:context xmlns:fb="http://apache.org/cocoon/forms/1.0#binding" path="/">
+	<fb:value id="item_id" path="bean/wpId" direction="load" />
+	<fb:value id="item_body" path="bean/wpContent" />
+	<fb:value id="item_author" path="bean/wpAuthor" />
+	<fb:value id="item_creator" path="bean/usersByWpCreator/usUsername" />
+	<fb:value id="item_date" path="bean/wpPublished" />
+	<fb:value id="item_title" path="bean/wpContentTitle" />
+	<fb:value id="item_short" path="bean/wpHeader" />
+	<fb:value id="check_change_author" path="checkChangeAuthor" />
+	<fb:value id="item_state" path="bean/pageState/psId" direction="load" />
+	<fb:value id="item_template" path="bean/template/teId" direction="load" />
+	<fb:value id="item_expiration" path="bean/wpExpire" />
+	<fb:value id="item_noexpiration" path="itemNoexpiration" />
+	<fb:value id="item_print" path="bean/wpPrint" />
+	<fb:value id="item_send" path="bean/wpSend" />
+    <fb:value id="item_comments_on" path="bean/wpCommentsOn" />
+    <fb:value id="item_meta_title" path="bean/wpMetaTitle" />
+    <fb:value id="item_meta_description" path="bean/wpMetaDescription" />
+    <fb:value id="item_meta_keywords" path="bean/wpMetaKeywords" />
+    <fb:value id="item_tags" path="bean/wpTags" />
+    
+	<!-- F I L E S    R E P E A T E R -->
+
+	<fb:repeater id="itemfiles" parent-path="/" row-path="files">
+		<fb:identity>
+			<fb:value id="iditemfile" path="wcId" />
+		</fb:identity>
+		<fb:on-bind>
+			<fb:value id="iditemfile" path="wcId" />
+			<fb:value id="itemfiledesc" path="wrDescription" />
+			<fb:value id="itemfilehref" path="wrName" />
+		</fb:on-bind>
+
+	</fb:repeater>
+
+	<!-- //////////////////////////////////// -->
+
+
+	<!-- L I N K S    R E P E A T E R -->
+
+	<fb:repeater id="itemlinks" parent-path="." row-path="links">
+		<fb:identity>
+			<fb:value id="rowid" path="@rowId" direction="load" />
+		</fb:identity>
+		<fb:on-bind>
+			<fb:value id="itemidlink" path="webComponent/wcId" direction="load" />
+			<fb:value id="itemlinkdesk" path="webComponent/rlContent" />
+			<fb:value id="itemlink" path="webComponent/rlHref" />
+			<fb:value id="iditemlink" path="webPage/wpId" direction="load" />
+		</fb:on-bind>
+
+		<fb:on-insert-row>
+			<fb:insert-bean classname="org.deals.framework.bean.APageComponents" addmethod="addLink" />
+		</fb:on-insert-row>
+	</fb:repeater>
+
+	<!-- //////////////////////////////////// -->
+
+
+	<!--  A S S O C I A T I O N S  -->
+
+	<fb:repeater id="sections" parent-path="/" row-path="sectionStructure">
+		<fb:identity>
+			<fb:value id="idsection" path="page/wpId" />
+		</fb:identity>
+		<fb:on-bind>
+			<fb:value id="idsection" path="page/wpId" />
+			<fb:value id="checksection" path="checked" />
+			<fb:value id="labelsection" path="page/wpContentTitle" />
+
+			<fb:repeater id="categories" parent-path="." row-path="categoryStructure">
+				<fb:identity>
+					<fb:value id="idcategory" path="page/wpId" />
+				</fb:identity>
+				<fb:on-bind>
+					<fb:value id="idcategory" path="page/wpId" />
+					<fb:value id="checkcategory" path="checked" />
+					<fb:value id="labelcategory" path="page/wpContentTitle" />
+				</fb:on-bind>
+			</fb:repeater>
+
+		</fb:on-bind>
+	</fb:repeater>
+
+	<!--  I M A G E S -->
+
+	<fb:repeater id="images" parent-path="." row-path="images">
+		<fb:identity>
+			<fb:value id="rowid" path="@rowId" />
+		</fb:identity>
+		<fb:on-bind>
+			<fb:value id="apc_id" path="apcId" direction="load" />
+			<fb:value id="rowid" path="rowId" />
+			<fb:value id="apc_page_id" path="webPage/wpId" direction="load" />
+			<!-- 			<fb:value id="apc_component_id" path="webComponent/wcId"  /> -->
+			<!-- <fb:custom id="apc_component_id" path="webComponent" class="org.deals.framework.cms.forms.formbean.Item2Images2WebComponentXPath" /> -->
+            <fb:custom id="apc_component_id" path="webComponent" ref="item2Images2WebComponentXPath" />
+			<fb:value id="apc_assoc_date" path="apcAssocDate" direction="load" />
+			<fb:value id="apc_alt" path="apcAlt" />
+			<!-- <fb:custom id="apc_type" path="APageComponentsType" class="org.deals.framework.cms.forms.formbean.Item2Images2apcTypeXPath" /> -->
+            <fb:custom id="apc_type" path="APageComponentsType" ref="item2Images2apcTypeXPath" />
+			<!-- utilizzato solo come filtro -->
+			<fb:value id="filter_apc_type" path="APageComponentsType/apctId" direction="load" />
+			<fb:value id="apc_description" path="apcDescription" />
+			<fb:value id="image_name" path="webComponent/wrName" direction="load" />
+			<fb:value id="wr_mimetype" path="webComponent/wrMimetype" direction="load" />			
+			<fb:value id="uri_resource" path="webComponent/webResourcePathOnSite" direction="load" />
+		</fb:on-bind>
+
+		<fb:on-insert-row>
+			<fb:insert-bean classname="org.deals.framework.bean.APageComponents" addmethod="addImages" />
+		</fb:on-insert-row>
+
+	</fb:repeater>
+
+	<!-- R E S O U R C E S    R E P E A T E R   F O R   I M A G E S -->
+
+	<fb:repeater id="imageswebcomponents" parent-path="." row-path="imagesresources">
+		<fb:identity>
+			<fb:value id="rowid" path="@rowId" direction="load" />
+		</fb:identity>
+		<fb:on-bind>
+			<fb:value id="wc_id" path="wcId" direction="load" />
+			<fb:value id="rowid" path="rowId" direction="load" />
+			<fb:value id="wr_name" path="wrName" direction="load" />
+			<fb:value id="wr_description" path="wrDescription" direction="load" />
+			<fb:value id="wr_mimetype" path="wrMimetype" direction="load" />
+			<fb:value id="wr_alt" path="wrAlt" direction="load" />
+			<fb:value id="wc_type" path="componentType/ctId" direction="load" />
+			<fb:value id="wc_insert_date" path="wcInsertDate" direction="load" />
+			<!-- <fb:custom id="preview_image" path="." class="org.deals.framework.cms.forms.formbean.ResourcesRepo2PrevImageXPath" direction="load" /> -->
+             <fb:custom id="preview_image" path="." ref="resourcesRepo2PrevImageXPath" direction="load" />
+			<!--<fb:custom id="uri_preview_image" path="." class="org.deals.framework.cms.forms.formbean.ResourcesRepo2UriPrevImageXPath"direction="load" /> -->
+            <fb:custom id="uri_preview_image" path="." ref="resourcesRepo2UriPrevImageXPath" direction="load" />
+				
+			<fb:repeater id="pagesassociations" parent-path="." row-path="APageComponentses">
+				<fb:identity>
+					<fb:value id="rowid" path="@rowId" />
+				</fb:identity>
+				<fb:on-bind>
+					<fb:value id="apc_id" path="apcId" direction="load" />
+					<fb:value id="rowid" path="rowId" />
+					<fb:value id="wp_name" path="webPage/wpName" direction="load" />
+					<fb:value id="wp_id" path="webPage/wpId" direction="load" />
+					<fb:value id="wp_pagetype" path="webPage/pageType/ptDescription" direction="load" />
+					<!-- 					<fb:custom id="apc_component_id" path="webComponent" class="org.deals.framework.cms.forms.formbean.Item2Images2WebComponentXPath" />
+						<fb:value id="apc_assoc_date" path="apcAssocDate" direction="load" />
+						<fb:custom id="apc_type" path="APageComponentsType" class="org.deals.framework.cms.forms.formbean.Item2Images2apcTypeXPath" /> -->
+				</fb:on-bind>
+			</fb:repeater>
+		</fb:on-bind>
+	</fb:repeater>
+
+	<!-- R E S O U R C E S    R E P E A T E R -->
+
+	<!-- 	<fb:repeater id="webcomponents" parent-path="." row-path="resources">
+		<fb:identity>
+		<fb:value id="rowid" path="@rowId" direction="load" />
+		</fb:identity>
+		<fb:on-bind>
+		<fb:value id="wc_id" path="wcId" direction="load" />
+		<fb:value id="rowid" path="rowId" direction="load" /> -->
+	<!--        <fb:value id="rl_title" path="rlTitle" />
+		<fb:value id="rl_content" path="rlContent" />
+		<fb:value id="rl_target" path="rlTarget" />
+		<fb:value id="rl_href" path="rlHref" /> -->
+	<!-- 			<fb:value id="wr_name" path="wrName" />
+		<fb:value id="wr_description" path="wrDescription" />
+		<fb:value id="wr_mimetype" path="wrMimetype" />
+		<fb:value id="wr_alt" path="wrAlt" />
+		<fb:value id="wc_type" path="componentType/ctId" />
+		<fb:value id="wc_insert_date" path="wcInsertDate" direction="load" />
+		</fb:on-bind>
+		</fb:repeater> -->
+
+
+	<!-- 
+		<fb:repeater id="sections" parent-path="/" row-path="sectionStructure">
+		<fb:identity>
+		<fb:value id="idsection" path="id"/>
+		</fb:identity>
+		<fb:on-bind>
+		<fb:value id="idsection" path="id"/>
+		<fb:value id="checksection" path="checked"/>
+		<fb:value id="labelsection" path="label"/>
+		<fb:repeater id="categories" parent-path="." row-path="categoryStructure">
+		<fb:identity>
+		<fb:value id="idcategory" path="id"/>
+		</fb:identity>
+		<fb:on-bind>
+		<fb:value id="idcategory" path="id"/>
+		<fb:value id="checkcategory" path="checked"/>
+		<fb:value id="labelcategory" path="label"/>
+		</fb:on-bind>
+		</fb:repeater>
+		</fb:on-bind>
+		</fb:repeater> -->
+</fb:context>

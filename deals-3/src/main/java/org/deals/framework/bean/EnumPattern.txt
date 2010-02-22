@@ -1,0 +1,19 @@
+
+ Quando c'è da definire una enum si segue questo pattern:
+ 
+ 
+  1. si definiscono le costanti con gli id di riferimento nella classe
+     da enumerare
+     
+  2. si definisce una Factory con metodi statici che si chiamano
+     create<NomeItem><NomeClasse>()
+     qui dentro si può inizializzare tutto l'oggetto senza dover usare una new
+     o un costruttore con 100 parametri.
+     Si riusano le costanti con id definite sopra
+     
+  3. nella classe da enumerare si crea un metodo per ogni voce
+     es. con la PageState
+      public static PageState DRAFT() {
+    	return PageStateFactory.createDraftPageState();
+    }
+  

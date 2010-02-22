@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<page xmlns:jx="http://apache.org/cocoon/templates/jx/1.0" xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:ft="http://apache.org/cocoon/forms/1.0#template" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+	<jx:import uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
+<div id="submenu" class="clearfix">
+		<h1><i18n:text i18n:catalogue="deals">deals.profiles.title</i18n:text></h1>
+		
+	</div>
+	<div id="containerinterno" class="clearfix">
+		<ft:form-template name="resourcerepo" action="continue" method="POST" ajax="false">
+			<ft:continuation-id />
+			
+<div id="lista_ute" class="clearfix">
+			<ft:repeater id="profili">
+			<!-- 	<div dojoType="CFormsRepeater">-->
+				
+				<div class="bott_opt_tit">
+				<ft:widget id="../addprofilo">
+					<fi:styling class="bottoneverde" />
+				</ft:widget>
+				</div>
+					<jx:choose>
+						<jx:when test="${repeater.getSize() == 0}">
+							<p class="avviso"><i18n:text i18n:catalogue="deals">deals.profiles.noprofiles</i18n:text>
+							</p>
+						</jx:when>
+						<jx:otherwise>
+
+
+							<table border="0" cellspacing="0" cellpadding="0" id="usersprof">
+								<!-- <caption align="top">I Profili</caption> -->
+								<tr class="trtitle">
+									<th scope="col" class="tdid1">
+										<ft:repeater-widget-label widget-id="rowid" />
+									</th>
+										
+									<th scope="col" class="nome">
+										<ft:repeater-widget-label widget-id="up_name" />
+									</th>
+									<th scope="col" class="titolo">
+										<ft:repeater-widget-label widget-id="up_description" />
+									</th>
+										<th scope="col" class="data">
+										<ft:repeater-widget-label widget-id="up_created_date" />
+									</th>
+									<th scope="col" class="data">
+										<ft:repeater-widget-label widget-id="up_expire_date" />
+									</th>								
+				
+                                    <th scope="col" class="tdid1" />
+                                    					
+								</tr>
+								<tbody>
+									<ft:repeater-rows>
+										<tr class="forms-row">
+											<td class="tdid1">
+												<ft:widget id="up_id">
+													<fi:styling style="display:none" />
+												</ft:widget>
+												<ft:widget id="rowid" />													
+											</td>
+											
+											<td class="nome">
+												<strong><ft:widget id="up_name" fi:type="inplace" /></strong>
+											</td>
+											<td class="titolo">
+												<ft:widget id="up_description" fi:type="inplace" />
+											</td>
+											<td class="data1">
+												<ft:widget id="up_created_date"/>
+											</td>
+											<td class="data">
+												<ft:widget id="up_expire_date"/>
+											</td>
+							
+                      <td class="tdid1">
+                      <ft:widget id="select" />
+                        
+                      </td>
+              				
+										</tr>
+									</ft:repeater-rows>
+								</tbody>
+							</table>
+						</jx:otherwise>
+					</jx:choose>
+				<!-- </div>-->
+					<div class="bottoniadddel">
+					
+						<jx:if test="${widget.getSize() > 0}">
+							<ft:widget id="../removeprofilo">
+								<fi:styling class="bottonerosso" />
+							</ft:widget>
+						</jx:if>
+					</div>				
+			</ft:repeater>
+			</div>
+			<div id="salvataggio1" class="clearfix">
+					<ft:widget id="profilisubmit" >
+					<fi:styling style="display:none"/>
+			  </ft:widget>
+			  <ft:widget id="profiliaction">
+			  <fi:styling class="bottonesalva" />
+			  </ft:widget>
+			</div>
+			
+		</ft:form-template>
+	</div>
+
+</page>

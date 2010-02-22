@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+	<fd:widgets>
+
+		<fd:field id="tab_state">
+			<fd:datatype base="string" />
+		</fd:field>
+
+		<fd:booleanfield id="check_change_author" required="false">
+			<fd:label>Ok</fd:label>
+			<fd:datatype base="string" />
+		</fd:booleanfield>
+
+		<fd:field id="section_author" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.changeauthor</i18n:text></fd:label>
+			<fd:datatype base="string" />
+		</fd:field>
+
+		<fd:field id="section_creator" required="false" state="disabled">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.author</i18n:text></fd:label>
+			<fd:datatype base="string" />
+		</fd:field>
+
+		<fd:field id="section_template" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.template</i18n:text></fd:label>
+			<fd:datatype base="integer" />
+		</fd:field>
+
+		<fd:field id="section_date" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.publishedfrom</i18n:text></fd:label>
+			<fd:datatype base="date">
+				<fd:convertor>
+					<fd:patterns>
+						<fd:pattern>dd/MM/yyyy</fd:pattern>
+					</fd:patterns>
+				</fd:convertor>
+			</fd:datatype>
+		</fd:field>
+
+		<fd:field id="section_expiration" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.expireon</i18n:text></fd:label>
+			<fd:datatype base="date">
+				<fd:convertor>
+					<fd:patterns>
+						<fd:pattern>dd/MM/yyyy</fd:pattern>
+					</fd:patterns>
+				</fd:convertor>
+			</fd:datatype>
+		</fd:field>
+		<fd:booleanfield required="false" id="section_noexpiration">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.expirenever</i18n:text></fd:label>
+		</fd:booleanfield>
+		<fd:field id="section_title" required="true">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.title</i18n:text></fd:label>
+			<fd:datatype base="string" />
+		</fd:field>
+		<fd:field id="section_short" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.header</i18n:text></fd:label>
+			<fd:datatype base="string" />
+		</fd:field>
+		<fd:field id="section_body" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.body</i18n:text></fd:label>
+			<fd:datatype base="string">
+				<fd:convertor type="htmlcleaner" config="resource://org/apache/cocoon/forms/datatype/convertor/HtmlCleanerConfiguration.xml" />
+			</fd:datatype>
+		</fd:field>
+		<fd:field id="section_state" required="false">
+			<fd:label>Status</fd:label>
+			<!-- ANDREBBE FATTO COSì, verificare
+				<fd:datatype base="org.deals.framework.enums.PageState"/>
+				<fd:selection-list type="enum" class="org.deals.framework.enums.PageState"/>        -->
+			<fd:datatype base="integer" />
+		</fd:field>
+		<fd:upload id="upload_image" mime-types="image/pjpeg, image/jpeg, image/gif, image/png" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.upload</i18n:text></fd:label>
+			<fd:on-value-changed>
+				<javascript></javascript>
+			</fd:on-value-changed>
+		</fd:upload>
+		<fd:booleanfield required="false" id="section_print">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.permitprint</i18n:text></fd:label>
+		</fd:booleanfield>
+		<fd:booleanfield required="false" id="section_send">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.permitsend</i18n:text></fd:label>
+		</fd:booleanfield>
+
+		<fd:submit id="sectionsubmit" validate="true">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.save</i18n:text></fd:label>
+		</fd:submit>
+		
+		<fd:submit id="sectiondelete" validate="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.confirmdelete</i18n:text></fd:label>
+		</fd:submit>
+
+		<fd:submit id="sectionnodelete" validate="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.canceldelete</i18n:text></fd:label>
+		</fd:submit>
+
+
+		<!--  G E S T I O N E    P E R M E S S I -->
+
+		<fd:repeater id="profili">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.profiles</i18n:text></fd:label>
+			<fd:hint></fd:hint>
+			<fd:help></fd:help>
+			<fd:widgets>
+				<fd:booleanfield id="select" />
+				<fd:field id="up_id" required="false">
+					<fd:label>up_id</fd:label>
+					<fd:datatype base="integer" />
+				</fd:field>
+				<fd:output id="rowid" required="false">
+					<fd:label>ID</fd:label>
+					<fd:datatype base="integer" />
+				</fd:output>
+				<fd:output id="up_name" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.profilename</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:output>
+				<fd:output id="up_description" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.section.form.profiledescription</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:output>				
+			</fd:widgets>
+		</fd:repeater>
+
+	</fd:widgets>
+</fd:form>
