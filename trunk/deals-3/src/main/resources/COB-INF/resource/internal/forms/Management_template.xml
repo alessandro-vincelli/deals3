@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<page xmlns:jx="http://apache.org/cocoon/templates/jx/1.0" xmlns:fi="http://apache.org/cocoon/forms/1.0#instance" xmlns:ft="http://apache.org/cocoon/forms/1.0#template" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+	<jx:import uri="servlet:forms:/resource/internal/generation/jx-macros.xml" />
+	<div id="submenu" class="clearfix">
+		<h1><i18n:text i18n:catalogue="deals">deals.management.titlepage</i18n:text></h1>
+		<a href="Item.cflow?pageid=-1" title="Inserisci una nuova scheda" class="nuovascheda2">
+			<i18n:text i18n:catalogue="deals">deals.management.newitem</i18n:text>
+		</a>
+		<a href="Category.cflow?pageid=-1" title="Inserisci una nuova categoria" class="nuovacateg2">
+			<i18n:text i18n:catalogue="deals">deals.management.newcategory</i18n:text>
+		</a>
+		<a href="Section.cflow?pageid=-1" title="Inserisci una nuova sezione" class="nuovasez2">
+			<i18n:text i18n:catalogue="deals">deals.management.newsection</i18n:text>
+		</a>
+	</div>
+	<div id="containerinterno" class="clearfix">
+		<ft:form-template name="form_scheda" action="continue" method="POST" ajax="true">
+			<ft:continuation-id />
+
+			<div id="lista_ute" class="clearfix">
+
+				<div id="sezioni">
+					<div>
+						<div class="head"><i18n:text i18n:catalogue="deals">deals.management.thesections</i18n:text></div>
+						<ft:repeater id="sections">
+							<table border="0" cellspacing="0" cellpadding="0" class="sezioni">
+
+								<ft:repeater-rows>
+									<tr class="tr${widget.getChild('idsection').getValue() == widget.getForm().getChild('section_selected').getValue()}">
+
+										<td class="icn">
+											<ft:widget id="bselectionsection">
+												<fi:styling type="image" src="images/trasparente.gif" class="sel" />
+											</ft:widget>
+										</td>
+										<td class="id">
+											<ft:widget id="idsection" />
+											<ft:widget id="weightsection" />
+										</td>
+										<td class="icn2">
+											<ft:widget id="bupsection">
+												<fi:styling type="image" src="images/trasparente.gif" class="icn_alza" />
+											</ft:widget>
+											<ft:widget id="bdownsection">
+												<fi:styling type="image" src="images/trasparente.gif" class="icn_abbassa" />
+											</ft:widget>
+										</td>
+										<td class="titolo">
+											<a href="Section.cflow?pageid=${widget.getChild('idsection').getValue()}" title="Modifica i parametri della sezione">
+												<ft:widget id="labelsection" />
+											</a>
+										</td>
+										<td class="icn">
+											<a href="Section.cflow?pageid=${widget.getChild('idsection').getValue()}&amp;delete=true"
+												title="Cancella la sezione e tutti i suoi contenuti" class="del">
+												<span>
+													<img src="images/trasparente.gif" alt="Cancella sezione e contenuti" />
+												</span>
+											</a>
+										</td>
+									</tr>
+
+									<ft:widget id="select">
+										<fi:styling style="display:none" />
+									</ft:widget>
+								</ft:repeater-rows>
+
+							</table>
+						</ft:repeater>
+
+					</div>
+					<a href="javascript:void(dojo.html.toggleShowing(dojo.byId('sidelegenda')))" title="Visualizza la legenda delle icone" class="headleg">LEGENDA</a>
+					<div id="sidelegenda" class="clearfix" style="display:none">
+						
+						<ul id="legenda">
+							<li>
+								<img src="images/trasparente.gif" alt="Oggetto selezionabile" class="leg1" />
+								<i18n:text i18n:catalogue="deals">deals.management.selectable</i18n:text>
+							</li>
+							<li>
+								<img src="images/trasparente.gif" alt="Oggetto selezionato" class="leg2" />
+								<i18n:text i18n:catalogue="deals">deals.management.selected</i18n:text>
+							</li>
+							<li>
+								<img src="images/trasparente.gif" alt="Cancella oggetto" class="leg3" />
+								<i18n:text i18n:catalogue="deals">deals.management.delete</i18n:text>
+							</li>
+							<li>
+								<img src="images/trasparente.gif" alt="Modifica priorità" class="leg4" />
+								<i18n:text i18n:catalogue="deals">deals.management.sortpriority</i18n:text>
+							</li>
+							<li>
+								<img src="images/trasparente.gif" alt="Oggetto principale" class="leg5" />
+								<i18n:text i18n:catalogue="deals">deals.management.main</i18n:text>
+							</li>
+							<li>
+								<img src="images/trasparente.gif" alt="Oggetto pubblicato" class="leg6" />
+								<i18n:text i18n:catalogue="deals">deals.management.published</i18n:text>
+							</li>
+							<li>
+								<img src="images/trasparente.gif" alt="Oggetto in bozza" class="leg7" />
+								<i18n:text i18n:catalogue="deals">deals.management.draft</i18n:text>
+							</li>
+							<li>
+								<img src="images/trasparente.gif" alt="Oggetto in scadenza" class="leg8" />
+								<i18n:text i18n:catalogue="deals">deals.management.expiring</i18n:text>
+							</li>
+							<li>
+								<img src="images/trasparente.gif" alt="Oggetto scaduto" class="leg9" />
+								<i18n:text i18n:catalogue="deals">deals.management.expired</i18n:text>
+							</li>
+							<li>
+								<img src="images/trasparente.gif" alt="Oggetto con commenti attivati" class="leg10" />
+								<i18n:text i18n:catalogue="deals">deals.management.commentsactive</i18n:text>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+
+
+				<div id="categorie" class="clearfix">
+					<div id="cat" class="clearfix">
+				<div class="head"><i18n:text i18n:catalogue="deals">deals.management.thecategories</i18n:text></div>		
+						<ft:repeater id="categories">
+
+							<table border="0" cellspacing="0" cellpadding="0" class="categorie">
+
+
+								<ft:repeater-rows>
+									<tr class="tr${widget.getChild('idcategory').getValue() == widget.getForm().getChild('category_selected').getValue()}">
+
+										<td class="icn">
+											<ft:widget id="bselectioncategory">
+												<fi:styling type="image" src="images/trasparente.gif" class="sel" />
+											</ft:widget>
+										</td>
+										<td class="id">
+											<ft:widget id="idcategory" />
+											<ft:widget id="weightcategory" />
+										</td>
+										<td class="icn2">
+											<ft:widget id="bupcategory">
+												<fi:styling type="image" src="images/trasparente.gif" class="icn_alza" />
+											</ft:widget>
+											<ft:widget id="bdowncategory">
+												<fi:styling type="image" src="images/trasparente.gif" class="icn_abbassa" />
+											</ft:widget>
+										</td>
+										<td class="titolo">
+											<a href="Category.cflow?pageid=${widget.getChild('idcategory').getValue()}" title="Modifica i parametri della categoria">
+												<ft:widget id="labelcategory" />
+											</a>
+										</td>
+										<td class="icn3">
+
+											<jx:choose>
+												<jx:when test="${widget.getChild('statuscategory').getValue() == 'bozza'}">
+													<img src="images/trasparente.gif" alt="Categoria in bozza" class="bozza" />
+												</jx:when>
+												<jx:when test="${widget.getChild('statuscategory').getValue() == 'scaduto'}">
+													<img src="images/trasparente.gif" alt="Categoria scaduta" class="scaduta" />
+												</jx:when>
+												<jx:when test="${widget.getChild('statuscategory').getValue() == 'pubblicato'}">
+													<img src="images/trasparente.gif" alt="Categoria pubblicata" class="pubblicata" />
+												</jx:when>
+												<jx:otherwise></jx:otherwise>
+											</jx:choose>
+											<jx:choose>
+												<jx:when test="${widget.getChild('topcategory').getValue() == 'true'}">
+													<img src="images/trasparente.gif" alt="Categoria principale" class="principale" />
+												</jx:when>
+												<jx:otherwise></jx:otherwise>
+											</jx:choose>
+
+										</td>
+										<td class="icn">
+											<a href="Category.cflow?pageid=${widget.getChild('idcategory').getValue()}&amp;delete=true"
+												title="Cancella la categoria e tutti i suoi contenuti" class="del">
+												<span>
+													<img src="images/trasparente.gif" alt="Cancella categoria e contenuti" />
+												</span>
+											</a>
+										</td>
+									</tr>
+								</ft:repeater-rows>
+							</table>
+
+							<!-- </jx:otherwise>
+								</jx:choose> -->
+						</ft:repeater>
+					</div>
+
+
+
+
+
+
+					<div id="lista_schede" class="clearfix">
+
+
+						<ft:repeater id="items">
+							<div dojoType="CFormsRepeater">
+
+								<jx:choose>
+									<jx:when test="${repeater.getSize() == 0}">
+										<p class="avviso"><i18n:text i18n:catalogue="deals">deals.management.mainmessage</i18n:text></p>
+									</jx:when>
+									<jx:otherwise>
+
+										<div class="head"><i18n:text i18n:catalogue="deals">deals.management.theitems</i18n:text></div>
+										<span class="ord">
+											<jx:if test="${widget.getSize() > 0}">
+												<ft:widget id="../sort-by-weight">
+													<fi:styling type="input" class="ordinp" />
+												</ft:widget>
+											</jx:if>
+										</span>
+										<span class="ord">
+											<jx:if test="${widget.getSize() > 0}">
+												<ft:widget id="../sort-by-date">
+													<fi:styling type="input" class="ordinp" />
+												</ft:widget>
+											</jx:if>
+										</span>
+
+										<span class="paginaz">
+											<span class="numeri">
+												<jx:if test="${widget.getSize() > 14}">
+													<span>Scorri alla pagina</span>
+													<ft:widget id="../topage" />
+													<ft:widget id="../page-custom">
+														<fi:styling type="image" src="images/trasparente.gif" class="get" />
+													</ft:widget>
+												</jx:if>
+												<jx:if test="${!repeater.isFirstPage()}">
+													<ft:widget id="../page-first">
+														<fi:styling type="image" src="images/trasparente.gif" class="first" />
+													</ft:widget>
+													<ft:widget id="../page-prev">
+														<fi:styling type="image" src="images/trasparente.gif" class="prev" />
+													</ft:widget>
+												</jx:if>
+												<jx:if test="${!repeater.isLastPage()}">
+													<ft:widget id="../page-next">
+														<fi:styling type="image" src="images/trasparente.gif" class="next" />
+													</ft:widget>
+													<ft:widget id="../page-last">
+														<fi:styling type="image" src="images/trasparente.gif" class="last" />
+													</ft:widget>
+												</jx:if>
+											</span>
+
+										</span>
+
+
+										<table class="schede" border="0" cellspacing="0" cellpadding="0">
+
+											
+											<ft:repeater-rows>
+												<tr>
+													<td class="id">
+														<ft:widget id="weightitem" fi:type="inplace"/>
+													</td>
+													<td class="icn2">
+														<ft:widget id="bupitem">
+															<fi:styling type="image" src="images/trasparente.gif" class="icn_alza" />
+														</ft:widget>
+														<ft:widget id="bdownitem">
+															<fi:styling type="image" src="images/trasparente.gif" class="icn_abbassa" />
+														</ft:widget>
+													</td>
+													<td class="data">
+														<ft:widget id="dateitem" />
+													</td>
+													<td class="titolo">
+														<a href="Item.cflow?pageid=${widget.getChild('iditem').getValue()}" title="Modifica i parametri della scheda">
+															<ft:widget id="labelitem" />
+														</a>
+													</td>
+
+													<td class="icn3">
+
+														<jx:choose>
+															<jx:when test="${widget.getChild('statusitem').getValue() == 'bozza'}">
+																<img src="images/trasparente.gif" alt="Scheda in bozza" class="bozza" />
+															</jx:when>
+															<jx:when test="${widget.getChild('statusitem').getValue() == 'scaduto'}">
+																<img src="images/trasparente.gif" alt="Scheda scaduta" class="scaduta" />
+															</jx:when>
+															<jx:when test="${widget.getChild('statusitem').getValue() == 'pubblicato'}">
+																<img src="images/trasparente.gif" alt="Scheda pubblicata" class="pubblicata" />
+															</jx:when>
+															<jx:otherwise></jx:otherwise>
+														</jx:choose>
+														<jx:choose>
+															<jx:when test="${widget.getChild('topitem').getValue() == 'true'}">
+																<img src="images/trasparente.gif" alt="Scheda principale" class="principale" />
+															</jx:when>
+															<jx:otherwise></jx:otherwise>
+														</jx:choose>
+
+													</td>
+													<td class="icn">
+														<a href="Item.cflow?pageid=${widget.getChild('iditem').getValue()}&amp;delete=true" title="Cancella la scheda"
+															class="del">
+															<span>
+																<img src="images/trasparente.gif" alt="Cancella la scheda" />
+															</span>
+														</a>
+													</td>
+												</tr>
+
+											</ft:repeater-rows>
+
+										</table>
+									</jx:otherwise>
+								</jx:choose>
+							</div>
+						</ft:repeater>
+
+					</div>
+				</div>
+			</div>
+		</ft:form-template>
+	</div>
+
+</page>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fb:context xmlns:fb="http://apache.org/cocoon/forms/1.0#binding" path="/">
+
+
+	<!-- U S E R S    R E P E A T E R -->
+
+	<fb:repeater id="comments" parent-path="." row-path="comments">
+		<fb:identity>
+			<fb:value id="rowid" path="@rowId"/>
+		</fb:identity>
+		<fb:on-bind>
+			<fb:value id="co_id" path="coId" direction="load" />
+			<fb:value id="rowid" path="rowId" />
+			<fb:value id="comment_author" path="commentAuthor" direction="load"/>
+			<fb:value id="comment_author_email" path="commentAuthorEmail" direction="load"/>
+			<fb:value id="comment_author_url" path="commentAuthorUrl" direction="load"/>
+			<fb:value id="comment_author_ip" path="commentAuthorIp" direction="load"/>
+			<fb:value id="comment_date" path="commentDate" direction="load"/>
+			<fb:value id="comment_date_gmt" path="commentDateGmt" direction="load"/>
+			<fb:value id="comment_content" path="commentContent" direction="load"/>
+			<fb:value id="comment_approved" path="commentApproved"/>
+			<fb:value id="comment_agent" path="commentAgent" direction="load"/>
+			<fb:value id="comment_type" path="commentType" direction="load"/>
+			<fb:value id="us_id" path="usId" direction="load"/>
+			<!-- <fb:custom id="profile" path="profile" ref="user2ProfileXPath"/> -->
+		</fb:on-bind>
+		<!--<fb:on-insert-row>
+			<fb:insert-bean classname="org.deals.framework.bean.Users" addmethod="addUser" />
+		</fb:on-insert-row>		-->
+		<fb:on-delete-row>
+					<fb:delete-node/>
+		</fb:on-delete-row>
+	</fb:repeater>
+
+</fb:context>

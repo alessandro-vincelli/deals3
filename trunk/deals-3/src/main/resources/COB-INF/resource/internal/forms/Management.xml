@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+	<fd:widgets>
+		<fd:repeater id="items">
+			<fd:pages initial="1" size="25" page-field="topage" />
+			<fd:label>Schede</fd:label>
+			<fd:hint></fd:hint>
+			<fd:help></fd:help>
+			<fd:widgets>
+				<fd:field id="labelitem" required="false" state="output">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.title</i18n:text></fd:label>
+					<fd:initial-value>SCHEDA</fd:initial-value>
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="iditem" required="false" state="invisible">
+					<fd:label>Id logico</fd:label>
+					<fd:datatype base="integer" />
+				</fd:field>
+				<fd:field id="weightitem" required="false" state="active">
+					<fd:label>Id</fd:label>
+					<fd:datatype base="integer" />
+				</fd:field>
+				<fd:field id="statusitem" required="false" state="invisible">
+					<fd:label>Status</fd:label>
+					<fd:initial-value></fd:initial-value>
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="topitem" required="false" state="invisible">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.topitem</i18n:text></fd:label>
+					<fd:initial-value></fd:initial-value>
+					<fd:datatype base="boolean" />
+				</fd:field>
+				<fd:field id="expirationitem" required="false" state="output">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.expirationtime</i18n:text></fd:label>
+					<fd:datatype base="date" />
+				</fd:field>
+				<fd:field id="dateitem" required="false" state="output">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.date</i18n:text></fd:label>
+					<fd:datatype base="date" />
+				</fd:field>
+				<fd:action id="deleteitem">
+					<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.deleteitem</i18n:text></fd:hint>
+				</fd:action>
+				<fd:action id="bupitem">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.uppriority</i18n:text></fd:label>
+					<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.uppriority</i18n:text></fd:hint>
+				</fd:action>
+				<fd:action id="bdownitem">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.downpriority</i18n:text></fd:label>
+					<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.downpriority</i18n:text></fd:hint>
+				</fd:action>
+
+			</fd:widgets>
+			<!--      <fd:on-repeater-modified>
+				[...]
+				</fd:on-repeater-modified>-->
+		</fd:repeater>
+
+		<fd:repeater id="categories">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.categories</i18n:text></fd:label>
+			<fd:hint></fd:hint>
+			<fd:help></fd:help>
+			<fd:widgets>
+				<fd:field id="labelcategory" required="false" state="output">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.title</i18n:text></fd:label>
+					<fd:initial-value>CATEGORIA</fd:initial-value>
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="statuscategory" required="false" state="invisible">
+					<fd:label>Status</fd:label>
+					<fd:initial-value></fd:initial-value>
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="topcategory" required="false">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.maincategory</i18n:text></fd:label>
+					<fd:initial-value></fd:initial-value>
+					<fd:datatype base="boolean" />
+				</fd:field>
+				<fd:field id="idcategory" required="false" state="invisible">
+					<fd:label>Id logico</fd:label>
+					<fd:datatype base="integer" />
+				</fd:field>
+				<fd:field id="weightcategory" required="false" state="output">
+					<fd:label>Id</fd:label>
+					<fd:datatype base="integer" />
+				</fd:field>
+				<fd:booleanfield id="select">
+					<fd:label>Select</fd:label>
+					<fd:on-value-changed>
+						<fd:javascript></fd:javascript>
+					</fd:on-value-changed>
+				</fd:booleanfield>
+				<fd:action id="bselectioncategory">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.selectcategory</i18n:text></fd:label>
+					<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.selectcategory</i18n:text></fd:hint>
+				</fd:action>
+				<fd:action id="bupcategory">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.uppriority</i18n:text></fd:label>
+					<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.uppriority</i18n:text></fd:hint>
+				</fd:action>
+				<fd:action id="bdowncategory">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.downpriority</i18n:text></fd:label>
+					<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.downpriority</i18n:text></fd:hint>
+				</fd:action>
+			</fd:widgets>
+			<!--      <fd:on-repeater-modified>
+				[...]
+				</fd:on-repeater-modified>-->
+		</fd:repeater>
+
+		<fd:repeater id="sections">
+			<fd:label>Sezioni</fd:label>
+			<fd:hint></fd:hint>
+			<fd:help></fd:help>
+			<fd:widgets>
+				<fd:field id="labelsection" required="false" state="output">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.title</i18n:text></fd:label>
+					<fd:initial-value>SEZIONE</fd:initial-value>
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="idsection" required="false" state="invisible">
+					<fd:label>Id logico</fd:label>
+					<fd:datatype base="integer" />
+				</fd:field>
+				<fd:field id="weightsection" required="false" state="output">
+					<fd:label>Id</fd:label>
+					<fd:datatype base="integer" />
+				</fd:field>
+
+				<fd:booleanfield id="select">
+					<fd:label>Select</fd:label>
+					<fd:on-value-changed>
+						<fd:javascript></fd:javascript>
+					</fd:on-value-changed>
+				</fd:booleanfield>
+				<fd:action id="bselectionsection">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.selectsection</i18n:text></fd:label>
+					<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.selectsection</i18n:text></fd:hint>
+				</fd:action>
+				<fd:action id="bupsection">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.uppriority</i18n:text></fd:label>
+					<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.uppriority</i18n:text></fd:hint>
+				</fd:action>
+				<fd:action id="bdownsection">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.downriority</i18n:text></fd:label>
+					<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.downpriority</i18n:text></fd:hint>
+				</fd:action>
+			</fd:widgets>
+			<!--      <fd:on-repeater-modified>
+				[...]
+				</fd:on-repeater-modified>-->
+		</fd:repeater>
+
+		<fd:repeater-action id="page-first" command="page-first" repeater="items">
+			<fd:label>&lt;&lt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.gofirstpage</i18n:text></fd:hint>
+		</fd:repeater-action>
+		<fd:repeater-action id="page-prev" command="page-prev" repeater="items">
+			<fd:label>&lt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.back</i18n:text></fd:hint>
+		</fd:repeater-action>
+		<fd:repeater-action id="page-next" command="page-next" repeater="items">
+			<fd:label>&gt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.next</i18n:text></fd:hint>
+		</fd:repeater-action>
+		<fd:repeater-action id="page-last" command="page-last" repeater="items">
+			<fd:label>&gt;&gt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.golastpage</i18n:text></fd:hint>
+		</fd:repeater-action>
+		<fd:field id="topage">
+			<fd:label>topage</fd:label>
+			<fd:datatype base="integer" />
+		</fd:field>
+		<fd:repeater-action id="page-custom" command="page-custom" repeater="items">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.gotopage</i18n:text></fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.gotopage</i18n:text></fd:hint>
+		</fd:repeater-action>
+		<fd:repeater-action id="sort-by-weight" command="sort-by" repeater="items" field="weightitem">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.sortbypriority</i18n:text></fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.sortbypriority</i18n:text></fd:hint>
+		</fd:repeater-action>
+		<fd:repeater-action id="sort-by-date" command="sort-by" repeater="items" field="dateitem">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.sortbydate</i18n:text></fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.management.form.sortbydate</i18n:text></fd:hint>
+		</fd:repeater-action>
+		<fd:repeater-action id="sort-natural" command="sort-by" repeater="items">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.management.form.sortnatural</i18n:text></fd:label>
+		</fd:repeater-action>
+		
+		<fd:field id="section_selected" required="false" state="output">
+			<fd:label>Selezionata Selezionata / Campo di servizio</fd:label>
+			<fd:datatype base="integer" />
+		</fd:field>
+		<fd:field id="category_selected" required="false" state="output">
+			<fd:label>Categoria Selezionata / Campo di servizio</fd:label>
+			<fd:datatype base="integer" />
+		</fd:field>
+		<fd:field id="item_selected" required="false" state="output">
+			<fd:label>Scheda Selezionata / Campo di servizio</fd:label>
+			<fd:datatype base="integer" />
+		</fd:field>
+	</fd:widgets>
+</fd:form>

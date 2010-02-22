@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fb:context xmlns:fb="http://apache.org/cocoon/forms/1.0#binding" xmlns:xsp="http://apache.org/xsp" xmlns:fd="http://apache.org/cocoon/forms/1.0#definition" path="/">
+
+    <fb:value direction="both" id="us_id" path="bean/usId"/>
+    <fb:value direction="both" id="us_role" path="bean/usRole"/>
+    <fb:value direction="both" id="us_username" path="bean/usUsername"/>
+    <fb:value direction="both" id="us_password" path="bean/usPassword"/>
+    
+    
+</fb:context>

@@ -1,0 +1,11 @@
+maven.deals.context.path=/deals
+maven.deals.db.name=rossigianluca
+maven.deals.db.host=localhost
+maven.deals.db.port=5432
+maven.deals.db.username=postgres
+maven.deals.db.password=
+maven.deals.db.repo.datastore=rossigianluca_image
+maven.deals.db.repo.workspace=rossigianluca_repo
+maven.deals.db.repo.versioning=rossigianluca_repo_version
+maven.deals.repo.workpath=/var/webapps/work_dir/rossigianluca
+maven.deals.repo.configuration=repository-rossi.xml

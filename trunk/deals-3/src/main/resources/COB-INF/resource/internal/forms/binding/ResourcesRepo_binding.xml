@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fb:context xmlns:fb="http://apache.org/cocoon/forms/1.0#binding" path="/">
+
+	<!-- R E S O U R C E S    R E P E A T E R -->
+
+	<fb:repeater id="webcomponents" parent-path="." row-path="resources">
+		<fb:identity>
+			<fb:value id="rowid" path="@rowId" direction="load" />
+		</fb:identity>
+		<fb:on-bind>
+			<fb:value id="wc_id" path="wcId" direction="load" />
+			<fb:value id="rowid" path="rowId" direction="load" />
+			<fb:value id="wr_name" path="wrName" direction="load" />
+			<fb:value id="wr_description" path="wrDescription" />
+			<fb:value id="wr_mimetype" path="wrMimetype" direction="load" />
+			<fb:value id="wr_alt" path="wrAlt" />
+			<!-- 			<fb:value id="preview_immage" path="WebResourceTempPathOnSite" /> -->
+			<!-- <fb:custom id="preview_image" path="." class="org.deals.framework.cms.forms.formbean.ResourcesRepo2PrevImageXPath" direction="load" /> -->
+      <fb:custom id="preview_image" path="." ref="resourcesRepo2PrevImageXPath" direction="load" />
+			<!-- <fb:custom id="uri_preview_image" path="." class="org.deals.framework.cms.forms.formbean.ResourcesRepo2UriPrevImageXPath"
+				direction="load" /> -->
+            <fb:custom id="uri_preview_image" path="." ref="resourcesRepo2UriPrevImageXPath"
+        direction="load" />
+			
+			<!-- 			<fb:custom id="wc_type" path="componentType" class="org.deals.framework.cms.forms.formbean.ResourcesRepo2WcTypeXPath" direction="load"/> -->
+			<fb:value id="wc_insert_date" path="wcInsertDate" direction="load" />
+
+			<fb:repeater id="pagesassociations" parent-path="." row-path="APageComponentses">
+				<fb:identity>
+					<fb:value id="rowid" path="@rowId" />
+				</fb:identity>
+				<fb:on-bind>
+					<fb:value id="apc_id" path="apcId" direction="load" />
+					<fb:value id="rowid" path="rowId" />
+					<fb:value id="wp_name" path="webPage/wpName" direction="load" />
+					<fb:value id="wp_id" path="webPage/wpId" direction="load" />
+					<fb:value id="wp_pagetype" path="webPage/pageType/ptDescription" direction="load" />
+					<!-- 					<fb:custom id="apc_component_id" path="webComponent" class="org.deals.framework.cms.forms.formbean.Item2Images2WebComponentXPath" />
+						<fb:value id="apc_assoc_date" path="apcAssocDate" direction="load" />
+						<fb:custom id="apc_type" path="APageComponentsType" class="org.deals.framework.cms.forms.formbean.Item2Images2apcTypeXPath" /> -->
+				</fb:on-bind>
+			</fb:repeater>
+
+		</fb:on-bind>
+		<fb:on-delete-row>
+			<fb:delete-node />
+		</fb:on-delete-row>
+
+		<!--         <fb:on-insert-row>
+			<fb:insert-bean classname="org.deals.framework.bean.WebComponent" addmethod="addComponent"/>
+			</fb:on-insert-row>  -->
+	</fb:repeater>
+
+	<!-- //////////////////////////////////// -->
+
+	<!--  N E W    R E S O U R C E S    R E P E A T E R -->
+
+	<fb:repeater id="newwebcomponents" parent-path="." row-path="newresources">
+		<fb:identity>
+			<fb:value id="rowid" path="@rowId" direction="load" />
+		</fb:identity>
+		<fb:on-bind>
+			<fb:value id="wc_id" path="wcId" direction="load" />
+			<fb:value id="wr_name" path="wrName" />
+			<fb:value id="wr_description" path="wrDescription" />
+			<fb:value id="wr_mimetype" path="wrMimetype" />
+			<fb:value id="wr_alt" path="wrAlt" />
+			<!-- 			<fb:value id="wc_type" path="componentType/ctId" /> -->
+			<!-- 			<fb:custom id="wc_type" path="componentType" class="org.deals.framework.cms.forms.formbean.ResourcesRepo2WcTypeXPath" /> -->
+			<fb:value id="wc_insert_date" path="wcInsertDate" direction="load" />
+		</fb:on-bind>
+
+		<fb:on-insert-row>
+			<fb:insert-bean classname="org.deals.framework.bean.WebComponent" addmethod="addComponent" />
+		</fb:on-insert-row>
+	</fb:repeater>
+
+	<!-- //////////////////////////////////// -->
+
+
+
+</fb:context>

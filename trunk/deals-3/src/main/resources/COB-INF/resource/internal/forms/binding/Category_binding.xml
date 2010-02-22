@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fb:context xmlns:fb="http://apache.org/cocoon/forms/1.0#binding" path="/">
+
+	<fb:value id="category_body" path="bean/wpContent" />
+	<fb:value id="category_author" path="bean/wpAuthor" />
+	<fb:value id="category_creator" path="bean/usersByWpCreator/usUsername" />
+	<fb:value id="category_date" path="bean/wpCreated" />
+	<fb:value id="category_title" path="bean/wpContentTitle" />
+	<fb:value id="category_short" path="bean/wpHeader" />
+
+	<fb:value id="check_change_author" path="checkChangeAuthor" />
+
+	<fb:value id="category_state" path="bean/pageState/psId" direction="load" />
+	<fb:value id="category_template" path="bean/template/teId" direction="load" />
+	<fb:value id="category_expiration" path="bean/wpExpire" />
+
+	<fb:value id="category_noexpiration" path="categoryNoexpiration" />
+
+	<fb:value id="category_print" path="bean/wpPrint" />
+	<fb:value id="category_send" path="bean/wpSend" />
+
+
+
+
+	<!-- 	A S S O C I A T I O N S 	-->
+
+	<fb:repeater id="sections" parent-path="/" row-path="sectionStructure">
+		<fb:identity>
+			<fb:value id="idsection" path="page/wpId" />
+		</fb:identity>
+		<fb:on-bind>
+			<fb:value id="idsection" path="page/wpId" />
+			<fb:value id="checksection" path="checked" />
+			<fb:value id="labelsection" path="page/wpContentTitle" />
+		</fb:on-bind>
+	</fb:repeater>
+	
+	
+	<!-- Gestione permessi -->
+	<fb:repeater id="profili" parent-path="." row-path="profiles">
+		<fb:identity>
+			<fb:value id="rowid" path="@rowId" />
+		</fb:identity>
+		<fb:on-bind>
+			<fb:value id="select" path="associated" />
+			<fb:value id="up_id" path="upId" direction="load" />
+			<fb:value id="rowid" path="rowId" />
+			<fb:value id="up_name" path="upName" />
+			<fb:value id="up_description" path="upDescription" />
+		</fb:on-bind>
+	</fb:repeater>
+
+	
+	
+</fb:context>

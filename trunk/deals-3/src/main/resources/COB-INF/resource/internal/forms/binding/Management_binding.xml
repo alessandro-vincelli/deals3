@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fb:context xmlns:fb="http://apache.org/cocoon/forms/1.0#binding" path="/">
+	<fb:repeater id="items" parent-path="/" row-path="items">
+		<fb:identity>
+			<fb:value id="iditem" path="appId" />
+		</fb:identity>
+		<fb:on-bind>
+			<fb:value id="iditem" path="webPageByAppChild/wpId" />
+			<fb:value id="labelitem" path="webPageByAppChild/wpContentTitle" />
+			<fb:value id="weightitem" path="appWeight" />
+			<fb:value id="statusitem" path="webPageByAppChild/pageState/psName" />
+			<fb:value id="topitem" path="top" />
+			<fb:value id="expirationitem" path="webPageByAppChild/wpExpire" />
+			<fb:value id="dateitem" path="webPageByAppChild/wpCreated" />
+		</fb:on-bind>
+	</fb:repeater>
+
+	<fb:repeater id="categories" parent-path="/" row-path="categories">
+		<fb:identity>
+			<fb:value id="idcategory" path="appId" />
+		</fb:identity>
+		<fb:on-bind>
+			<fb:value id="idcategory" path="webPageByAppChild/wpId" />
+			<fb:value id="labelcategory" path="webPageByAppChild/wpContentTitle" />
+			<fb:value id="weightcategory" path="appWeight" />
+			<fb:value id="statuscategory" path="webPageByAppChild/pageState/psName" />
+			<fb:value id="topcategory" path="top" />
+			<!--            <fb:value id="datecategory" path="date"/>-->
+		</fb:on-bind>
+	</fb:repeater>
+
+	<fb:repeater id="sections" parent-path="/" row-path="sections">
+		<fb:identity>
+			<fb:value id="idsection" path="wpId" />
+		</fb:identity>
+		<fb:on-bind>
+			<fb:value id="idsection" path="wpId" />
+			<fb:value id="labelsection" path="wpContentTitle" />
+			<fb:value id="weightsection" path="wpWeight" />
+		</fb:on-bind>
+	</fb:repeater>
+
+
+	<fb:value id="section_selected" path="sectionSelected" />
+	<fb:value id="category_selected" path="categorySelected" />
+
+</fb:context>

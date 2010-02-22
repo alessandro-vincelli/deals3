@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<map:sitemap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://apache.org/cocoon/sitemap/1.0 http://cocoon.apache.org/schema/sitemap/cocoon-sitemap-1.0.xsd"
+ xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+
+  <map:components>
+    <map:transformers default="xslt">
+      <map:transformer name="i18n" src="org.apache.cocoon.transformation.I18nTransformer">
+        <catalogues default="forms">
+          <catalogue id="forms" name="messages" location="servlet:forms:/resource/internal/i18n"/>
+          <catalogue id="upload" name="messages" location="servlet:ajax:/resource/internal/i18n" />
+          <catalogue id="deals" name="dealsmessages" location="resource/internal/i18n" />
+        </catalogues>
+        <cache-at-startup>true</cache-at-startup>
+      </map:transformer>
+      <map:transformer name="browser-update" src="org.apache.cocoon.ajax.BrowserUpdateTransformer"/>
+  </map:transformers>
+  <map:selectors>
+    <map:selector name="ajax-request" src="org.apache.cocoon.ajax.AjaxRequestSelector"/>
+  </map:selectors>
+
+  </map:components>
+  
+  <!--+
+      | Definition of the control flow implementation.
+      +-->
+  <map:flow language="javascript"/>
+
+  <map:pipelines>
+    <!--+
+        | Demo pipelines
+        +-->
+    <map:pipeline id="demo">
+
+      <map:match pattern="authentication.cflow">
+        <map:act type="cauth-is-logged-in">
+          <map:parameter name="application" value="deals" />
+          <map:redirect-to uri="management.cflow" />
+        </map:act>
+        <map:call function="authentication"></map:call>
+      </map:match>
+
+      <map:match pattern="do-login">
+        <!-- try to login -->
+        <map:act type="cauth-login">
+          <map:parameter name="application" value="deals" />
+          <map:parameter name="name" value="{request-param:username}" />
+          <map:parameter name="password" value="{request-param:password}" />
+          <map:parameter name="userlanguage" value="{request-param:userlanguage}" />
+          <map:redirect-to uri="management.cflow" />
+        </map:act>
+        <!-- something was wrong, try it again -->
+        <map:redirect-to uri="authentication.cflow" />
+      </map:match>
+
+      <map:match pattern="logout.cflow">
+        <map:act type="cauth-logout">
+          <map:parameter name="application" value="deals" />
+        </map:act>
+        <map:redirect-to uri="authentication.cflow" />
+      </map:match>
+
+      <map:match pattern="styles/*.css">
+        <map:read mime-type="text/css" src="resource/external/{0}" />
+      </map:match>
+      
+      <map:match pattern="**.html">
+        <map:read mime-type="text/html" src="resource/external/{0}" />
+      </map:match>
+
+      <map:match pattern="images/*.png">
+        <map:read mime-type="images/png" src="resource/external/{0}" />
+      </map:match>
+      <map:match pattern="images/*.gif">
+        <map:read mime-type="images/gif" src="resource/external/{0}" />
+      </map:match>
+
+      <map:match pattern="images/*.jpg">
+        <map:read mime-type="images/jpeg" src="resource/external/{0}" />
+      </map:match>
+
+      <map:match pattern="images/*.swf">
+        <map:read mime-type="application/x-shockwave-flash" src="resource/external/{0}" />
+      </map:match>
+
+      <map:match pattern="html/*.swf">
+        <map:read mime-type="application/x-shockwave-flash" src="resource/external/{0}" />
+      </map:match>
+      
+      <map:match pattern="js/*.js">
+        <map:read mime-type="text/javascript" src="resource/external/{0}" />
+      </map:match>
+    
+      <map:match pattern="**binaryFiles/*.*.mini">
+        <map:read type="repoReader"  src="{2}.{3}" >
+        <map:parameter name="height" value="100"/>
+        </map:read>
+      </map:match>
+      
+      <map:match pattern="binaryFiles/*">
+        <map:read src="{1}" type="repoReader"/>
+      </map:match>
+      
+    
+      <map:match pattern="*-display-pipeline">
+        <map:generate type="jx" src="resource/internal/forms/{1}_template.xml" label="content1">
+          <map:parameter name="locale" value="{flow-attribute:locale}" />
+        </map:generate>
+        <map:transform type="browser-update" /><!-- AJAX-style form update -->
+        <map:transform type="i18n">
+          <map:parameter name="locale" value="{flow-attribute:locale}" />
+        </map:transform>
+        <!-- <map:call resource="simple-page2html">
+          <map:parameter name="file" value="forms/{1}_template.xml"/>
+          </map:call> -->
+
+        <map:select type="request-parameter">
+          <map:parameter name="parameter-name" value="menu" />
+          <map:when test="false"></map:when>
+          <map:otherwise>
+            <map:transform src="resource/internal/menu/aggregate.xsl">
+              <map:parameter name="form_template" value="{1}" />
+              <map:parameter name="pageid" value="{2}" />
+              <map:parameter name="context" value="{request:contextPath}" />
+              <map:parameter name="current-date" value="{date: dd/MM/yyyy}" />
+            </map:transform>
+          </map:otherwise>
+        </map:select>
+
+        <map:transform type="jx" />
+
+        <map:transform src="resource/internal/forms-samples-styling.xsl" type="xslt">
+          <map:parameter name="dojo-resources" value="{servlet:ajax:/resource/external/dojo}" />
+          <map:parameter name="forms-resources" value="{servlet:forms:/resource/external/forms}" />
+          <map:parameter name="dojo-debug" value="false" /><!-- set to true to turn on dojo debugging in the Browser -->
+          <map:parameter name="dojo-locale" value="{flow-attr:locale}" />
+
+
+          <map:parameter name="context" value="{request:contextPath}" />
+          <map:parameter name="ruolo" value="{session-attr:ruolo}" />
+          <map:parameter name="username" value="{session-attr:username}" />
+          <map:parameter name="uri" value="{request:requestURI}" />
+          <map:parameter name="query-string" value="{request:queryString}" />
+          <map:parameter name="cognome" value="{session-attr:cognome}" />
+          <map:parameter name="nome" value="{session-attr:nome}" />
+          <map:parameter name="popup" value="{request-param:popup}" />
+
+        </map:transform>
+        <map:transform type="i18n">
+          <map:parameter name="locale" value="{flow-attribute:locale}" />
+        </map:transform>
+
+        <map:transform type="servletLinkRewriter" /><!-- here is the transformation step you will need to add -->
+
+
+        <map:select type="ajax-request">
+          <map:when test="true"><!-- sending a partial Browser Update -->
+            <map:select type="request-parameter">
+              <map:parameter name="parameter-name" value="dojo.transport" />
+              <map:when test="iframe"><!-- sending BU via iFrameIO -->
+                <map:transform src="servlet:forms:/resource/internal/xsl/IframeTransport-bu-styling.xsl" />
+                <map:serialize type="xhtml" /><!-- this is REALLY important -->
+              </map:when>
+              <map:otherwise><!-- sending BU via XHR -->
+                <map:serialize type="xml" />
+              </map:otherwise>
+            </map:select>
+          </map:when>
+          <map:otherwise><!-- sending a complete page -->
+            <map:serialize type="html" />
+          </map:otherwise>
+        </map:select>
+      </map:match>
+     
+      <map:match pattern="*-display-pipeline-noajax">
+        <map:generate type="jx" src="resource/internal/forms/{1}_template.xml"/>
+        <map:transform type="i18n">
+          <map:parameter name="locale" value="en"/>
+        </map:transform>
+        <map:transform src="resource/internal/forms-samples-styling-original.xsl">
+          <map:parameter name="forms-resources" value="{servlet:forms:/resource/external/forms}"/>
+          <map:parameter name="dojo-resources" value="{servlet:ajax:/resource/external/dojo}"/>
+        </map:transform>
+        <map:serialize/>
+      </map:match>
+      
+      <map:match pattern="management.cflow">
+      <map:act type="cauth-is-logged-in">
+        <map:parameter name="application" value="deals" />
+        <map:call function="management" />
+      </map:act>
+      <map:redirect-to uri="authentication.cflow" />  
+      </map:match>
+      
+      <map:match pattern="Section.cflow">
+        <map:act type="cauth-is-logged-in">
+        <map:parameter name="application" value="deals" />
+        <map:call function="section" />
+      </map:act>
+      <map:redirect-to uri="authentication.cflow" />
+      </map:match>
+      
+      <map:match pattern="Category.cflow">
+        <map:act type="cauth-is-logged-in">
+        <map:parameter name="application" value="deals" />
+        <map:call function="category" />
+      </map:act>
+      <map:redirect-to uri="authentication.cflow" />
+      </map:match>
+      
+      <map:match pattern="Item.cflow">
+        <map:act type="cauth-is-logged-in">
+        <map:parameter name="application" value="deals" />
+        <map:call function="item" />
+      </map:act>
+      <map:redirect-to uri="authentication.cflow" />
+      </map:match>
+      
+      <map:match pattern="Test.cflow">
+        <map:act type="cauth-is-logged-in">
+        <map:parameter name="application" value="deals" />
+        <map:call function="test" />
+      </map:act>
+      <map:redirect-to uri="authentication.cflow" />
+      </map:match>
+
+      <map:match pattern="UsersManager.cflow">
+        <map:act type="cauth-is-logged-in">
+        <map:parameter name="application" value="deals" />
+        <map:call function="usersmanager" />
+      </map:act>
+      <map:redirect-to uri="authentication.cflow" />
+      </map:match>
+
+      <map:match pattern="ProfilesManager.cflow">
+        <map:act type="cauth-is-logged-in">
+        <map:parameter name="application" value="deals" />
+        <map:call function="profilesmanager" />
+      </map:act>
+      <map:redirect-to uri="authentication.cflow" />
+      </map:match>
+
+      <map:match pattern="ResourcesRepo.cflow">
+        <map:act type="cauth-is-logged-in">
+        <map:parameter name="application" value="deals" />
+        <map:call function="resourcesrepo" />
+      </map:act>
+      <map:redirect-to uri="authentication.cflow" />
+      </map:match>
+
+      <map:match pattern="Admin.cflow">
+        <map:act type="cauth-is-logged-in">
+        <map:parameter name="application" value="deals" />
+        <map:call function="admin" />
+      </map:act>
+      <map:redirect-to uri="authentication.cflow" />
+      </map:match>
+       
+      <map:match pattern="CommentsManager.cflow">
+        <map:act type="cauth-is-logged-in">
+        <map:parameter name="application" value="deals" />
+        <map:call function="commentsmanager" />
+      </map:act>
+      <map:redirect-to uri="authentication.cflow" />
+      </map:match>     
+
+      <map:match pattern="logout.cflow">
+        <map:call function="logout" />
+      </map:match>
+
+      <map:match pattern="*.continue">
+        <map:act type="cauth-is-logged-in">
+        <map:parameter name="application" value="deals" />
+          <map:call continuation="{1}"/>
+        </map:act>
+        <map:redirect-to uri="authentication.cflow" />
+      </map:match>
+          <!-- CONTINUAZIONE CFORMS-->
+      <map:match pattern="**continue">
+        <map:act type="cauth-is-logged-in">
+        <map:parameter name="application" value="deals" />
+          <map:call continuation="{request-param:continuation-id}" />
+        </map:act>
+        <map:redirect-to uri="authentication.cflow" />
+      </map:match>
+
+      <map:match pattern="">
+        <map:act type="cauth-is-logged-in">
+        <map:parameter name="application" value="deals" />
+            <map:redirect-to uri="{request:contextPath}/deals/management.cflow" />
+        </map:act>  
+        <map:redirect-to uri="{request:contextPath}/deals/authentication.cflow" />
+     </map:match>
+         
+    </map:pipeline>
+    
+
+    <!--+
+        | Default pipelines
+        +-->
+    <map:pipeline id="internal-resource" internal-only="true">
+      <!-- Put matchers for internal (accessible only to Cocoon blocks) resources here
+        More details: http://cocoon.zones.apache.org/daisy/cdocs-site-main/g2/1345.html -->
+      <map:match pattern="resource/internal/**">
+        <map:read src="resource/internal/{1}"/>
+      </map:match>
+    </map:pipeline>
+
+    <map:pipeline id="external-resource">
+      <!-- Put matchers for external (accessible to the outside world, e.g. browser) resources here.
+        More details: http://cocoon.zones.apache.org/daisy/cdocs-site-main/g2/1345.html -->
+      <map:match pattern="resource/external/**">
+        <map:read src="resource/external/{1}"/>
+      </map:match>
+    </map:pipeline>
+
+    <map:pipeline id="service">
+      <!-- Put your servlet service matchers here.
+        More details: http://cocoon.zones.apache.org/daisy/cdocs-site-main/g2/1345.html -->
+    </map:pipeline>    
+    
+    <map:handle-errors>
+      <map:select type="exception">
+
+        <map:when test="not-found">
+          <map:generate type="exception"/>
+          <map:transform src="resource/internal/stylesheets/errors/exception2html.xslt">
+            <map:parameter name="contextPath" value="{request:contextPath}"/>
+            <map:parameter name="realPath" value="{realpath:}"/>
+            <map:parameter name="pageTitle" value="Resource not found"/>
+          </map:transform>
+          <map:serialize status-code="404"/>
+        </map:when>
+
+        <map:when test="invalid-continuation">
+          <map:generate type="exception"/>
+          <map:transform src="resource/internal/stylesheets/errors/invalidcontinuation2html.xslt">
+            <map:parameter name="contextPath" value="{request:contextPath}"/>
+            <map:parameter name="realPath" value="{realpath:}"/>
+            <map:parameter name="pageTitle" value="Invalid Continuation"/>
+          </map:transform>
+          <map:serialize status-code="404"/>
+        </map:when>
+
+        <map:otherwise>
+          <map:generate type="exception"/>
+          <map:transform src="resource/internal/stylesheets/errors/exception2html.xslt">
+            <map:parameter name="contextPath" value="{request:contextPath}"/>
+            <map:parameter name="realPath" value="{realpath:}"/>
+          </map:transform>
+          <map:serialize status-code="500"/>
+        </map:otherwise>
+      </map:select>
+    </map:handle-errors>
+    
+  </map:pipelines>
+
+</map:sitemap>

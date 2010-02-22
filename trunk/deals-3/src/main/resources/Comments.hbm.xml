@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 9, 2008 4:23:54 PM by Hibernate Tools 3.2.2.GA -->
+<hibernate-mapping>
+  <class name="org.deals.framework.bean.Comments" schema="public" table="comments">
+    <comment>user comments</comment>
+    <id name="coId" type="java.lang.Long">
+      <column name="co_id"/>
+      <generator class="sequence">
+        <param name="sequence">public.comments_co_id_seq</param>
+      </generator>
+    </id>
+    <many-to-one class="org.deals.framework.bean.WebPage" fetch="select" name="webPage">
+      <column name="co_wp_id" not-null="true"/>
+    </many-to-one>
+    <property name="commentAuthor" type="string">
+      <column name="comment_author" not-null="true"/>
+    </property>
+    <property name="commentAuthorEmail" type="string">
+      <column name="comment_author_email" not-null="true"/>
+    </property>
+    <property name="commentAuthorUrl" type="string">
+      <column name="comment_author_url"/>
+    </property>
+    <property name="commentAuthorIp" type="string">
+      <column name="comment_author_ip"/>
+    </property>
+    <property name="commentDate" type="timestamp">
+      <column length="35" name="comment_date"/>
+    </property>
+    <property name="commentDateGmt" type="timestamp">
+      <column length="35" name="comment_date_gmt"/>
+    </property>
+    <property name="commentContent" type="string">
+      <column name="comment_content"/>
+    </property>
+    <property name="commentApproved" type="int">
+      <column name="comment_approved" not-null="true"/>
+    </property>
+    <property name="commentAgent" type="string">
+      <column name="comment_agent"/>
+    </property>
+    <property name="commentType" type="string">
+      <column name="comment_type"/>
+    </property>
+    <property name="usId" type="java.lang.Integer">
+      <column name="us_id"/>
+    </property>
+  </class>
+</hibernate-mapping>

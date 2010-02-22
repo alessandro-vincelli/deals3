@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<page xmlns:jx="http://apache.org/cocoon/templates/jx/1.0" xmlns:fi="http://apache.org/cocoon/forms/1.0#instance" xmlns:ft="http://apache.org/cocoon/forms/1.0#template" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+    <jx:import uri="servlet:forms:/resource/internal/generation/jx-macros.xml"/>
+    <head>
+        <title>Deals CMS</title>
+    </head>
+    <body id="log">
+    <div id="logo_log"></div>
+    <div id="login" class="clearfix">
+    <div id="logininterno" class="clearfix">
+	<form action="do-login" method="POST">
+		<div>
+			<label for="username">
+				<i18n:text i18n:catalogue="deals">deals.authentication.username</i18n:text>
+			</label>
+			<span id="deals_username">
+				<input type="text" title="" value="" id="deals_username:input" name="username" class="forms field active logininput required" />
+				<span class="forms forms-field-required field"> * </span>
+			</span>
+		</div>
+		<div>
+			<label for="username">
+				<i18n:text i18n:catalogue="deals">deals.authentication.password</i18n:text>
+			</label>
+			<span id="deals_password">
+				<input type="password" title="" value="" id="deals_password:input" name="password" class="forms field active logininput required" />
+				<span class="forms forms-field-required field"> * </span>
+			</span>
+		</div>
+		<div style="text-align:right;">
+			<input title="" name="dealsenter" type="submit" id="dealsenter" value="Enter" i18n:attr="value"  class="forms action active bottonelog" />
+            <!--  <ft:widget id="dealsenter"><fi:styling class="bottonelog"/></ft:widget>-->
+		</div>
+		<div style="text-align:right;">
+		<!--  Very bad implementatio :) -->
+			<jx:choose>
+			<jx:when test="${cocoon.request.getHeader('Accept-Language').indexOf('it') >= 0}">
+			<select name="userlanguage">
+				<option selected="selected" value="it">Italiano</option>
+				<option value="en">English</option>
+			</select>
+			</jx:when>
+			<jx:otherwise>
+			<select name="userlanguage">
+				<option selected="selected" value="en">English</option>
+				<option value="it">Italiano</option>
+			</select>
+			</jx:otherwise>
+			</jx:choose>
+		</div>
+	</form>
+        
+    <p><span>Attenzione!</span>Se non sei un utente abilitato, siamo spiacenti ma ti chiediamo di abbandonare immediatamente questa pagina.<br />
+    Ogni IP che entra in contatto con questo gestionale viene registrato e controllato. Ogni caso di accesso abusivo o malizioso, verrà perseguito a norma della Legge
+                    italiana in ogni sede opportuna.</p>
+    </div>
+    <div id="footerlog">Powered by Deals</div>
+    </div>
+    
+  </body>
+</page>
+

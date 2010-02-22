@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fb:context xmlns:fb="http://apache.org/cocoon/forms/1.0#binding" xmlns:xsp="http://apache.org/xsp" xmlns:fd="http://apache.org/cocoon/forms/1.0#definition" path="/">
+    <fb:value direction="both" id="id_autore" path="idAutore"/>
+    <fb:value direction="both" id="id_ruolo" path="idRuolo"/>
+    <fb:value direction="both" id="aunomeau" path="aunomeau"/>
+    <fb:value direction="both" id="aucognom" path="aucognom"/>
+    <fb:value direction="both" id="aue_mail" path="aueMail"/>
+</fb:context>

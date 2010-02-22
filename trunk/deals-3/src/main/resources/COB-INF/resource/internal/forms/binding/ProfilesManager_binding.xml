@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fb:context xmlns:fb="http://apache.org/cocoon/forms/1.0#binding" path="/">
+
+
+	<!-- P R O F I L E S    R E P E A T E R -->
+
+	<fb:repeater id="profili" parent-path="." row-path="profiles">
+		<fb:identity>
+			<fb:value id="rowid" path="@rowId"/>
+		</fb:identity>
+		<fb:on-bind>
+			<fb:value id="up_id" path="upId" direction="load" />
+			<fb:value id="rowid" path="rowId" />
+			<fb:value id="up_name" path="upName"/>
+			<fb:value id="up_description" path="upDescription" />
+			<fb:value id="up_created_date" path="upCreated"/>
+			<fb:value id="up_expire_date" path="upExpire"/>
+		</fb:on-bind>
+		<fb:on-insert-row>
+			<fb:insert-bean classname="org.deals.framework.bean.UserProfile" addmethod="addProfile" />
+		</fb:on-insert-row>		
+		<fb:on-delete-row>
+					<fb:delete-node/>
+		</fb:on-delete-row>
+	</fb:repeater>
+
+</fb:context>

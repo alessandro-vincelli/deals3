@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+	<fd:widgets>
+		<fd:field id="tab_state">
+			<fd:datatype base="string" />
+		</fd:field>
+		<fd:booleanfield id="check_change_author" required="false">
+			<fd:label>Ok</fd:label>
+			<fd:datatype base="string" />
+		</fd:booleanfield>
+		<fd:field id="item_id">
+			<fd:label>Chiave primaria</fd:label>
+			<fd:datatype base="integer" />
+		</fd:field>
+		<fd:field id="item_author" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.changeauthor</i18n:text></fd:label>
+			<fd:datatype base="string" />
+		</fd:field>
+		<fd:field id="item_creator" required="false" state="disabled">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.author</i18n:text></fd:label>
+			<fd:datatype base="string" />
+		</fd:field>
+		<fd:field id="item_template" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.template</i18n:text></fd:label>
+			<fd:datatype base="integer" />
+		</fd:field>
+		<fd:field id="item_date" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.publishedfrom</i18n:text></fd:label>
+			<fd:datatype base="date">
+				<fd:convertor>
+					<fd:patterns>
+						<fd:pattern>dd/MM/yyyy</fd:pattern>
+					</fd:patterns>
+				</fd:convertor>
+			</fd:datatype>
+		</fd:field>
+		<fd:field id="item_expiration" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.expireon</i18n:text></fd:label>
+			<fd:datatype base="date">
+				<fd:convertor>
+					<fd:patterns>
+						<fd:pattern>dd/MM/yyyy</fd:pattern>
+					</fd:patterns>
+				</fd:convertor>
+			</fd:datatype>
+		</fd:field>
+		<fd:booleanfield required="false" id="item_noexpiration">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.expirenever</i18n:text></fd:label>
+		</fd:booleanfield>
+		<fd:field id="item_title" required="true">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.title</i18n:text></fd:label>
+			<fd:datatype base="string" />
+		</fd:field>
+		<fd:field id="item_short" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.header</i18n:text></fd:label>
+			<fd:datatype base="string" />
+		</fd:field>
+		<fd:field id="item_body" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.body</i18n:text></fd:label>
+			<fd:datatype base="string">
+				<fd:convertor type="htmlcleaner" config="resource://org/apache/cocoon/forms/datatype/convertor/HtmlCleanerConfiguration.xml" />
+			</fd:datatype>
+		</fd:field>
+		<fd:field id="item_state" required="false">
+			<fd:label>Status</fd:label>
+			<!-- ANDREBBE FATTO COSì, verificare
+				<fd:datatype base="org.deals.framework.enums.PageState"/>
+				<fd:selection-list type="enum" class="org.deals.framework.enums.PageState"/>        -->
+			<fd:datatype base="integer" />
+		</fd:field>
+
+		<!-- Upload dell'immagine principale -->
+		<fd:upload id="upload_image" mime-types="image/pjpeg, image/jpeg, image/gif, image/png" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.upload</i18n:text></fd:label>
+			<fd:on-value-changed>
+				<javascript></javascript>
+			</fd:on-value-changed>
+		</fd:upload>
+
+		<fd:imagemap id="itemimage">
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.item.form.imagepreview</i18n:text></fd:hint>
+		</fd:imagemap>
+
+		<fd:field id="item_labelimage" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.label</i18n:text></fd:label>
+			<fd:datatype base="string" />
+		</fd:field>
+		<!-- fine upload dell'immagine principale -->
+
+		<!-- Upload della thumbnail -->
+		<fd:upload id="upload_thumbnail" mime-types="image/pjpeg, image/jpeg, image/gif, image/png" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.upload</i18n:text></fd:label>
+			<fd:on-value-changed>
+				<javascript></javascript>
+			</fd:on-value-changed>
+		</fd:upload>
+
+		<fd:imagemap id="itemthumbnail">
+			<fd:hint>Anteprima thumbnail</fd:hint>
+		</fd:imagemap>
+
+		<fd:field id="item_labelthumbnail" required="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.label</i18n:text></fd:label>
+			<fd:datatype base="string" />
+		</fd:field>
+		<!-- fine upload della thumbnail -->
+
+		<fd:booleanfield required="false" id="item_print">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.permitprint</i18n:text></fd:label>
+		</fd:booleanfield>
+
+		<fd:booleanfield required="false" id="item_send">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.permitsend</i18n:text></fd:label>
+		</fd:booleanfield>
+    
+        <fd:booleanfield required="false" id="item_comments_on">
+            <fd:label><i18n:text i18n:catalogue="deals">deals.item.form.permitcomment</i18n:text></fd:label>
+        </fd:booleanfield>
+
+        <!-- INIZIO META TAG -->
+        <fd:field id="item_meta_title" required="false">
+          <fd:label>Title</fd:label>
+          <fd:datatype base="string" />
+        </fd:field>
+
+        <fd:field id="item_meta_description" required="false">
+          <fd:label>Description</fd:label>
+          <fd:datatype base="string" />
+        </fd:field>
+
+        <fd:field id="item_meta_keywords" required="false">
+          <fd:label>Keywords</fd:label>
+          <fd:datatype base="string" />
+        </fd:field>
+    
+        <!-- FINE META TAG -->
+
+
+        <!--  TAGS -->
+        <fd:field id="item_tags" required="false">
+          <fd:label><i18n:text i18n:catalogue="deals">deals.item.form.tags</i18n:text></fd:label>
+          <fd:datatype base="string" />
+          <fd:help><i18n:text i18n:catalogue="deals">deals.item.form.tagshelp</i18n:text></fd:help>
+        </fd:field>
+        
+        <fd:multivaluefield id="tags">
+          <fd:label><i18n:text i18n:catalogue="deals">deals.item.form.sitetags</i18n:text></fd:label>
+          <fd:datatype base="string"/>
+          <fd:help><i18n:text i18n:catalogue="deals">deals.item.form.sitetagshelp</i18n:text></fd:help>
+          <fd:selection-list>
+          </fd:selection-list>
+        </fd:multivaluefield>
+        
+        <fd:action id="addtags" command="addtags">
+          <fd:label><i18n:text i18n:catalogue="deals">deals.item.form.addtags</i18n:text></fd:label>
+        </fd:action>
+        
+        <!-- FINE TAGS -->
+        
+		<fd:submit id="itemsubmit" validate="true">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.save</i18n:text></fd:label>
+		</fd:submit>
+
+        <fd:submit id="go2repo" validate="false">
+          <fd:label></fd:label>
+        </fd:submit>
+
+
+		<fd:submit id="itemdelete" validate="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.confirmdelete</i18n:text></fd:label>
+		</fd:submit>
+
+		<fd:submit id="itemnodelete" validate="false">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.canceldelete</i18n:text></fd:label>
+		</fd:submit>
+
+		<fd:repeater id="sections">
+			<fd:label></fd:label>
+			<fd:hint></fd:hint>
+			<fd:help></fd:help>
+            <fd:validation>
+                <fd:java ref="items2AssociationValidator"/>
+            </fd:validation>
+			<fd:widgets>
+				<fd:field id="idsection" required="false" state="invisible">
+					<fd:datatype base="integer" />
+				</fd:field>
+				<fd:booleanfield required="false" id="checksection">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.sectionname</i18n:text>Nome sezione</fd:label>
+				</fd:booleanfield>
+				<fd:field id="labelsection" required="false" state="output">
+					<fd:initial-value>SEZIONE</fd:initial-value>
+					<fd:datatype base="string" />
+				</fd:field>
+
+				<fd:repeater id="categories">
+					<fd:label></fd:label>
+					<fd:hint></fd:hint>
+					<fd:help></fd:help>
+					<fd:widgets>
+						<fd:field id="idcategory" required="false" state="invisible">
+							<fd:datatype base="integer" />
+						</fd:field>
+						<fd:booleanfield required="false" id="checkcategory">
+							<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.categoryname</i18n:text>Nome categoria</fd:label>
+						</fd:booleanfield>
+						<fd:field id="labelcategory" required="false" state="output">
+							<fd:initial-value>CATEGORIA</fd:initial-value>
+							<fd:datatype base="string" />
+						</fd:field>
+					</fd:widgets>
+					<!--      <fd:on-repeater-modified>
+						[...]
+						</fd:on-repeater-modified>-->
+				</fd:repeater>
+
+			</fd:widgets>
+			<!--      <fd:on-repeater-modified>
+				[...]
+				</fd:on-repeater-modified>-->
+		</fd:repeater>
+
+
+
+		<fd:action id="additemfile">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.add</i18n:text>aggiungi</fd:label>
+		</fd:action>
+
+		<fd:repeater id="itemfiles">
+			<fd:label></fd:label>
+			<fd:hint></fd:hint>
+			<fd:help></fd:help>
+			<fd:widgets>
+				<fd:field id="iditemfile" required="false" state="output">
+					<fd:datatype base="integer" />
+				</fd:field>
+				<fd:field id="itemfilename" required="false" state="output">
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="itemfiledesc" required="false" state="output">
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="itemfilemimetype" required="false" state="output">
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="itemfilehref" required="false" state="invisible">
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:action id="itemfiledelete" command="filedelete">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.delete</i18n:text></fd:label>
+				</fd:action>
+			</fd:widgets>
+			<!--      <fd:on-repeater-modified>
+				[...]
+				</fd:on-repeater-modified>-->
+		</fd:repeater>
+
+
+		<fd:field id="itemlink" required="false">
+			<fd:datatype base="string" />
+		</fd:field>
+
+		<fd:field id="itemlinkdesc" required="false">
+			<fd:datatype base="string" />
+		</fd:field>
+
+		<fd:action id="additemlink">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.add</i18n:text></fd:label>
+		</fd:action>
+
+		<fd:repeater id="itemlinks" orderable="true">
+			<fd:label></fd:label>
+			<fd:hint></fd:hint>
+			<fd:help></fd:help>
+			<fd:widgets>
+				<fd:output id="rowid" required="false">
+					<fd:datatype base="integer" />
+					<fd:label>Id</fd:label>
+				</fd:output>
+				<fd:field id="itemidlink" required="false">
+					<fd:datatype base="integer" />
+					<fd:label></fd:label>
+				</fd:field>
+
+				<fd:field id="iditemlink" required="false">
+					<fd:datatype base="integer" />
+				</fd:field>
+
+
+				<fd:field id="itemlinkdesk" required="false">
+					<fd:datatype base="string" />
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.label</i18n:text></fd:label>
+				</fd:field>
+				<fd:field id="itemlink" required="true">
+					<fd:datatype base="string" />
+					<fd:label>URL link</fd:label>
+				</fd:field>
+				<fd:action id="itemlinkdelete" command="linkdelete">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.delete</i18n:text></fd:label>
+				</fd:action>
+
+				<fd:row-action id="up" command="move-up" />
+				<fd:row-action id="down" command="move-down" />
+
+				<fd:booleanfield id="select" />
+			</fd:widgets>
+			<!--      <fd:on-repeater-modified>
+				[...]
+				</fd:on-repeater-modified>-->
+
+
+		</fd:repeater>
+
+		<fd:repeater-action id="addlink" command="add-row" repeater="itemlinks">
+			<fd:label></fd:label>
+			<fd:on-action>
+				<fd:javascript></fd:javascript>
+			</fd:on-action>
+		</fd:repeater-action>
+
+		<fd:repeater-action id="removelink" command="delete-rows" repeater="itemlinks" select="select">
+			<fd:label></fd:label>
+		</fd:repeater-action>
+
+
+		<fd:action id="addnewimages">
+			<fd:on-action>
+				<fd:javascript></fd:javascript>
+			</fd:on-action>
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.add</i18n:text></fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.item.form.addhint</i18n:text></fd:hint>
+		</fd:action>
+
+
+		<fd:repeater-action id="removeimages" command="delete-rows" repeater="images" select="select">
+			<fd:on-action>
+				<fd:javascript></fd:javascript>
+			</fd:on-action>
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.remove</i18n:text></fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.item.form.removehint</i18n:text></fd:hint>
+		</fd:repeater-action>
+
+
+
+
+		<!-- REPEATER IMMAGINI  -->
+
+		<fd:repeater id="images">
+			<fd:pages initial="1" size="15" page-field="topage" />
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.resources</i18n:text></fd:label>
+			<fd:hint></fd:hint>
+			<fd:help></fd:help>
+			<fd:widgets>
+				<fd:output id="rowid" required="false">
+					<fd:label>ID</fd:label>
+					<fd:datatype base="integer" />
+				</fd:output>
+				<fd:booleanfield id="select" />
+				<fd:field id="apc_id" required="false">
+					<fd:label>apc_id</fd:label>
+					<fd:datatype base="integer" />
+				</fd:field>
+				<fd:field id="apc_page_id" required="false">
+					<fd:label>apc_page_id</fd:label>
+					<fd:datatype base="integer" />
+				</fd:field>
+				<fd:output id="apc_component_id">
+					<fd:label>apc_component_id</fd:label>
+					<fd:datatype base="integer" />
+				</fd:output>
+				<fd:output id="apc_assoc_date" required="false">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.date</i18n:text></fd:label>
+					<fd:datatype base="date">
+						<fd:convertor>
+							<fd:patterns>
+								<fd:pattern>dd/MM/yyyy</fd:pattern>
+							</fd:patterns>
+						</fd:convertor>
+					</fd:datatype>
+				</fd:output>
+				<fd:field id="apc_alt" required="false">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.title</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:output id="wr_mimetype" required="false">
+					<fd:label>wr_mimetype</fd:label>
+					<fd:datatype base="string" />
+				</fd:output>
+				<fd:output id="uri_resource">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.uriresource</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:output>
+				<fd:field id="apc_type" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.type</i18n:text></fd:label>
+					<fd:datatype base="integer" />
+					<!--<fd:selection-list type="flow-jxpath" list-path="aPageComponentsTypeSL" value-path="apctId" label-path="apctDescri" />-->
+					<fd:selection-list>
+						<fd:item value="1">
+							<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.mainimage</i18n:text></fd:label>
+						</fd:item>
+						<fd:item value="4">
+							<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.genericimage</i18n:text></fd:label>
+						</fd:item>
+						<fd:item value="2">
+							<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.thumbnail</i18n:text></fd:label>
+						</fd:item>
+						<fd:item value="5">
+							<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.webresource</i18n:text></fd:label>
+						</fd:item>
+					</fd:selection-list>
+				</fd:field>
+				<fd:field id="filter_apc_type">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.type</i18n:text></fd:label>
+					<fd:datatype base="integer" />
+				</fd:field>
+
+				<fd:field id="apc_description" required="false">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.description</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:output id="image_name" required="false">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.file</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:output>
+				<fd:action id="deleteitem">
+					<fd:hint><i18n:text i18n:catalogue="deals">deals.item.form.images.delete</i18n:text></fd:hint>
+				</fd:action>
+			</fd:widgets>
+		</fd:repeater>
+		<!-- Pulsanti ordinamento Images -->
+		<fd:repeater-action id="imagessortbydate" command="sort-by" repeater="images" field="apc_assoc_date">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.sortbydate</i18n:text></fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.item.form.images.sortbydatehint</i18n:text></fd:hint>
+		</fd:repeater-action>
+		<fd:repeater-action id="imagessortnatural" command="sort-by" repeater="images">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.sortbyid</i18n:text></fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.item.form.images.sortbyid</i18n:text></fd:hint>
+		</fd:repeater-action>
+
+		<!--Filtri Images -->
+		<fd:filterfield id="filter_by_apc_type" repeater="images" field="filter_apc_type">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.filterbytype</i18n:text>Per tipo</fd:label>
+			<fd:datatype base="integer" />
+			<!-- 			<fd:selection-list type="flow-jxpath" list-path="aPageComponentsTypeSL" value-path="apctId" label-path="apctDescri" />-->
+			<fd:selection-list>
+				<fd:item value="">
+					<fd:label></fd:label>
+				</fd:item>
+				<fd:item value="1">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.mainimage</i18n:text></fd:label>
+				</fd:item>
+				<fd:item value="4">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.genericimage</i18n:text></fd:label>
+				</fd:item>
+				<fd:item value="2">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.thumbnail</i18n:text></fd:label>
+				</fd:item>
+				<fd:item value="5">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.webresource</i18n:text></fd:label>
+				</fd:item>
+			</fd:selection-list>
+
+		</fd:filterfield>
+
+
+		<fd:filterfield id="filter_by_mime_type" repeater="imageswebcomponents" field="wr_mimetype">
+			<fd:label>Per tipo</fd:label>
+			<fd:datatype base="string" />
+			<!--			<fd:selection-list type="flow-jxpath" list-path="mimeTypeSL" value-path="." label-path="." />-->
+			<fd:selection-list>
+				<fd:item value="">
+					<fd:label></fd:label>
+				</fd:item>
+				<fd:item value="image/jpeg">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.filtertype.jpg</i18n:text></fd:label>
+				</fd:item>
+				<fd:item value="image/png">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.filtertype.png</i18n:text></fd:label>
+				</fd:item>
+				<fd:item value="image/gif">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.filtertype.gif</i18n:text></fd:label>
+				</fd:item>
+				<fd:item value="application/pdf">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.filtertype.pdf</i18n:text></fd:label>
+				</fd:item>
+				<fd:item value="application/msword">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.filtertype.word</i18n:text></fd:label>
+				</fd:item>
+				<fd:item value="application/x-shockwave-flash">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.filtertype.flash</i18n:text></fd:label>
+				</fd:item>
+				<fd:item value="application/rtf">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.filtertype.rtf</i18n:text></fd:label>
+				</fd:item>
+			</fd:selection-list>
+		</fd:filterfield>
+
+		<fd:action id="apcfilterbutton">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.applyfilter</i18n:text></fd:label>
+		</fd:action>
+
+		<!-- REPEATER RICERCA FILES -->
+
+		<fd:repeater id="imageswebcomponents">
+			<fd:pages initial="1" size="15" page-field="topage" />
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.resources</i18n:text></fd:label>
+			<fd:hint></fd:hint>
+			<fd:help></fd:help>
+			<fd:widgets>
+				<fd:booleanfield id="select" />
+				<fd:field id="wc_id" required="false">
+					<fd:label>wc_id</fd:label>
+					<fd:datatype base="integer" />
+				</fd:field>
+				<fd:output id="rowid" required="false">
+					<fd:label>ID</fd:label>
+					<fd:datatype base="integer" />
+				</fd:output>
+				<fd:output id="wr_name">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.file</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:output>
+				<fd:field id="wr_description" required="false">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.description</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:output id="wr_mimetype" required="false">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.type</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:output>
+				<fd:field id="wr_alt" required="false">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.title</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="wc_type">
+					<fd:label>tipo della risorsa</fd:label>
+					<fd:datatype base="integer" />
+					<fd:selection-list type="flow-jxpath" list-path="componentTypeSL" value-path="ctId" label-path="ctDescri" />
+				</fd:field>
+				<fd:imagemap id="preview_image">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.preview</i18n:text></fd:label>
+					<fd:imageuri></fd:imageuri>
+					<fd:hint><i18n:text i18n:catalogue="deals">deals.item.form.images.previewhint</i18n:text></fd:hint>
+				</fd:imagemap>
+				<fd:field id="uri_preview_image">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.linkuri</i18n:text></fd:label>
+					<fd:hint><i18n:text i18n:catalogue="deals">deals.item.form.images.linkurihint</i18n:text></fd:hint>
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:output id="wc_insert_date" required="false">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.date</i18n:text></fd:label>
+					<fd:datatype base="date">
+						<fd:convertor>
+							<fd:patterns>
+								<fd:pattern>dd/MM/yyyy</fd:pattern>
+							</fd:patterns>
+						</fd:convertor>
+					</fd:datatype>
+				</fd:output>
+
+				<fd:repeater id="pagesassociations">
+					<fd:widgets>
+						<fd:booleanfield id="select" />
+						<fd:output id="apc_id" required="false">
+							<fd:label>apc_id</fd:label>
+							<fd:datatype base="integer" />
+						</fd:output>
+						<fd:output id="rowid" required="false">
+							<fd:label>ID</fd:label>
+							<fd:datatype base="integer" />
+						</fd:output>
+						<fd:output id="wp_name" required="false">
+							<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.assoc.name</i18n:text></fd:label>
+							<fd:datatype base="string" />
+						</fd:output>
+						<fd:output id="wp_id" required="false">
+							<fd:label>PageID</fd:label>
+							<fd:datatype base="integer" />
+						</fd:output>
+						<fd:output id="wp_pagetype" required="false">
+							<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.assoc.type</i18n:text></fd:label>
+							<fd:datatype base="string" />
+						</fd:output>
+					</fd:widgets>
+				</fd:repeater>
+
+			</fd:widgets>
+		</fd:repeater>
+
+
+		<!-- Pulsanti ordinamento Images -->
+		<fd:repeater-action id="wcsortbydate" command="sort-by" repeater="imageswebcomponents" field="wc_insert_date">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.sortbydate</i18n:text></fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.item.form.images.sortbydatehint</i18n:text></fd:hint>
+		</fd:repeater-action>
+		<fd:repeater-action id="wcsortnatural" command="sort-by" repeater="imageswebcomponents">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.sortbyid</i18n:text></fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.item.form.images.sortbyidhint</i18n:text></fd:hint>
+		</fd:repeater-action>
+
+
+
+		<fd:action id="wcfilterbutton">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.applyfilter</i18n:text></fd:label>
+		</fd:action>
+
+
+		<fd:repeater-action id="pagefirst" command="page-first" repeater="imageswebcomponents">
+			<fd:label>&lt;&lt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.item.form.images.gofirstpage</i18n:text></fd:hint>
+		</fd:repeater-action>
+		<fd:repeater-action id="pageprev" command="page-prev" repeater="imageswebcomponents">
+			<fd:label>&lt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.item.form.images.back1page</i18n:text></fd:hint>
+		</fd:repeater-action>
+		<fd:repeater-action id="pagenext" command="page-next" repeater="imageswebcomponents">
+			<fd:label>&gt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.item.form.images.forward1page</i18n:text></fd:hint>
+		</fd:repeater-action>
+		<fd:repeater-action id="pagelast" command="page-last" repeater="imageswebcomponents">
+			<fd:label>&gt;&gt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.item.form.images.go2lastpage</i18n:text></fd:hint>
+		</fd:repeater-action>
+		<fd:field id="topage">
+			<fd:label>topage</fd:label>
+			<fd:datatype base="integer" />
+		</fd:field>
+		<fd:repeater-action id="pagecustom" command="page-custom" repeater="imageswebcomponents">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.item.form.images.go2page</i18n:text></fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.item.form.images.go2pagehint</i18n:text></fd:hint>
+		</fd:repeater-action>
+
+<!-- Deprecato
+		<fd:repeater id="itemtags" initial-size="5">
+		  <fd:widgets>
+		    <fd:booleanfield id="select" />
+		    <fd:booleanfield id="tag_selected"></fd:booleanfield>
+		    <fd:output id="tag_title" required="false">
+		      <fd:label>Nome del tag</fd:label>
+		      <fd:datatype base="string" />
+              <fd:initial-value>Nome del tag</fd:initial-value>
+		    </fd:output>
+		  </fd:widgets>
+
+		</fd:repeater>
+ -->
+
+	</fd:widgets>
+</fd:form>

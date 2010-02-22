@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+	<fd:widgets>
+		<fd:field id="tab_state">
+			<fd:datatype base="string" />
+		</fd:field>
+
+		<fd:output id="log_messagges">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.admin.form.messages</i18n:text></fd:label>
+			<fd:datatype base="string" />
+		</fd:output>
+		<fd:action id="searchreindex">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.admin.form.index</i18n:text></fd:label>
+		</fd:action>
+	</fd:widgets>
+</fd:form>

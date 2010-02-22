@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<page xmlns:jx="http://apache.org/cocoon/templates/jx/1.0" xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:ft="http://apache.org/cocoon/forms/1.0#template" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+
+
+	<jx:import uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
+
+
+	<ft:form-template name="form_scheda" action="continue" method="POST" enctype="multipart/form-data" ajax="true">
+		<ft:continuation-id />
+		<div id="containereditingitem" class="clearfix">
+			<span class="titolo">
+				<ft:widget id="log_messagges" />
+			</span>
+
+			<div id="contenutotab">
+				<fi:group>
+					<fi:styling type="tabs" />
+					<fi:label>Choose a panel:</fi:label>
+					<fi:state>
+						<ft:widget id="tab_state" />
+					</fi:state>
+					<fi:items>
+						<fi:group>
+							<fi:label><i18n:text i18n:catalogue="deals">deals.admin.index.title</i18n:text></fi:label>
+							<fi:styling layout="tabs" />
+							<fi:items>
+								<div id="contenutotab2">
+									<h1><i18n:text i18n:catalogue="deals">deals.admin.index.subtitle</i18n:text></h1>
+									<!-- Visualizza pulsanti cancellazione solo se attivi -->
+									<span class="avviso">
+										<span class="titolo">
+											<ft:widget id="searchreindex" />
+										</span>
+									</span>
+								</div>
+							</fi:items>
+						</fi:group>
+
+					</fi:items>
+				</fi:group>
+			</div>
+		</div>
+	</ft:form-template>
+
+</page>

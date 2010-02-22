@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+	<fd:widgets>
+	
+		<fd:repeater id="comments">
+			<fd:pages initial="1" size="15" page-field="topage" />
+			<fd:label>Comments</fd:label>
+			<fd:hint></fd:hint>
+			<fd:help></fd:help>
+			<fd:widgets>
+				<fd:booleanfield id="select" />
+				
+				<fd:field id="co_id" required="false">
+					<fd:label>co_id</fd:label>
+					<fd:datatype base="long" />
+				</fd:field>
+				
+				<fd:output id="rowid" required="false">
+					<fd:label>ID</fd:label>
+					<fd:datatype base="integer" />
+				</fd:output>
+								
+				<fd:field id="comment_author" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.author</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+				
+				<fd:field id="comment_author_email" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.author_email</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+				
+				<fd:field id="comment_author_url" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.author_url</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+
+				<fd:field id="comment_author_ip" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.author_ip</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+
+				<fd:field id="comment_date" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.comment_date</i18n:text></fd:label>
+					<fd:datatype base="date" />
+				</fd:field>
+				
+				<fd:field id="comment_date_gmt" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.date_gmt</i18n:text></fd:label>
+					<fd:datatype base="date" />
+				</fd:field>
+
+				<fd:field id="comment_content" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.comment_content</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+				
+				<fd:field id="comment_approved" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.comment_approved</i18n:text></fd:label>
+					<fd:datatype base="integer" />
+					<fd:selection-list>
+  						<fd:item value="0">
+  							<fd:label>No</fd:label>
+  						</fd:item>
+  					    <fd:item value="1">
+  							<fd:label>Si</fd:label>
+  						</fd:item>
+  					</fd:selection-list>					
+				</fd:field>
+				
+				<fd:field id="comment_agent" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.comment_agent</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+				
+				<fd:field id="comment_type" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.comment_type</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+				
+				<fd:field id="us_id" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.us_id</i18n:text></fd:label>
+					<fd:datatype base="integer" />
+				</fd:field>
+
+				<fd:field id="co_wp_id" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.webpage</i18n:text></fd:label>
+					<fd:datatype base="integer" />
+				</fd:field>
+				
+			</fd:widgets>
+		</fd:repeater>
+
+		<fd:repeater-action id="pagefirst" command="page-first" repeater="comments">
+			<fd:label>&lt;&lt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.pagination.gofirstpage</i18n:text></fd:hint>
+		</fd:repeater-action>
+
+		<fd:repeater-action id="pageprev" command="page-prev" repeater="comments">
+			<fd:label>&lt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.pagination.back</i18n:text></fd:hint>
+		</fd:repeater-action>
+
+		<fd:repeater-action id="pagenext" command="page-next" repeater="comments">
+			<fd:label>&gt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.pagination.forward</i18n:text></fd:hint>
+		</fd:repeater-action>
+
+		<fd:repeater-action id="pagelast" command="page-last" repeater="utenti">
+			<fd:label>&gt;&gt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.pagination.go2lastpage</i18n:text></fd:hint>
+		</fd:repeater-action>
+
+		<fd:field id="topage">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.pagination.go2tpage</i18n:text></fd:label>
+			<fd:datatype base="integer" />
+		</fd:field>
+
+		<fd:repeater-action id="pagecustom" command="page-custom" repeater="comments">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.pagination.go2page</i18n:text></fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.pagination.go2pagehint</i18n:text></fd:hint>
+		</fd:repeater-action>
+
+		<fd:repeater-action id="sortnatural" command="sort-by" repeater="comments">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.pagination.natural</i18n:text></fd:label>
+		</fd:repeater-action>
+
+		<fd:repeater-action id="addcomment" command="add-row" repeater="comments">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.addcomment</i18n:text></fd:label>
+			<fd:on-action>
+				<fd:javascript></fd:javascript>
+			</fd:on-action>
+		</fd:repeater-action>
+
+		<fd:repeater-action id="removecomment" command="delete-rows" repeater="comments" select="select">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.removecomment</i18n:text></fd:label>
+             <!--  <fd:on-action>
+                <java ref="removeUserAction"/>
+              </fd:on-action> -->
+		</fd:repeater-action>
+
+		<fd:action id="commentaction" validate="true">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.save</i18n:text></fd:label>
+		</fd:action>
+
+		<fd:submit id="commentsubmit" validate="true">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.comments.form.save</i18n:text></fd:label>
+		</fd:submit>
+
+	</fd:widgets>
+</fd:form>

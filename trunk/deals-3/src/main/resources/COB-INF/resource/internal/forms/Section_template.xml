@@ -1,0 +1,284 @@
+<?xml version="1.0"?>
+<page xmlns:ft="http://apache.org/cocoon/forms/1.0#template" xmlns:fi="http://apache.org/cocoon/forms/1.0#instance" xmlns:jx="http://apache.org/cocoon/templates/jx/1.0" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+	<!-- Import the macros that define CForms template elements -->
+    <jx:import uri="servlet:forms:/resource/internal/generation/jx-macros.xml"/>
+
+	<!-- <script type="text/javascript">dojo.require("dojo.widget.Editor2");</script>-->
+
+	<style type="text/css">
+		.forms-row td { padding: 5px; }
+
+		/* Ensure the inline edit is visible on selected rows */ .forms-row-selected .editableRegion { color: red; }
+	</style>
+
+	<ft:form-template name="form_scheda" action="continue" method="POST" enctype="multipart/form-data" ajax="false">
+		<ft:continuation-id />
+		<div id="containereditingitem" class="clearfix">
+			<div id="contenutotab">
+
+				<fi:group>
+					<fi:styling type="tabs" />
+					<fi:label>Choose a panel:</fi:label>
+					<fi:state>
+						<ft:widget id="tab_state" />
+					</fi:state>
+
+					<fi:items>
+
+						<fi:group>
+							<fi:label>
+								<span class="icnedit"></span>
+								Editing
+							</fi:label>
+							<fi:styling layout="tabs" />
+							<fi:items>
+								<div id="contenutotab1" class="clearfix">
+									<div class="bott_opt_tit">
+										<h1><i18n:text i18n:catalogue="deals">deals.section.title</i18n:text>
+											<a href="management.cflow" title="Torna indietro alla gestione pagine">\\ <i18n:text i18n:catalogue="deals">deals.section.backtomainpage</i18n:text></a>
+
+										</h1>
+									</div>
+									<!-- Visualizza pulsanti cancellazione solo se attivi -->
+									<jx:if test="${widget.lookupWidget('sectiondelete').getState().isDisplayingValues() == true}">
+										<span class="avvisodelet">
+											<i18n:text i18n:catalogue="deals">deals.section.deleteadvise</i18n:text>
+											<br />
+											<ft:widget id="sectiondelete">
+												<fi:styling type="image" src="images/trasparente.gif" class="botdel" />
+											</ft:widget>
+
+											<ft:widget id="sectionnodelete">
+												<fi:styling type="image" src="images/trasparente.gif" class="botann" />
+											</ft:widget>
+
+										</span>
+									</jx:if>
+									<div class="clearfix">
+
+										<div id="opzisezioni">
+											<div class="sfondo">
+												<div class="headopz1"><i18n:text i18n:catalogue="deals">deals.section.date</i18n:text></div>
+												<div class="sfondoopz">
+													<p>
+														<label class="lab">
+															<ft:widget-label id="section_date" />
+														</label>
+														<ft:widget id="section_date">
+															<fi:styling size="9" class="input" />
+														</ft:widget>
+
+													</p>
+													<p>
+
+														<label class="lab">
+															<ft:widget-label id="section_expiration" />
+														</label>
+														<ft:widget id="section_expiration">
+															<fi:styling size="9" class="input" />
+														</ft:widget>
+														<ft:widget id="section_noexpiration" />
+														<ft:widget-label id="section_noexpiration" />
+
+													</p>
+												</div>
+												<div class="headopz"><i18n:text i18n:catalogue="deals">deals.section.author</i18n:text></div>
+												<div class="sfondoopz">
+
+													<p>
+														<label class="labaut">
+															<ft:widget-label id="section_creator" />
+														</label>
+														<ft:widget id="section_creator">
+															<fi:styling size="10" class="disabledinput" />
+														</ft:widget>
+													</p>
+													<p>
+														<label class="lab">
+															<ft:widget-label id="section_author" />
+														</label>
+														<ft:widget id="section_author">
+															<fi:styling size="14" class="input" />
+														</ft:widget>
+														<ft:widget id="check_change_author" />
+														<ft:widget-label id="check_change_author" />
+													</p>
+												</div>
+												<div class="headopz"><i18n:text i18n:catalogue="deals">deals.section.other</i18n:text></div>
+												<div class="sfondoopz">
+													<p>
+														<ft:widget id="section_print" />
+														<ft:widget-label id="section_print" />
+													</p>
+													<p>
+														<ft:widget id="section_send">
+															<fi:styling style="checkbox" />
+														</ft:widget>
+														<ft:widget-label id="section_send" />
+													</p>
+												</div>
+											</div>
+										</div>
+
+
+										<div id="categorie" class="clearfix">
+											<p class="tit">
+												<ft:widget id="section_title">
+													<fi:styling class="inputtitolo" />
+												</ft:widget>
+											</p>
+
+											<p>
+												<label class="in">
+													<ft:widget-label id="section_short" />
+												</label>
+												<ft:widget id="section_short">
+													<fi:styling type="textarea" class="occhiello" />
+												</ft:widget>
+											</p>
+
+											<p class="bod">
+												<label class="in">
+													<ft:widget-label id="section_body" />
+												</label>
+
+												<span class="doj">
+													<ft:widget id="section_body">			
+                                                      <fi:styling type="htmlarea" rows="20" style="width:100%">
+                                                        <!-- at this place, the configuration property of the HTMLArea is under 'conf'
+                                                             available. Find more info about the available properties at
+                                                             http://www.htmlarea.com/htmlarea_2/documentation.html -->
+                                                        <conf>
+                                                          conf.statusBar = false;
+                                                          conf.sizeIncludesToolbar = false;
+                                                          conf.fullPage = false;
+                                                          conf.toolbar = [
+                                                            [ "bold", "italic", "separator",
+                                                              "subscript", "superscript", "separator",
+                                                              "insertorderedlist", "insertunorderedlist",
+                                                              "outdent", "indent", "separator",
+                                                              "inserthorizontalrule", "separator",
+                                                              "copy", "cut", "paste", "space", "undo", "redo",
+                                                              "separator", "showhelp"]
+                                                            ];
+                                                        </conf> 
+                                                      </fi:styling>
+													</ft:widget>
+												</span>
+											</p>
+											<p>
+												<span class="sx">
+													<label class="left">
+														<ft:widget-label id="section_template" />
+													</label>
+													<ft:widget id="section_template" />
+												</span>
+												<span class="dx">
+													<label class="left">
+														<ft:widget-label id="section_state" />
+													</label>
+													<ft:widget id="section_state" />
+												</span>
+											</p>
+
+										</div>
+									</div>
+								</div>
+							</fi:items>
+						</fi:group>
+						G E S T I O N E P E R M E S S I
+						<fi:group>
+							<fi:label>
+								<span class="icnperm"></span>
+								<i18n:text i18n:catalogue="deals">deals.section.privileges</i18n:text>
+							</fi:label>
+							<fi:styling layout="tabs" />
+							<fi:items>
+								<div id="contenutotab2">
+								<div class="bott_opt_tit">
+										<h1>
+											<i18n:text i18n:catalogue="deals">deals.section.manageprivileges</i18n:text>
+											<a href="management.cflow" title="Torna indietro alla gestione pagine">\\ <i18n:text i18n:catalogue="deals">deals.section.backtomainpage</i18n:text></a>
+										</h1>
+									</div>
+									<div id="lista_ute" class="clearfix">
+										<ft:repeater id="profili">
+											<div dojoType="CFormsRepeater">
+
+												<jx:choose>
+													<jx:when test="${repeater.getSize() == 0}">
+														<p>
+															<strong>
+																<em><i18n:text i18n:catalogue="deals">deals.section.noprofile</i18n:text></em>
+															</strong>
+														</p>
+													</jx:when>
+													<jx:otherwise>
+
+														<table border="0" cellspacing="0" cellpadding="0" id="users">
+															<!-- <caption align="top">I link</caption> -->
+															<tr class="trtitle">
+																<th scope="col" class="tdid1">
+																	<ft:repeater-widget-label widget-id="rowid" />
+																</th>
+																<th scope="col" class="tdid1"></th>
+																<th scope="col" class="nome">
+																	<ft:repeater-widget-label widget-id="up_name" />
+																</th>
+																<th scope="col" class="nome">
+																	<ft:repeater-widget-label widget-id="up_description" />
+																</th>
+															</tr>
+															<tbody>
+																<ft:repeater-rows>
+																	<tr class="forms-row">
+																		<td class="tdid1">
+																			<ft:widget id="up_id">
+																				<fi:styling style="display:none" />
+																			</ft:widget>
+																			<ft:widget id="rowid">
+																				<fi:styling style="" />
+																			</ft:widget>
+																		</td>
+																		<td>
+																			<ft:widget id="select" />
+																		</td>
+																		<td class="nome">
+																			<ft:widget id="up_name" />
+																		</td>
+																		<td class="nome">
+																			<ft:widget id="up_description" />
+																		</td>
+																	</tr>
+																</ft:repeater-rows>
+															</tbody>
+														</table>
+													</jx:otherwise>
+												</jx:choose>
+											</div>
+										</ft:repeater>
+									</div>
+								</div>
+							</fi:items>
+						</fi:group>
+					</fi:items>
+				</fi:group>
+
+			</div>
+
+			<div id="salvataggio">
+				<ft:widget id="sectionsubmit">
+					<fi:styling class="bottonesalva" />
+				</ft:widget>
+			</div>
+		</div>
+	</ft:form-template>
+
+</page>
+
+
+
+
+
+
+
