@@ -1,0 +1,1614 @@
+--
+-- PostgreSQL database dump
+--
+
+SET client_encoding = 'UNICODE';
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres80
+--
+
+COMMENT ON SCHEMA public IS 'Standard public schema';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = true;
+
+--
+-- Name: a_components_container; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE a_components_container (
+    acc_id serial NOT NULL,
+    acc_container_id integer NOT NULL,
+    acc_component_id integer NOT NULL,
+    acc_component_type integer NOT NULL
+);
+
+
+ALTER TABLE public.a_components_container OWNER TO postgres;
+
+--
+-- Name: a_components_container_acc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('a_components_container', 'acc_id'), 1, true);
+
+
+--
+-- Name: a_page_components; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE a_page_components (
+    apc_id serial NOT NULL,
+    apc_page_id integer NOT NULL,
+    apc_component_id integer NOT NULL,
+    apc_assoc_date date,
+    apc_alt text,
+    apc_type integer,
+    apc_description text
+);
+
+
+ALTER TABLE public.a_page_components OWNER TO postgres;
+
+--
+-- Name: COLUMN a_page_components.apc_assoc_date; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN a_page_components.apc_assoc_date IS 'Data di creazione dell''associazione tra componente e pagina';
+
+
+--
+-- Name: COLUMN a_page_components.apc_alt; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN a_page_components.apc_alt IS 'Alt alternativo per la componente associata';
+
+
+--
+-- Name: COLUMN a_page_components.apc_type; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN a_page_components.apc_type IS 'Tipo assunto dalla componente nell''associazione (thumbnail, immagine principale, file generico, etc...)';
+
+
+--
+-- Name: COLUMN a_page_components.apc_description; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN a_page_components.apc_description IS 'Descrizione alternativa per la risorsa associata';
+
+
+--
+-- Name: a_page_components_apc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('a_page_components', 'apc_id'), 1, true);
+
+
+--
+-- Name: a_page_components_type; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE a_page_components_type (
+    apct_id serial NOT NULL,
+    apct_name character varying(255) NOT NULL,
+    apct_descri character varying(255)
+);
+
+
+ALTER TABLE public.a_page_components_type OWNER TO postgres;
+
+--
+-- Name: a_page_components_type_apct_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('a_page_components_type', 'apct_id'), 4, true);
+
+
+--
+-- Name: a_page_page; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE a_page_page (
+    app_id serial NOT NULL,
+    app_parent integer NOT NULL,
+    app_child integer NOT NULL,
+    app_weight integer
+);
+
+
+ALTER TABLE public.a_page_page OWNER TO postgres;
+
+--
+-- Name: COLUMN a_page_page.app_weight; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN a_page_page.app_weight IS 'Priorità della pagina figlia nell''associazione con il padre (principale=priorità 1)';
+
+
+--
+-- Name: a_page_page_app_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('a_page_page', 'app_id'), 1, true);
+
+
+SET default_with_oids = false;
+
+--
+-- Name: a_profile_pages; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE a_profile_pages (
+    apr_id serial NOT NULL,
+    apr_profile_id integer NOT NULL,
+    apr_page_id integer NOT NULL,
+    apr_level integer DEFAULT 777 NOT NULL
+);
+
+
+ALTER TABLE public.a_profile_pages OWNER TO postgres;
+
+--
+-- Name: TABLE a_profile_pages; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE a_profile_pages IS 'Contiene le associazioni tra profili e pagine';
+
+
+--
+-- Name: COLUMN a_profile_pages.apr_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN a_profile_pages.apr_id IS 'Id dell''associazione';
+
+
+--
+-- Name: COLUMN a_profile_pages.apr_profile_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN a_profile_pages.apr_profile_id IS 'Id del profilo';
+
+
+--
+-- Name: COLUMN a_profile_pages.apr_page_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN a_profile_pages.apr_page_id IS 'Id della pagina associata al profilo';
+
+
+--
+-- Name: COLUMN a_profile_pages.apr_level; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN a_profile_pages.apr_level IS 'Livello di accesso per la pagina associata (Linux-like)';
+
+
+--
+-- Name: a_profile_pages_apr_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('a_profile_pages', 'apr_id'), 1, true);
+
+
+--
+-- Name: a_profile_sections; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE a_profile_sections (
+    aps_id serial NOT NULL,
+    apr_profile_id integer,
+    cms_section_id integer
+);
+
+
+ALTER TABLE public.a_profile_sections OWNER TO postgres;
+
+--
+-- Name: TABLE a_profile_sections; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE a_profile_sections IS 'permessi di accesso alle sezioni del cms per profilo';
+
+
+--
+-- Name: COLUMN a_profile_sections.aps_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN a_profile_sections.aps_id IS 'aggiunta tabella gestione dei permessi';
+
+
+--
+-- Name: COLUMN a_profile_sections.apr_profile_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN a_profile_sections.apr_profile_id IS 'Id del profilo';
+
+
+--
+-- Name: COLUMN a_profile_sections.cms_section_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN a_profile_sections.cms_section_id IS 'Id delle sezione del cms';
+
+
+--
+-- Name: a_profile_sections_aps_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('a_profile_sections', 'aps_id'), 1, false);
+
+
+--
+-- Name: cms_section; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE cms_section (
+    cmss_id serial NOT NULL,
+    cmss_name text NOT NULL,
+    cmss_uri text,
+    cmss_description text,
+    cmss_shortdesc text,
+    cmss_active boolean,
+    cmss_position integer
+);
+
+
+ALTER TABLE public.cms_section OWNER TO postgres;
+
+--
+-- Name: TABLE cms_section; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE cms_section IS 'definisce le sezioni del cms, in particolare utilizzata per definire il menu del cms';
+
+
+--
+-- Name: COLUMN cms_section.cmss_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN cms_section.cmss_id IS 'chiave primaria auto increment';
+
+
+--
+-- Name: COLUMN cms_section.cmss_name; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN cms_section.cmss_name IS 'il nome della sezione';
+
+
+--
+-- Name: COLUMN cms_section.cmss_uri; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN cms_section.cmss_uri IS 'la uri relativa della sezione';
+
+
+--
+-- Name: COLUMN cms_section.cmss_description; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN cms_section.cmss_description IS 'descrizione della sezione';
+
+
+--
+-- Name: COLUMN cms_section.cmss_shortdesc; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN cms_section.cmss_shortdesc IS 'descrizione breve della sezione';
+
+
+--
+-- Name: COLUMN cms_section.cmss_active; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN cms_section.cmss_active IS 'true se la sezione è attiva';
+
+
+--
+-- Name: COLUMN cms_section.cmss_position; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN cms_section.cmss_position IS 'posizione nel menu';
+
+
+--
+-- Name: cms_section_cmss_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('cms_section', 'cmss_id'), 10, true);
+
+
+SET default_with_oids = true;
+
+--
+-- Name: component_container; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE component_container (
+    cc_id serial NOT NULL,
+    cc_name character varying(255) NOT NULL,
+    cc_description character varying(255),
+    cc_type integer NOT NULL
+);
+
+
+ALTER TABLE public.component_container OWNER TO postgres;
+
+--
+-- Name: component_container_cc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('component_container', 'cc_id'), 13, true);
+
+
+--
+-- Name: component_type; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE component_type (
+    ct_id serial NOT NULL,
+    ct_name character varying(255) NOT NULL,
+    ct_descri character varying(255)
+);
+
+
+ALTER TABLE public.component_type OWNER TO postgres;
+
+--
+-- Name: component_type_ct_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('component_type', 'ct_id'), 6, true);
+
+
+--
+-- Name: container_type; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE container_type (
+    crt_id serial NOT NULL,
+    crt_name character varying(255) NOT NULL,
+    crt_description character varying(255)
+);
+
+
+ALTER TABLE public.container_type OWNER TO postgres;
+
+--
+-- Name: container_type_crt_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('container_type', 'crt_id'), 3, true);
+
+
+--
+-- Name: page_link; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE page_link (
+    pl_id serial NOT NULL,
+    pl_title character varying(255),
+    pl_content text,
+    pl_target character varying(255),
+    pl_page_id integer
+);
+
+
+ALTER TABLE public.page_link OWNER TO postgres;
+
+--
+-- Name: page_link_pl_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('page_link', 'pl_id'), 1, true);
+
+
+--
+-- Name: page_state; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE page_state (
+    ps_id serial NOT NULL,
+    ps_name character varying(255) NOT NULL,
+    ps_description character varying(255)
+);
+
+
+ALTER TABLE public.page_state OWNER TO postgres;
+
+--
+-- Name: page_state_ps_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('page_state', 'ps_id'), 3, true);
+
+
+--
+-- Name: page_type; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE page_type (
+    pt_id serial NOT NULL,
+    pt_name character varying(255),
+    pt_description character varying(255),
+    pt_owner_type integer
+);
+
+
+ALTER TABLE public.page_type OWNER TO postgres;
+
+--
+-- Name: page_type_pt_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('page_type', 'pt_id'), 3, true);
+
+
+--
+-- Name: resource_link; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE resource_link (
+    rl_id serial NOT NULL,
+    rl_title character varying(255),
+    rl_content text,
+    rl_target character varying(255),
+    rl_href text
+);
+
+
+ALTER TABLE public.resource_link OWNER TO postgres;
+
+--
+-- Name: resource_link_rl_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('resource_link', 'rl_id'), 1, true);
+
+
+SET default_with_oids = false;
+
+--
+-- Name: template; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "template" (
+    te_id serial NOT NULL,
+    te_name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public."template" OWNER TO postgres;
+
+--
+-- Name: TABLE "template"; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE "template" IS 'Tabella contenente i template associati alle web page';
+
+
+--
+-- Name: COLUMN "template".te_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN "template".te_id IS 'Id del template';
+
+
+--
+-- Name: COLUMN "template".te_name; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN "template".te_name IS 'Nome del template';
+
+
+--
+-- Name: template_te_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('"template"', 'te_id'), 2, true);
+
+
+--
+-- Name: user_profile; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE user_profile (
+    up_id serial NOT NULL,
+    up_name text NOT NULL,
+    up_description text,
+    up_created date NOT NULL,
+    up_expire date
+);
+
+
+ALTER TABLE public.user_profile OWNER TO postgres;
+
+--
+-- Name: TABLE user_profile; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE user_profile IS 'Profili utente';
+
+
+--
+-- Name: COLUMN user_profile.up_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN user_profile.up_id IS 'id del profilo
+';
+
+
+--
+-- Name: COLUMN user_profile.up_name; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN user_profile.up_name IS 'Nome del profilo';
+
+
+--
+-- Name: COLUMN user_profile.up_description; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN user_profile.up_description IS 'Descrizione del profilo';
+
+
+--
+-- Name: COLUMN user_profile.up_created; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN user_profile.up_created IS 'Data di creazione del profilo';
+
+
+--
+-- Name: COLUMN user_profile.up_expire; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN user_profile.up_expire IS 'Data di scadenza del profilo';
+
+
+--
+-- Name: user_profile_up_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('user_profile', 'up_id'), 4, true);
+
+
+SET default_with_oids = true;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE users (
+    us_id serial NOT NULL,
+    us_username character varying(255) NOT NULL,
+    us_password character varying(255) NOT NULL,
+    us_profile integer NOT NULL,
+    us_firstname character varying(255),
+    us_surname character varying(255),
+    us_email character varying(255)
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- Name: COLUMN users.us_firstname; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN users.us_firstname IS 'Nome dell''utente';
+
+
+--
+-- Name: COLUMN users.us_surname; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN users.us_surname IS 'Cognome dell''utente';
+
+
+--
+-- Name: COLUMN users.us_email; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN users.us_email IS 'Indirizzo email dell''utente';
+
+
+--
+-- Name: users_us_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('users', 'us_id'), 2, true);
+
+
+--
+-- Name: web_component; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE web_component (
+    wc_id serial NOT NULL,
+    rl_title character varying(255),
+    rl_content text,
+    rl_target character varying(255),
+    rl_href text,
+    wr_name character varying(255),
+    wr_description character varying(255),
+    wr_mimetype character varying(255),
+    wr_alt text,
+    wc_type integer NOT NULL,
+    wc_insert_date date
+);
+
+
+ALTER TABLE public.web_component OWNER TO postgres;
+
+--
+-- Name: COLUMN web_component.wc_insert_date; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_component.wc_insert_date IS 'Data di inserimento della componente';
+
+
+--
+-- Name: web_component_wc_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('web_component', 'wc_id'), 1, true);
+
+
+--
+-- Name: web_page; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE web_page (
+    wp_id serial NOT NULL,
+    wp_pagetype integer,
+    wp_name character varying(255) NOT NULL,
+    wp_description character varying(255),
+    wp_page_title text,
+    wp_content_title text,
+    wp_header text,
+    wp_content text,
+    wp_footer text,
+    wp_created date NOT NULL,
+    wp_last_modified date NOT NULL,
+    wp_published date,
+    wp_creator integer DEFAULT 0 NOT NULL,
+    wp_last_modifier integer DEFAULT 0 NOT NULL,
+    wp_weight integer NOT NULL,
+    wp_state integer NOT NULL,
+    wp_expire date,
+    wp_author character varying(255),
+    wp_print boolean DEFAULT true,
+    wp_send boolean DEFAULT true,
+    wp_template integer NOT NULL,
+    wp_meta_title text,
+    wp_meta_description text,
+    wp_meta_keywords text,
+    wp_comments_on boolean DEFAULT false,
+    wp_tags text
+);
+
+
+ALTER TABLE public.web_page OWNER TO postgres;
+
+--
+-- Name: COLUMN web_page.wp_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_id IS 'id univoco della pagina';
+
+
+--
+-- Name: COLUMN web_page.wp_pagetype; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_pagetype IS 'tipo della pagina, come definito nella tabella ''page_type''';
+
+
+--
+-- Name: COLUMN web_page.wp_name; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_name IS 'nome della pagina';
+
+
+--
+-- Name: COLUMN web_page.wp_description; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_description IS 'descrizione breve per la pagina';
+
+
+--
+-- Name: COLUMN web_page.wp_page_title; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_page_title IS 'titolo della pagina, quello che compare sulla barra del browser';
+
+
+--
+-- Name: COLUMN web_page.wp_content_title; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_content_title IS 'titolo della pagina a livello di contenuto';
+
+
+--
+-- Name: COLUMN web_page.wp_header; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_header IS 'header (occhiello) della pagina';
+
+
+--
+-- Name: COLUMN web_page.wp_content; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_content IS 'contenuto (body) della pagina';
+
+
+--
+-- Name: COLUMN web_page.wp_footer; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_footer IS 'eventuale piè di pagina della pagina';
+
+
+--
+-- Name: COLUMN web_page.wp_created; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_created IS 'data di creazione della pagina';
+
+
+--
+-- Name: COLUMN web_page.wp_last_modified; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_last_modified IS 'data di ultima modifica della pagina';
+
+
+--
+-- Name: COLUMN web_page.wp_published; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_published IS 'data di pubblicazione della pagina';
+
+
+--
+-- Name: COLUMN web_page.wp_creator; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_creator IS 'creatore della pagina, uno degli utenti presenti nella tabella ''users''';
+
+
+--
+-- Name: COLUMN web_page.wp_last_modifier; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_last_modifier IS 'autore dell''ultima modifica sulla pagina, uno degli utenti presenti nella tabella ''users''';
+
+
+--
+-- Name: COLUMN web_page.wp_weight; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_weight IS 'DEPRECATED priorità della scheda, va spostata nella tabella di associazione';
+
+
+--
+-- Name: COLUMN web_page.wp_state; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_state IS 'stato della pagina, uno degli stati presenti nella tabella ''page_state''';
+
+
+--
+-- Name: COLUMN web_page.wp_expire; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_expire IS 'Data di scadenza della pagina';
+
+
+--
+-- Name: COLUMN web_page.wp_author; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_author IS 'Autore del contenuto della pagina';
+
+
+--
+-- Name: COLUMN web_page.wp_print; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_print IS 'flag che indica la possibilità di stampare la pagina';
+
+
+--
+-- Name: COLUMN web_page.wp_send; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_send IS 'flag che indica la possibilità di inviare la pagina';
+
+
+--
+-- Name: COLUMN web_page.wp_template; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_template IS 'Template da usare per il rendering della pagina';
+
+
+--
+-- Name: COLUMN web_page.wp_meta_title; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_meta_title IS 'il meta tag title';
+
+
+--
+-- Name: COLUMN web_page.wp_meta_description; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_meta_description IS 'meta tag description';
+
+
+--
+-- Name: COLUMN web_page.wp_meta_keywords; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_meta_keywords IS 'meta tag keywords';
+
+
+--
+-- Name: COLUMN web_page.wp_comments_on; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_comments_on IS 'indica se sono attivi i
+commenti sulla pagina';
+
+
+--
+-- Name: COLUMN web_page.wp_tags; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN web_page.wp_tags IS 'i tags che identifacano la pagina separata da ;';
+
+
+--
+-- Name: web_page_wp_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('web_page', 'wp_id'), 2, true);
+
+
+--
+-- Name: web_resource; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE web_resource (
+    wr_id serial NOT NULL,
+    wr_name character varying(255) NOT NULL,
+    wr_description character varying(255),
+    wr_mime_type character varying(255) NOT NULL,
+    wr_alt text
+);
+
+
+ALTER TABLE public.web_resource OWNER TO postgres;
+
+--
+-- Name: web_resource_wr_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('web_resource', 'wr_id'), 1, true);
+
+
+--
+-- Data for Name: a_components_container; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY a_components_container (acc_id, acc_container_id, acc_component_id, acc_component_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: a_page_components; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY a_page_components (apc_id, apc_page_id, apc_component_id, apc_assoc_date, apc_alt, apc_type, apc_description) FROM stdin;
+\.
+
+
+--
+-- Data for Name: a_page_components_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY a_page_components_type (apct_id, apct_name, apct_descri) FROM stdin;
+2	thumbnail	Thumbnail
+3	page_link	Link ad una pagina Web
+1	page_image	Immagine principale
+5	web_resources	Risorsa web, un'immagine, un file o qualsiasi altra risorsa
+4	generic_page_image	Immagine Generica
+6	resource_link	Link ad una risorsa
+\.
+
+
+--
+-- Data for Name: a_page_page; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY a_page_page (app_id, app_parent, app_child, app_weight) FROM stdin;
+\.
+
+
+--
+-- Data for Name: a_profile_pages; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY a_profile_pages (apr_id, apr_profile_id, apr_page_id, apr_level) FROM stdin;
+\.
+
+
+--
+-- Data for Name: a_profile_sections; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY a_profile_sections (aps_id, apr_profile_id, cms_section_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: cms_section; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY cms_section (cmss_id, cmss_name, cmss_uri, cmss_description, cmss_shortdesc, cmss_active, cmss_position) FROM stdin;
+2	PAGINE	management.cflow	Gestisci le notizie	Gestisci le notizie	t	1
+4	RISORSE	ResourcesRepo.cflow	Gestisci le gallerie immagini	Gestisci le gallerie immagini	t	3
+10	ADMIN	Admin.cflow	Amministrazione Deals	Amministrazione Deals	t	8
+9	AGENDA	#	\N	\N	f	7
+8	SONDAGGI	#	\N	\N	f	6
+7	BANNER	#	\N	\N	f	6
+3	NOTIZIE	#	Gestisci le notizie	Gestisci le notizie	f	2
+5	UTENTI	UsersManager.cflow	Gestisci gli utenti	Gestisci gli utenti	t	4
+6	PROFILI	ProfilesManager.cflow	Gestisci i profili	Gestisci i profili	t	5
+\.
+
+
+--
+-- Data for Name: component_container; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY component_container (cc_id, cc_name, cc_description, cc_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: component_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY component_type (ct_id, ct_name, ct_descri) FROM stdin;
+1	page_link	Link a una web page
+2	resource_link	Link a una risorsa
+3	container	Contenitore di componenti
+4	menu	Menu web
+5	menu_item	Voce di menu
+6	web_resource	Risorsa web, un'immagine, un file o qualsiasi altra risorsa
+\.
+
+
+--
+-- Data for Name: container_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY container_type (crt_id, crt_name, crt_description) FROM stdin;
+1	menu	Contenitore di menu_item
+2	link_group	Gruppo di link
+3	image_group	Gruppo di immagini (anche una galleria?)
+\.
+
+
+--
+-- Data for Name: page_link; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY page_link (pl_id, pl_title, pl_content, pl_target, pl_page_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: page_state; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY page_state (ps_id, ps_name, ps_description) FROM stdin;
+1	bozza	La cosiddetta 'bozza'
+2	pubblicato	Pagina pubblicata
+3	scaduto	Pagina scaduta
+\.
+
+
+--
+-- Data for Name: page_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY page_type (pt_id, pt_name, pt_description, pt_owner_type) FROM stdin;
+4	error_page	Pagina di errore	\N
+1	section	Section	\N
+2	category	Category	1
+3	item	Item	2
+\.
+
+
+--
+-- Data for Name: resource_link; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY resource_link (rl_id, rl_title, rl_content, rl_target, rl_href) FROM stdin;
+\.
+
+
+--
+-- Data for Name: template; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "template" (te_id, te_name) FROM stdin;
+1	scheda
+8	sezione
+2	home
+\.
+
+
+--
+-- Data for Name: user_profile; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY user_profile (up_id, up_name, up_description, up_created, up_expire) FROM stdin;
+1	admin	Amministratore	2007-05-16	\N
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY users (us_id, us_username, us_password, us_profile, us_firstname, us_surname, us_email) FROM stdin;
+1	alex	alex	1	Alessandro	Vincelli	av@alessandro.vincelli.name
+\.
+
+
+--
+-- Data for Name: web_component; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY web_component (wc_id, rl_title, rl_content, rl_target, rl_href, wr_name, wr_description, wr_mimetype, wr_alt, wc_type, wc_insert_date) FROM stdin;
+\.
+
+
+--
+-- Data for Name: web_page; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY web_page (wp_id, wp_pagetype, wp_name, wp_description, wp_page_title, wp_content_title, wp_header, wp_content, wp_footer, wp_created, wp_last_modified, wp_published, wp_creator, wp_last_modifier, wp_weight, wp_state, wp_expire, wp_author, wp_print, wp_send, wp_template, wp_meta_title, wp_meta_description, wp_meta_keywords, wp_comments_on, wp_tags) FROM stdin;
+1	1	HOME PAGE	\N	\N	HOME PAGE	\N	<html>\n<body/>\n</html>	\N	2007-01-03	2007-01-03	2007-01-03	1	1	1	2	\N	\N	f	f	2	\N	\N	\N	f	\N
+\.
+
+
+--
+-- Data for Name: web_resource; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY web_resource (wr_id, wr_name, wr_description, wr_mime_type, wr_alt) FROM stdin;
+\.
+
+
+--
+-- Name: a_components_container_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY a_components_container
+    ADD CONSTRAINT a_components_container_pkey PRIMARY KEY (acc_id);
+
+
+ALTER INDEX public.a_components_container_pkey OWNER TO postgres;
+
+--
+-- Name: a_page_components_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY a_page_components
+    ADD CONSTRAINT a_page_components_pkey PRIMARY KEY (apc_id);
+
+
+ALTER INDEX public.a_page_components_pkey OWNER TO postgres;
+
+--
+-- Name: a_page_components_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY a_page_components_type
+    ADD CONSTRAINT a_page_components_type_pkey PRIMARY KEY (apct_id);
+
+
+ALTER INDEX public.a_page_components_type_pkey OWNER TO postgres;
+
+--
+-- Name: a_page_page_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY a_page_page
+    ADD CONSTRAINT a_page_page_pkey PRIMARY KEY (app_id);
+
+
+ALTER INDEX public.a_page_page_pkey OWNER TO postgres;
+
+--
+-- Name: a_profile_pages_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY a_profile_pages
+    ADD CONSTRAINT a_profile_pages_pkey PRIMARY KEY (apr_id);
+
+
+ALTER INDEX public.a_profile_pages_pkey OWNER TO postgres;
+
+--
+-- Name: a_profile_sections_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY a_profile_sections
+    ADD CONSTRAINT a_profile_sections_pkey PRIMARY KEY (aps_id);
+
+
+ALTER INDEX public.a_profile_sections_pkey OWNER TO postgres;
+
+--
+-- Name: cms_section_cmss_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY cms_section
+    ADD CONSTRAINT cms_section_cmss_name_key UNIQUE (cmss_name);
+
+
+ALTER INDEX public.cms_section_cmss_name_key OWNER TO postgres;
+
+--
+-- Name: cms_section_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY cms_section
+    ADD CONSTRAINT cms_section_pkey PRIMARY KEY (cmss_id);
+
+
+ALTER INDEX public.cms_section_pkey OWNER TO postgres;
+
+--
+-- Name: component_container_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY component_container
+    ADD CONSTRAINT component_container_pkey PRIMARY KEY (cc_id);
+
+
+ALTER INDEX public.component_container_pkey OWNER TO postgres;
+
+--
+-- Name: component_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY component_type
+    ADD CONSTRAINT component_type_pkey PRIMARY KEY (ct_id);
+
+
+ALTER INDEX public.component_type_pkey OWNER TO postgres;
+
+--
+-- Name: container_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY container_type
+    ADD CONSTRAINT container_type_pkey PRIMARY KEY (crt_id);
+
+
+ALTER INDEX public.container_type_pkey OWNER TO postgres;
+
+--
+-- Name: deals_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT deals_user_pkey PRIMARY KEY (us_id);
+
+
+ALTER INDEX public.deals_user_pkey OWNER TO postgres;
+
+--
+-- Name: deals_user_us_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT deals_user_us_username_key UNIQUE (us_username);
+
+
+ALTER INDEX public.deals_user_us_username_key OWNER TO postgres;
+
+--
+-- Name: page_link_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY page_link
+    ADD CONSTRAINT page_link_pkey PRIMARY KEY (pl_id);
+
+
+ALTER INDEX public.page_link_pkey OWNER TO postgres;
+
+--
+-- Name: page_state_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY page_state
+    ADD CONSTRAINT page_state_pkey PRIMARY KEY (ps_id);
+
+
+ALTER INDEX public.page_state_pkey OWNER TO postgres;
+
+--
+-- Name: page_state_ps_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY page_state
+    ADD CONSTRAINT page_state_ps_name_key UNIQUE (ps_name);
+
+
+ALTER INDEX public.page_state_ps_name_key OWNER TO postgres;
+
+--
+-- Name: page_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY page_type
+    ADD CONSTRAINT page_type_pkey PRIMARY KEY (pt_id);
+
+
+ALTER INDEX public.page_type_pkey OWNER TO postgres;
+
+--
+-- Name: resource_link_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY resource_link
+    ADD CONSTRAINT resource_link_pkey PRIMARY KEY (rl_id);
+
+
+ALTER INDEX public.resource_link_pkey OWNER TO postgres;
+
+--
+-- Name: template_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "template"
+    ADD CONSTRAINT template_pkey PRIMARY KEY (te_id);
+
+
+ALTER INDEX public.template_pkey OWNER TO postgres;
+
+--
+-- Name: user_profile_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY user_profile
+    ADD CONSTRAINT user_profile_pkey PRIMARY KEY (up_id);
+
+
+ALTER INDEX public.user_profile_pkey OWNER TO postgres;
+
+--
+-- Name: web_component_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY web_component
+    ADD CONSTRAINT web_component_pkey PRIMARY KEY (wc_id);
+
+
+ALTER INDEX public.web_component_pkey OWNER TO postgres;
+
+--
+-- Name: web_page_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY web_page
+    ADD CONSTRAINT web_page_pkey PRIMARY KEY (wp_id);
+
+
+ALTER INDEX public.web_page_pkey OWNER TO postgres;
+
+--
+-- Name: web_resource_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY web_resource
+    ADD CONSTRAINT web_resource_pkey PRIMARY KEY (wr_id);
+
+
+ALTER INDEX public.web_resource_pkey OWNER TO postgres;
+
+--
+-- Name: fki_fki_web_page_template; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX fki_fki_web_page_template ON web_page USING btree (wp_template);
+
+
+ALTER INDEX public.fki_fki_web_page_template OWNER TO postgres;
+
+--
+-- Name: fki_profile_pages_user_profile; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX fki_profile_pages_user_profile ON a_profile_pages USING btree (apr_profile_id);
+
+
+ALTER INDEX public.fki_profile_pages_user_profile OWNER TO postgres;
+
+--
+-- Name: fki_profile_pages_web_page; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX fki_profile_pages_web_page ON a_profile_pages USING btree (apr_page_id);
+
+
+ALTER INDEX public.fki_profile_pages_web_page OWNER TO postgres;
+
+--
+-- Name: idx_a_page_components_apc_page_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX idx_a_page_components_apc_page_id ON a_page_components USING btree (apc_page_id);
+
+ALTER TABLE a_page_components CLUSTER ON idx_a_page_components_apc_page_id;
+
+
+ALTER INDEX public.idx_a_page_components_apc_page_id OWNER TO postgres;
+
+--
+-- Name: idx_a_page_components_components_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX idx_a_page_components_components_id ON a_page_components USING btree (apc_component_id);
+
+
+ALTER INDEX public.idx_a_page_components_components_id OWNER TO postgres;
+
+--
+-- Name: idx_template_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX idx_template_id ON "template" USING btree (te_id);
+
+
+ALTER INDEX public.idx_template_id OWNER TO postgres;
+
+--
+-- Name: idx_template_name; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX idx_template_name ON "template" USING btree (te_name);
+
+
+ALTER INDEX public.idx_template_name OWNER TO postgres;
+
+--
+-- Name: idx_web_page_pagetype; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX idx_web_page_pagetype ON web_page USING btree (wp_pagetype);
+
+
+ALTER INDEX public.idx_web_page_pagetype OWNER TO postgres;
+
+--
+-- Name: idx_web_page_state; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX idx_web_page_state ON web_page USING btree (wp_state);
+
+
+ALTER INDEX public.idx_web_page_state OWNER TO postgres;
+
+--
+-- Name: idx_web_page_weight; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX idx_web_page_weight ON web_page USING btree (wp_weight);
+
+
+ALTER INDEX public.idx_web_page_weight OWNER TO postgres;
+
+--
+-- Name: a_components_container_acc_component_type_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY a_components_container
+    ADD CONSTRAINT a_components_container_acc_component_type_fkey FOREIGN KEY (acc_component_type) REFERENCES component_type(ct_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: a_components_container_acc_container_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY a_components_container
+    ADD CONSTRAINT a_components_container_acc_container_id_fkey FOREIGN KEY (acc_container_id) REFERENCES component_container(cc_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: a_page_components_apc_component_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY a_page_components
+    ADD CONSTRAINT a_page_components_apc_component_id_fkey FOREIGN KEY (apc_component_id) REFERENCES web_component(wc_id);
+
+
+--
+-- Name: a_page_components_apc_page_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY a_page_components
+    ADD CONSTRAINT a_page_components_apc_page_id_fkey FOREIGN KEY (apc_page_id) REFERENCES web_page(wp_id) ON UPDATE CASCADE;
+
+
+--
+-- Name: a_page_components_apc_type_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY a_page_components
+    ADD CONSTRAINT a_page_components_apc_type_fkey FOREIGN KEY (apc_type) REFERENCES a_page_components_type(apct_id);
+
+
+--
+-- Name: a_page_page_app_child_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY a_page_page
+    ADD CONSTRAINT a_page_page_app_child_fkey FOREIGN KEY (app_child) REFERENCES web_page(wp_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: a_page_page_app_parent_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY a_page_page
+    ADD CONSTRAINT a_page_page_app_parent_fkey FOREIGN KEY (app_parent) REFERENCES web_page(wp_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: a_profile_pages_apr_page_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY a_profile_pages
+    ADD CONSTRAINT a_profile_pages_apr_page_id_fkey FOREIGN KEY (apr_page_id) REFERENCES web_page(wp_id);
+
+
+--
+-- Name: a_profile_pages_apr_profile_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY a_profile_pages
+    ADD CONSTRAINT a_profile_pages_apr_profile_id_fkey FOREIGN KEY (apr_profile_id) REFERENCES user_profile(up_id);
+
+
+--
+-- Name: a_profile_sections_apr_profile_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY a_profile_sections
+    ADD CONSTRAINT a_profile_sections_apr_profile_id_fkey FOREIGN KEY (apr_profile_id) REFERENCES user_profile(up_id);
+
+
+--
+-- Name: a_profile_sections_cms_section_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY a_profile_sections
+    ADD CONSTRAINT a_profile_sections_cms_section_id_fkey FOREIGN KEY (cms_section_id) REFERENCES cms_section(cmss_id);
+
+
+--
+-- Name: component_container_cc_type_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY component_container
+    ADD CONSTRAINT component_container_cc_type_fkey FOREIGN KEY (cc_type) REFERENCES container_type(crt_id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: fki_web_page_template; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY web_page
+    ADD CONSTRAINT fki_web_page_template FOREIGN KEY (wp_template) REFERENCES "template"(te_id);
+
+
+--
+-- Name: page_link_pl_page_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY page_link
+    ADD CONSTRAINT page_link_pl_page_id_fkey FOREIGN KEY (pl_page_id) REFERENCES web_page(wp_id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: page_type_pt_owner_type_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY page_type
+    ADD CONSTRAINT page_type_pt_owner_type_fkey FOREIGN KEY (pt_owner_type) REFERENCES page_type(pt_id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: users_us_profile_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_us_profile_fkey FOREIGN KEY (us_profile) REFERENCES user_profile(up_id);
+
+
+--
+-- Name: web_component_wc_type_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY web_component
+    ADD CONSTRAINT web_component_wc_type_fkey FOREIGN KEY (wc_type) REFERENCES component_type(ct_id);
+
+
+--
+-- Name: web_page_wp_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY web_page
+    ADD CONSTRAINT web_page_wp_author_fkey FOREIGN KEY (wp_creator) REFERENCES users(us_id) ON UPDATE CASCADE ON DELETE SET DEFAULT;
+
+
+--
+-- Name: web_page_wp_last_modifier_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY web_page
+    ADD CONSTRAINT web_page_wp_last_modifier_fkey FOREIGN KEY (wp_last_modifier) REFERENCES users(us_id) ON UPDATE CASCADE ON DELETE SET DEFAULT;
+
+
+--
+-- Name: web_page_wp_pagetype_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY web_page
+    ADD CONSTRAINT web_page_wp_pagetype_fkey FOREIGN KEY (wp_pagetype) REFERENCES page_type(pt_id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: web_page_wp_state_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY web_page
+    ADD CONSTRAINT web_page_wp_state_fkey FOREIGN KEY (wp_state) REFERENCES page_state(ps_id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres80
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres80;
+GRANT ALL ON SCHEMA public TO postgres80;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

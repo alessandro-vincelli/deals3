@@ -1,0 +1,92 @@
+/*
+IMPORTANT:
+Essential styles to ensure accessibility
+*/
+@media projection, screen { /* use class for showing/hiding tab content, so that visibility can be better controlled in different media types... */
+    .tabs-hide {
+        display: none;
+    }
+}
+@media print { /* maintain accessibility by overriding inline style used by animations... */
+    .fragment {
+        display: block !important;
+        height: auto !important;
+        opacity: 1 !important;
+    }
+    .anchors {
+        display: none;
+    }
+}
+
+/*
+TAB STYLES:
+Some more styles, not important for making tabs work, just for the look of it...
+*/
+
+.anchors {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 1px;
+}
+.anchors:after { /* clearing without presentational markup, IE gets extra treatment */
+    display: block;
+    clear: both;
+    content: " ";
+}
+.anchors li {
+    float: left;
+    margin: 0 1px 0 0;
+
+}
+.anchors a {
+    display: block;
+    position: relative;
+    top: 3px;
+   font-weight: bold;
+    background: #400000;
+    z-index: 2;
+    padding: 2px 11px 1px;
+    color: #fff;
+    text-decoration: none;
+	 font-size:1.1em;
+	 line-height:1.4em;
+}
+.anchors .tabs-selected a {
+    padding-bottom: 2px;
+    font-weight: bold;
+	 top: 1px;
+	  font-size:1.1em;
+	 line-height:1.6em;
+}
+.anchors a:focus, .anchors a:active {
+    outline: none; /* @ Firefox 1.5, remove ugly dotted border */
+}
+.anchors .tabs-selected a, .anchors a:hover, .anchors a:focus, .anchors a:active,
+.fragment {
+    background: #9e0202;color:#fff;
+}
+.anchors .tabs-selected a:link, .anchors .tabs-selected a:visited,
+.anchors .tabs-disabled a:link, .anchors .tabs-disabled a:visited { /* @ Opera, use pseudo classes otherwise it confuses cursor... */
+    cursor: text;
+}
+.anchors a:hover, .anchors a:focus, .anchors a:active {
+    cursor: pointer;
+}
+.anchors .tabs-disabled {
+    opacity: .4;
+}
+.anchors .tabs-disabled a:hover, .anchors .tabs-disabled a:focus, .anchors .tabs-disabled a:active {
+    background: #82FF83;
+}
+.fragment{
+    background:url("../images/fine_sfondo_logindex.gif") no-repeat bottom;
+}
+.fragment div{
+    padding:10px 0 0 0;margin:0 0 0 10px;height:140px;width:300px;float:none;clear:both;display:block;overflow:hidden;
+}
+
+#section-1, #section-2 {
+    background-color:#9e0202;
+}
+#container-1{width:320px;margin:30px 0 0 15px;padding:0;float:none;clear:both;display:block;position:relative}
+
