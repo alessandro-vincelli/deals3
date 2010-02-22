@@ -1,5 +1,5 @@
 <!--
-	Copyright 2006 Alessandro Vincelli av@alessandro.vincelli.name
+	Copyright 2006 Alessandro Vincelli a.vincelli@gmail.com
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.

@@ -1,5 +1,5 @@
 <!--
-  Copyright 2006 Alessandro Vincelli av@alessandro.vincelli.name
+  Copyright 2006 Alessandro Vincelli a.vincelli@gmail.com
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -302,7 +302,7 @@
         
         <p id="createdby">Graphic by <a href="http://www.nuvio.cz">Nuvio | Webdesign</a> <!-- DON´T REMOVE, PLEASE! --></p>
 
-        <p id="copyright"> 2008 <a href="mailto:av@alessandro.vincelli.name">Alessandro Vincelli</a></p>
+        <p id="copyright"> 2008 <a href="mailto:a.vincelli@gmail.com">Alessandro Vincelli</a></p>
     </div> <!-- /footer -->
 
 </div> <!-- /main -->
