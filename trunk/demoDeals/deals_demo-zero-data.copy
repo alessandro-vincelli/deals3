@@ -1079,7 +1079,7 @@ COPY user_profile (up_id, up_name, up_description, up_created, up_expire) FROM s
 --
 
 COPY users (us_id, us_username, us_password, us_profile, us_firstname, us_surname, us_email) FROM stdin;
-1	alex	alex	1	Alessandro	Vincelli	av@alessandro.vincelli.name
+1	alex	alex	1	Alessandro	Vincelli	a.vincelli@gmail.com
 \.
 
 
