@@ -30,7 +30,7 @@ public class ContactsEH extends AbstractContactsEH {
 			email.setDebug(true);
 			email.setHostName("localhost");
 			ArrayList<InternetAddress> to = new ArrayList<InternetAddress>();
-			to.add(new InternetAddress("av@alessandro.vincelli.name", "Alessandro Vincelli"));
+			to.add(new InternetAddress("a.vincelli@gmail.com", "Alessandro Vincelli"));
 
 			email.setTo(to);
 			email.setFrom(f.getEmailValue(), f.getFirstNameValue() + " " + f.getLastNameValue());

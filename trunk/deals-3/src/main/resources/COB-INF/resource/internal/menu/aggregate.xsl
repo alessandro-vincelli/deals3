@@ -3,7 +3,7 @@
 <!--
 	* Copyright 2005 Alessandro Vincelli
 	*
-	* @author <a href="mailto:av@alessandro.vincelli.name">Alessandro Vincelli</a>
+	* @author <a href="mailto:a.vincelli@gmail.com">Alessandro Vincelli</a>
 	*
 	* This program is free software; you can redistribute it and/or
 	* modify it under the terms of the GNU General Public License
@@ -144,7 +144,7 @@
 					<xsl:apply-templates />
 					<div id="footer">
 						Deals CMS Vers. 3.0
-						<a href="mailto:av@alessandro.vincelli.name">Send a feedback</a>
+						<a href="mailto:a.vincelli@gmail.com">Send a feedback</a>
 					</div>
 
 				</div>
