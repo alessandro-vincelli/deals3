@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<html xmlns:ft="http://apache.org/cocoon/forms/1.0#template" xmlns:fi="http://apache.org/cocoon/forms/1.0#instance" xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
+	xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+	<head>
+		<title>Deals CMS: Site builder</title>
+	</head>
+	<!-- Import the macros that define CForms template elements -->
+	<jx:import uri="servlet:forms:/resource/internal/generation/jx-macros.xml" />
+	<body>
+		<ft:form-template name="form_scheda" action="continue" method="POST" enctype="multipart/form-data" ajax="true">
+			<ft:continuation-id />
+			<div id="containereditingitem" class="clearfix">
+			
+				<div id="contenutotab1" class="clearfix">
+					<div class="bott_opt_tit">
+						<h1>Simple Form</h1>
+					</div>
+					<p>
+						<ft:widget id="message" >
+						<fi:styling size="100%" style="border:solid 1px #FFF;" />	
+						</ft:widget>
+					</p>
+					<div class="clearfix">
+					
+						<div id="opzisezioni">
+							<div class="sfondo">
+								<div class="headopz1">Two simple date field</div>
+								<div class="sfondoopz">
+									<p>
+										<label class="lab">
+											<ft:widget-label id="date" />
+										</label>
+										<ft:widget id="date">
+											<fi:styling size="9" class="input" />
+										</ft:widget>
+									</p>
+									<p>
+										<label class="lab">
+											<ft:widget-label id="expiration" />
+										</label>
+										<ft:widget id="expiration">
+											<fi:styling size="9" class="input" />
+										</ft:widget>
+										<ft:widget id="noexpiration" />
+										<ft:widget-label id="noexpiration" />
+									</p>
+								</div>
+							</div>
+						</div>
+						<div id="categorie" class="clearfix">
+							<p class="tit">
+								<ft:widget id="title">
+									<fi:styling class="inputtitolo" />
+								</ft:widget>
+							</p>
+							<p>
+								<label class="in">
+									<ft:widget-label id="header" />
+								</label>
+								<ft:widget id="header">
+									<fi:styling type="textarea" class="occhiello" />
+								</ft:widget>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div id="salvataggio">
+					<ft:widget id="form_submit">
+						<fi:styling class="bottonesalva" />
+					</ft:widget>
+					<ft:widget id="action_submit">
+						<fi:styling class="bottonesalva" />
+					</ft:widget>
+				</div>
+			</div>
+		</ft:form-template>
+	</body>
+</html>
