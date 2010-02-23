@@ -7,10 +7,12 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>Jackwicket</name>
 	<description>Simple  web application build on Apache Jackrabbit OCM and Apache Wicket. Jackwicket is only an demo, it's not build for production environment and it's not (yet) a best practices demo.</description>
-	<url>http://www.alessandro.vincelli.name/jackwicket</url>
+	<url>http://demo.alessandro.vincelli.name/jackwicket</url>
+	<issueManagement>
+		<system>google code</system>
+		<url>http://code.google.com/p/deals3/issues/list</url>
+	</issueManagement>
 	<ciManagement>
-		<system>Hudson</system>
-		<url>http://www.alessandro.vincelli.name/hudson</url>
 	</ciManagement>
 	<developers>
 		<developer>
@@ -199,9 +201,9 @@
 		<!--  JETTY DEPENDENCIES FOR TESTING  -->
 	</dependencies>
 	<scm>
-		<url>http://www.alessandro.vincelli.name/svn/deals-3/jackwicket</url>
-		<connection>scm:svn:http://www.alessandro.vincelli.name/svn/deals-3/jackwicket</connection>
-    	<developerConnection>scm:svn:http://www.alessandro.vincelli.name/svn/deals-3/jackwicket</developerConnection>
+		<url>http://deals3.googlecode.com/svn/trunk/deals-3/jackwicket</url>
+		<connection>scm:svn:https://deals3.googlecode.com/svn/trunk/jackwicket</connection>
+    	<developerConnection>scm:svn:https://deals3.googlecode.com/svn/trunk/jackwicket</developerConnection>
 	</scm>
 	<build>
 		<resources>
