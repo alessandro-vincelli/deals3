@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                           http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security-2.0.xsd">
+
+	<context:annotation-config />
+	<context:spring-configured />
+	
+	<!--<import resource="applicationContext-jr-jca.xml" />--> 
+	<import resource="applicationContext-jr-local.xml" />
+	
+	<bean
+		class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/properties/jackwicket.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="password" class="java.lang.String">
+		<constructor-arg value="admin" />
+	</bean>
+	
+	<bean id="jcrSessionFactory" class="org.springframework.extensions.jcr.jackrabbit.JackrabbitSessionFactory">
+		<property name="repository" ref="repository"/>
+		<property name="credentials">
+			<bean class="javax.jcr.SimpleCredentials">
+				<constructor-arg index="0" value="admin" />
+				<constructor-arg index="1" value="admin" />
+			</bean>
+		</property>
+		<!-- <property name="nodeTypes2Import" value="file:./src/test/resources/nodetypes/custom_nodetypes.xml"/> -->	
+	</bean>
+
+	<bean id="mapper" class="org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl">
+		<constructor-arg>
+		<list value-type="java.lang.Class">
+	        <value>it.av.ocm.bean.User</value>
+	        <value>it.av.ocm.bean.UserProfile</value>
+	        <value>it.av.ocm.bean.Comments</value>
+	        <value>it.av.ocm.bean.Page</value>
+	        <value>it.av.ocm.bean.Paragraph</value>
+      	</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="jcrMappingTemplate" class="org.springframework.extensions.jcr.jackrabbit.ocm.JcrMappingTemplateGeneric">
+		<constructor-arg index="0" ref="jcrSessionFactory"/>
+		<constructor-arg index="1" ref="mapper"/>
+		<property name="allowCreate" value="true"/>
+	</bean>
+	
+	<!-- transaction proxy for Jcr services/facades -->
+	<bean id="txProxyTemplate" abstract="true"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="proxyTargetClass" value="true" />
+		<property name="transactionManager" ref="jcrTransactionManager" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="save*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>
+				<prop key="remove*">PROPAGATION_REQUIRED</prop>
+				<prop key="*">PROPAGATION_REQUIRED, readOnly</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="userService" parent="txProxyTemplate" scope="prototype">
+		<property name="proxyInterfaces">
+			<value>it.av.ocm.services.UserService</value>
+		</property>
+		<property name="target">
+			<bean id="userServiceImpl" class="it.av.ocm.services.impl.UsersServicesImpl" scope="prototype">
+				<property name="jcrMappingtemplate" ref="jcrMappingTemplate"/>
+				<property name="basePath" value=""/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="userProfileService" parent="txProxyTemplate" scope="prototype">
+		<property name="proxyInterfaces">
+			<value>it.av.ocm.services.UserProfileService</value>
+		</property>
+		<property name="target">
+			<bean id="userProfileServiceImpl" class="it.av.ocm.services.impl.UsersProfileServicesImpl" scope="prototype">
+				<property name="jcrMappingtemplate" ref="jcrMappingTemplate"/>
+				<property name="basePath" value=""/>
+			</bean>
+		</property>
+	</bean>
+
+ 	<bean id="wicketApplication" class="it.av.ocm.web.WicketApplication">
+		<property name="configurationType" value="deployment" />
+	</bean>
+
+</beans>
