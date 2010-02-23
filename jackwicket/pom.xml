@@ -13,6 +13,8 @@
 		<url>http://code.google.com/p/deals3/issues/list</url>
 	</issueManagement>
 	<ciManagement>
+		<system>Hudson</system>
+		<url>http://www.alessandro.vincelli.name/hudson/</url>
 	</ciManagement>
 	<developers>
 		<developer>
