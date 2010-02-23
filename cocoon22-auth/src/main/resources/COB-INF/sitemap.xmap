@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<map:sitemap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://apache.org/cocoon/sitemap/1.0 http://cocoon.apache.org/schema/sitemap/cocoon-sitemap-1.0.xsd"
+ xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+
+  <map:components>
+    <map:transformers default="xslt">
+      <map:transformer name="i18n" src="org.apache.cocoon.transformation.I18nTransformer">
+        <catalogues default="forms">
+          <catalogue id="forms" name="messages" location="servlet:forms:/resource/internal/i18n"/>
+          <catalogue id="upload" name="messages" location="servlet:ajax:/resource/internal/i18n" />
+          <catalogue id="deals" name="dealsmessages" location="resource/internal/i18n" />
+        </catalogues>
+        <cache-at-startup>true</cache-at-startup>
+      </map:transformer>
+      <map:transformer name="browser-update" src="org.apache.cocoon.ajax.BrowserUpdateTransformer"/>
+  </map:transformers>
+  <map:selectors>
+    <map:selector name="ajax-request" src="org.apache.cocoon.ajax.AjaxRequestSelector"/>
+  </map:selectors>
+
+  </map:components>
+  
+  <map:flow language="javascript"/>
+
+  <map:pipelines>
+
+    <map:pipeline id="cocoon22-auth">
+      
+      <map:match pattern="authentication">
+        <map:act type="cauth-is-logged-in">
+          <map:parameter name="application" value="authDemo" />
+          <map:redirect-to uri="protectedPage" />
+        </map:act>
+        <map:call function="authentication" />
+      </map:match>
+
+      <map:match pattern="do-login">
+        <!-- try to login -->
+        <map:act type="cauth-login">
+          <map:parameter name="application" value="authDemo" />
+          <map:parameter name="name" value="{request-param:username}" />
+          <map:parameter name="password" value="{request-param:password}" />
+          <map:parameter name="userlanguage" value="{request-param:userlanguage}" />
+          <map:redirect-to uri="protectedPage" />
+        </map:act>
+        <!-- something was wrong, try it again -->
+        <map:redirect-to uri="authentication" />
+      </map:match>
+
+      <map:match pattern="logout">
+        <map:act type="cauth-logout">
+          <map:parameter name="application" value="authDemo" />
+        </map:act>
+        <map:redirect-to uri="authentication" />
+      </map:match>
+
+      <map:match pattern="protectedPage">
+        <map:act type="cauth-is-logged-in">
+          <map:parameter name="application" value="authDemo" />
+		  <map:call function="protectedPage" />
+        </map:act>
+        <map:redirect-to uri="authentication" />
+      </map:match>
+
+	  <map:match pattern="*-display-pipeline">
+        <map:generate type="jx" src="resource/internal/forms/{1}_template.xml"/>
+        <map:transform type="i18n">
+          <map:parameter name="locale" value="en"/>
+        </map:transform>
+        <map:transform src="resource/internal/forms-samples-styling.xsl">
+          <map:parameter name="forms-resources" value="{servlet:forms:/resource/external/forms}"/>
+          <map:parameter name="dojo-resources" value="{servlet:ajax:/resource/external/dojo}"/>
+        </map:transform>
+        <map:serialize/>
+      </map:match>
+      <map:match pattern="">
+        <map:act type="cauth-is-logged-in">
+          <map:parameter name="application" value="authDemo" />
+          <map:call function="protectedPage" />
+        </map:act>
+        <map:redirect-to uri="authentication" />
+     </map:match>
+         
+    </map:pipeline>
+
+    <!--+
+        | Default pipelines
+        +-->
+    <map:pipeline id="internal-resource" internal-only="true">
+      <map:match pattern="resource/internal/**">
+        <map:read src="resource/internal/{1}"/>
+      </map:match>
+    </map:pipeline>
+
+    <map:pipeline id="external-resource">
+      <map:match pattern="resource/external/**">
+        <map:read src="resource/external/{1}"/>
+      </map:match>
+    </map:pipeline>
+
+    <map:pipeline id="service">
+      <!-- Put your servlet service matchers here.
+        More details: http://cocoon.zones.apache.org/daisy/cdocs-site-main/g2/1345.html -->
+    </map:pipeline>    
+    
+   </map:pipelines>
+
+</map:sitemap>
