@@ -1,0 +1,8 @@
+Quickstart
+ 
+  First ckeckout the code using these {{{http://www.alessandro.vincelli.name/project-jackwicket/source-repository.html}istrunctions}}.\
+  Then in <<<root>>> directory of the project run:\
+  <<<mvn jetty:run>>>
+
+
+  

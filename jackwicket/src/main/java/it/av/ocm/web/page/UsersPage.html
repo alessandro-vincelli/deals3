@@ -1,0 +1,90 @@
+<html>
+	<wicket:head>
+    	<title>JackWicket - Users Manager</title>
+		<wicket:link>
+		<link rel="stylesheet" type="text/css" media="all" href="resources/style.css" />
+		</wicket:link>
+	</wicket:head>
+	
+    <body>
+    	<span wicket:id="navigationPanel"/>
+    	<span wicket:id="feedBackPanel">message will be here</span>
+        <div id="container">
+      	<p>
+      		<label>Use the <strong>form</strong> below to <i>Add</i> and <i>Edit</i> users. To edit one user before you need to click <i>Edit</i> on one from the <strong>Users List</strong>.</label>
+      	</p>
+        <form wicket:id="userForm" class="cmxform">
+        	<fieldset>
+        	 <ol>
+    			<li>
+	        	<label for="username"><wicket:message key="username"/></label>
+	        	<input type="text" wicket:id="username"/>
+	        	<label for="password"><wicket:message key="password"/></label>
+	        	<input type="text" wicket:id="password"/>
+	        	</li>
+	        	<li>
+	        	<label for="firstname"><wicket:message key="firstname"/></label>
+	        	<input type="text" wicket:id="firstname"/>
+	        	<label for="lastname"><wicket:message key="lastname"/></label>
+	        	<input type="text" wicket:id="lastname"/>
+	        	</li>
+	        	<li>
+	        	<label for="email"><wicket:message key="email"/></label>
+	        	<input type="text" wicket:id="email"/>
+	        	<label for="userProfile"><wicket:message key="userProfile"/></label>
+	        	<select wicket:id="userProfile"/>
+	        	</li>
+	        	<li>
+	        	<label for="version"><wicket:message key="version"/></label>
+	        	<span wicket:id="version"/>
+	        	</li>
+	        	
+	        	<li>
+	        	<input type="submit" wicket:id="ajax-button" />
+	        	<button wicket:id="buttonClearForm"><wicket:message key="button.clean"/></button>
+	        	</li>
+	        </ol>
+        	</fieldset>
+        </form>
+        <p>
+      		<label>Use the <strong>search box</strong> below to <i>search</i> users. You can type: "<em>name</em>", "<em>*name*</em>"...</label>
+      	</p>
+        <span wicket:id="searchPanel"/>
+        <div id="lists">
+        	<p>
+        		<label>Below the <strong>Users List</strong>. Use the button on the left to <i>select</i>, <i>edit</i> and <i>remove</i> users</label>
+	        </p>
+	        <table class="datatable" wicket:id="usersDataTable">[table]</table>
+	        <span wicket:id="usersVersionsList">fragments contents come here</span>
+        </div>
+        </div>
+    </body>
+</html>
+
+<wicket:fragment wicket:id="usersVersionsListId">
+	<p>
+ 		<label><i>Select</i> one user and see below all its <strong>revisions</strong></label>
+ 	</p>
+	<table class="datatable">
+        <tr>
+        	<th></th>
+        	<th><label for="username"><wicket:message key="username"/></label></th>
+        	<th><label for="password"><wicket:message key="password"/></label></th>
+        	<th><label for="firstname"><wicket:message key="firstname"/></label></th>
+        	<th><label for="lastname"><wicket:message key="lastname"/></label></th>
+        	<th><label for="email"><wicket:message key="email"/></label></th>
+        	<th><label for="userProfile"><wicket:message key="userProfile"/></label></th>
+        	<th><label for="version"><wicket:message key="version"/></label></th>
+        </tr>
+		<tr wicket:id="versions">
+			<td>_</td>
+			<td><span wicket:id="username"/></td>
+        	<td><span wicket:id="password"/></td>
+        	<td><span wicket:id="firstname"/></td>
+        	<td><span wicket:id="lastname"/></td>
+        	<td><span wicket:id="email"/></td>
+        	<td><span wicket:id="userProfile.name"/></td>
+        	<td><span wicket:id="version"/></td>
+		</tr>
+	</table>
+</wicket:fragment>
