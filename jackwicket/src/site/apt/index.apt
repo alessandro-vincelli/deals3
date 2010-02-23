@@ -1,7 +1,7 @@
 Overview
  
   <<JackWicket>> is a simple web appplication built with <<Apache Wicket>> and <<Apache Jackrabbit>>.\
-  JackWicket is an experiment to try and to test the powerful of these technologies.\
+  JackWicket is an experiment to try and to test the characteristics of these technologies.\
   The Web UI is completely implemented with Wicket. I used the version 1.4.6 in order to test the new <generic> API of the Wicket components, I also used a lot of Ajax components in order to verify their stability and usability during the development process.\
   I designed the persistent level and the service level following the ORM  schema, and for this purpose I used Jackrabbit OCM.\
   I found Jackrabbit OCM very easy to use and also very powerful.
