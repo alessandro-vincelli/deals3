@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+	<fd:widgets>
+
+		<fd:field id="tab_state">
+			<fd:datatype base="string" />
+		</fd:field>
+		
+		<fd:field id="message">
+			<fd:label></fd:label>
+			<fd:datatype base="string" />
+		</fd:field>
+  		
+		<fd:field id="date" required="true">
+			<fd:label>Start on</fd:label>
+			<fd:help>Automatically filled with today</fd:help> 
+			<fd:on-value-changed>
+				<javascript></javascript>
+			</fd:on-value-changed>
+			<fd:datatype base="date">
+				<fd:convertor>
+					<fd:patterns>
+						<fd:pattern>dd/MM/yyyy</fd:pattern>
+					</fd:patterns>
+				</fd:convertor>
+			</fd:datatype>
+		</fd:field>
+
+		<fd:field id="expiration" required="true">
+			<fd:label>Expire on</fd:label>
+			<fd:help>This date must be after the <strong>"Start on"</strong> date, see the implementation on the class <a href="http://83.149.142.27/svn/cocoon-blocks/cocoon22-cform/src/main/java/org/deals/cocoon/forms/validation/ExpirationDateValidator.java">ExpirationDateValidator</a></fd:help>
+			<fd:validation>
+				<fd:java ref="expirationDateValidator"/>
+			</fd:validation>
+			<fd:datatype base="date">
+				<fd:convertor>
+					<fd:patterns>
+						<fd:pattern>dd/MM/yyyy</fd:pattern>
+					</fd:patterns>
+				</fd:convertor>
+			</fd:datatype>
+		</fd:field>
+		<fd:booleanfield required="false" id="noexpiration">
+			<fd:label>Never</fd:label>
+			<fd:help>If you check or uncheck this field you are also activating/deactivating the Expiration date field.<br/>See the class <a href="http://83.149.142.27/svn/cocoon-blocks/cocoon22-cform/src/main/java/org/deals/cocoon/forms/eh/SimpleFormEH.java">SimpleFormEH</a> to see the implementation</fd:help>
+			<fd:on-value-changed>
+				<javascript></javascript>
+			</fd:on-value-changed>
+		</fd:booleanfield>
+		<fd:field id="title" required="true">
+			<fd:label>Title</fd:label>
+			<fd:datatype base="string" />
+			<fd:on-value-changed>
+				<javascript></javascript>
+			</fd:on-value-changed>
+		</fd:field>
+		
+		<fd:field id="header" required="false">
+			<fd:label>Header</fd:label>
+			<fd:datatype base="string" />
+            <fd:on-value-changed>
+              	<fd:java ref="headerValueChanged"/>
+            </fd:on-value-changed>
+		</fd:field>
+		
+		<fd:booleanfield required="false" id="print">
+			<fd:label>Permit send</fd:label>
+		</fd:booleanfield>
+		
+		<fd:submit id="form_submit" validate="true">
+			<fd:label>Submit and restart</fd:label>
+		</fd:submit>
+		
+		<fd:action id="action_submit" validate="true">
+			<fd:label>Sumbit action</fd:label>
+		</fd:action>
+		
+	</fd:widgets>
+</fd:form>
