@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+	<fd:widgets>
+	
+		<fd:repeater id="utenti">
+			<fd:pages initial="1" size="15" page-field="topage" />
+			<fd:label>Users</fd:label>
+			<fd:hint></fd:hint>
+			<fd:help></fd:help>
+			<fd:widgets>
+				<fd:booleanfield id="select" />
+				
+				<fd:field id="us_id" required="false">
+					<fd:label>us_id</fd:label>
+					<fd:datatype base="integer" />
+				</fd:field>
+				
+				<fd:output id="rowid" required="false">
+					<fd:label>ID</fd:label>
+					<fd:datatype base="integer" />
+				</fd:output>
+								
+				<fd:field id="username" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.users.form.username</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+				
+				<fd:field id="password" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.users.form.password</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+				
+				<fd:field id="nome" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.users.form.firstname</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+
+				<fd:field id="cognome" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.users.form.lastname</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+
+				<fd:field id="email" required="true">
+					<fd:label><i18n:text i18n:catalogue="deals">deals.users.form.email</i18n:text></fd:label>
+					<fd:datatype base="string" />
+				</fd:field>
+				
+			</fd:widgets>
+		</fd:repeater>
+
+		<fd:repeater-action id="pagefirst" command="page-first" repeater="utenti">
+			<fd:label>&lt;&lt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.pagination.gofirstpage</i18n:text></fd:hint>
+		</fd:repeater-action>
+
+		<fd:repeater-action id="pageprev" command="page-prev" repeater="utenti">
+			<fd:label>&lt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.pagination.back</i18n:text></fd:hint>
+		</fd:repeater-action>
+
+		<fd:repeater-action id="pagenext" command="page-next" repeater="utenti">
+			<fd:label>&gt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.pagination.forward</i18n:text></fd:hint>
+		</fd:repeater-action>
+
+		<fd:repeater-action id="pagelast" command="page-last" repeater="utenti">
+			<fd:label>&gt;&gt;</fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.pagination.go2lastpage</i18n:text></fd:hint>
+		</fd:repeater-action>
+
+		<fd:field id="topage">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.pagination.go2tpage</i18n:text></fd:label>
+			<fd:datatype base="integer" />
+		</fd:field>
+
+		<fd:repeater-action id="pagecustom" command="page-custom" repeater="utenti">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.pagination.go2page</i18n:text></fd:label>
+			<fd:hint><i18n:text i18n:catalogue="deals">deals.pagination.go2pagehint</i18n:text></fd:hint>
+		</fd:repeater-action>
+
+		<fd:repeater-action id="sortnatural" command="sort-by" repeater="utenti">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.pagination.natural</i18n:text></fd:label>
+		</fd:repeater-action>
+
+		<fd:repeater-action id="addutente" command="add-row" repeater="utenti">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.users.form.adduser</i18n:text></fd:label>
+			<fd:on-action>
+				<fd:javascript></fd:javascript>
+			</fd:on-action>
+		</fd:repeater-action>
+
+		<fd:repeater-action id="removeutente" command="delete-rows" repeater="utenti" select="select">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.users.form.removeuser</i18n:text></fd:label>
+             <!--  <fd:on-action>
+                <java ref="removeUserAction"/>
+              </fd:on-action> -->
+		</fd:repeater-action>
+
+
+		<fd:submit id="utentisubmit" validate="true">
+			<fd:label><i18n:text i18n:catalogue="deals">deals.users.form.save</i18n:text></fd:label>
+		</fd:submit>
+
+	</fd:widgets>
+</fd:form>

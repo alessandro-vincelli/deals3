@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<page xmlns:jx="http://apache.org/cocoon/templates/jx/1.0" xmlns:fi="http://apache.org/cocoon/forms/1.0#instance" xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+	xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+	<jx:import uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
+	<div id="submenu" class="clearfix">
+		<h1>
+			<i18n:text i18n:catalogue="deals">deals.users.title</i18n:text>
+		</h1>
+	</div>
+	<div id="containerinterno" class="clearfix">
+		<ft:form-template name="resourcerepo" action="continue" method="POST" ajax="false">
+			<ft:continuation-id />
+			<div id="lista_ute" class="clearfix">
+				<ft:repeater id="utenti">
+				<div dojoType="CFormsRepeater">
+					<div class="bott_opt_tit">
+						<ft:widget id="../addutente">
+							<fi:styling class="bottoneverde" />
+						</ft:widget>
+					</div>
+					<jx:choose>
+						<jx:when test="${repeater.getSize() == 0}">
+							<p class="avviso">
+								<i18n:text i18n:catalogue="deals">deals.users.nousers</i18n:text>
+							</p>
+						</jx:when>
+						<jx:otherwise>
+							<table border="0" cellspacing="0" cellpadding="0" id="users">
+								<thead>
+									<tr>
+										<th scope="col" style="display:none;"></th>
+										<th scope="col" class="nome00">
+											<ft:repeater-widget-label widget-id="nome" />
+										</th>
+										<th scope="col" class="nome">
+											<ft:repeater-widget-label widget-id="cognome" />
+										</th>
+										<th scope="col" class="nome">
+											<ft:repeater-widget-label widget-id="username" />
+										</th>
+										<th scope="col" class="nome">
+											<ft:repeater-widget-label widget-id="password" />
+										</th>
+										<th scope="col" class="titolo">
+											<ft:repeater-widget-label widget-id="email" />
+										</th>
+										<th scope="col" class="icn01"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<ft:repeater-rows>
+										<tr class="forms-row">
+											<td style="display:none;">
+												<ft:widget id="us_id">
+													<fi:styling style="display:none" />
+												</ft:widget>
+												<ft:widget id="rowid">
+													<fi:styling style="display:none" />
+												</ft:widget>
+											</td>
+											<td class="nome00">
+												<ft:widget id="nome" fi:type="inplace" />
+											</td>
+											<td class="nome">
+												<ft:widget id="cognome" fi:type="inplace" />
+											</td>
+											<td class="nome">
+												<ft:widget id="username" fi:type="inplace" />
+											</td>
+											<td class="nome">
+												<ft:widget id="password" fi:type="inplace" />
+											</td>
+											<td class="titolo">
+												<ft:widget id="email" fi:type="inplace" />
+											</td>
+											<td class="icn01">
+												<ft:widget id="select" />
+											</td>
+										</tr>
+									</ft:repeater-rows>
+								</tbody>
+							</table>
+						</jx:otherwise>
+					</jx:choose>
+					<div class="bott_opt_ris">
+						<jx:if test="${widget.getSize() > 0}">
+							<ft:widget id="../removeutente">
+								<fi:styling class="bottonerosso" />
+							</ft:widget>
+						</jx:if>
+					</div>
+					</div>
+				</ft:repeater>
+			</div>
+			<div id="salvataggio1" class="clearfix">
+				<ft:widget id="utentisubmit">
+					<fi:styling class="bottonesalva" />
+				</ft:widget>
+			</div>
+		</ft:form-template>
+	</div>
+</page>
