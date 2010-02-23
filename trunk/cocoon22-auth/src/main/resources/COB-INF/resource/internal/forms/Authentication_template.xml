@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<page xmlns:jx="http://apache.org/cocoon/templates/jx/1.0" xmlns:fi="http://apache.org/cocoon/forms/1.0#instance" xmlns:ft="http://apache.org/cocoon/forms/1.0#template" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+    <jx:import uri="servlet:forms:/resource/internal/generation/jx-macros.xml"/>
+    <head>
+        <title>Cocoon 2.2 - Demo Authentication Block</title>
+    </head>
+    <body id="log">
+    <div id="login" class="clearfix">
+    <div id="logininterno" class="clearfix">
+	<form action="do-login" method="POST">
+		<div>
+			<label for="username">
+				<i18n:text i18n:catalogue="deals">deals.authentication.username</i18n:text>
+			</label>
+			<span id="username">
+				<input type="text" title="" value="" id="deals_username:input" name="username" class="forms field active logininput required" />
+				<span class="forms forms-field-required field"> * </span>
+			</span>
+		</div>
+		<div>
+			<label for="username">
+				<i18n:text i18n:catalogue="deals">deals.authentication.password</i18n:text>
+			</label>
+			<span id="password">
+				<input type="password" title="" value="" id="deals_password:input" name="password" class="forms field active logininput required" />
+				<span class="forms forms-field-required field"> * </span>
+			</span>
+		</div>
+		<div style="text-align:right;">
+			<input title="" name="enter" type="submit" id="enter" value="Enter" i18n:attr="value"  class="forms action active bottonelog" />
+		</div>
+	</form>
+        
+    <p><span>Note!</span>Try to login as<br/> username: dante <br/> password:  cruciani</p>
+    </div>
+    <div id="footerlog">Powered by Cocoon 2.2</div>
+    </div>
+    
+  </body>
+</page>
+

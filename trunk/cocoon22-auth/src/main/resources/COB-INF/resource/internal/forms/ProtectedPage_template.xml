@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<page xmlns:jx="http://apache.org/cocoon/templates/jx/1.0" xmlns:fi="http://apache.org/cocoon/forms/1.0#instance" xmlns:ft="http://apache.org/cocoon/forms/1.0#template" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+    <jx:import uri="servlet:forms:/resource/internal/generation/jx-macros.xml"/>
+    <head>
+        <title>Cocoon 2.2 - Demo Authentication Block</title>
+    </head>
+    <body id="log">
+    <div id="login" class="clearfix">
+    <div id="logininterno" class="clearfix">        
+    <p><span>Protected Page</span><br/><br/>
+    You can also <a href="logout">logout</a>.
+    <br/><br/>
+    <span>Curiosity:</span>
+    Dante Cruciani is the name of the role played by Totò in the movie <a href="http://en.wikipedia.org/wiki/Big_Deal_on_Madonna_Street">"I soliti ignoti".</a> 
+    </p>
+    </div>
+    <div id="footerlog">Powered by Cocoon 2.2</div>
+    </div>
+    
+  </body>
+</page>
+
