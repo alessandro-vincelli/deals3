@@ -312,9 +312,9 @@
 	        <groupId>org.apache.maven.plugins</groupId>
 	        <artifactId>maven-project-info-reports-plugin</artifactId>
 	        <configuration>
-	          <webAccessUrl>http://www.alessandro.vincelli.name/svn/deals-3/jackwicket</webAccessUrl>
-	          <anonymousConnection>scm:svn:http://www.alessandro.vincelli.name/svn/deals-3/jackwicket</anonymousConnection>
-	          <developerConnection>scm:svn:http://www.alessandro.vincelli.name/svn/deals-3/jackwicket</developerConnection>
+	          <webAccessUrl>http://code.google.com/p/deals3/source/browse/</webAccessUrl>
+	          <anonymousConnection>scm:svn:https://deals3.googlecode.com/svn/trunk/deals-3/jackwicket</anonymousConnection>
+	          <developerConnection>scm:svn:https://deals3.googlecode.com/svn/trunk/deals-3/jackwicket</developerConnection>
 	        </configuration>
 	      </plugin>
 	      <plugin>
